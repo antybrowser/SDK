@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-1. **GitHub repo**: `github.com/AntyBrowser/AntyBrowser.SDK`
+1. **GitHub repo**: `github.com/antybrowser/SDK`
 2. **Packagist account**: https://packagist.org/register/
 3. **Composer**: installed locally
 
@@ -11,7 +11,7 @@
 1. Push the `sdk/php/` directory to GitHub.
 
 2. Go to https://packagist.org/packages/submit and enter:
-   - **Repository URL**: `https://github.com/AntyBrowser/AntyBrowser.SDK`
+   - **Repository URL**: `https://github.com/antybrowser/SDK`
    - **Driver**: GitHub
 
 3. Click **Check** → **Submit**.

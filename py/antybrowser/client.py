@@ -27,10 +27,10 @@ from antybrowser.types import (
 
 
 class AntyBrowserClient:
-    """Client for the AntyBrowser Local API.
+    """Client for the Antybrowser Local API.
 
     Args:
-        api_key: Your AntyBrowser API key.
+        api_key: Your Antybrowser API key.
         port: Local API port (default 5173).
         base_url: Full base URL override (overrides port).
         timeout: Request timeout in seconds (default 30).

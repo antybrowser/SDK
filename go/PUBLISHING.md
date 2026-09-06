@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-1. **GitHub repo**: The Go module path is `github.com/AntyBrowser/AntyBrowser.SDK/go`
+1. **GitHub repo**: The Go module path is `github.com/antybrowser/SDK/go`
 2. **Git tag**: Go modules are versioned via git tags
 
 ## Steps
@@ -22,7 +22,7 @@
 
 3. Users install with:
    ```bash
-   go get github.com/AntyBrowser/AntyBrowser.SDK/go@v1.0.1
+   go get github.com/antybrowser/SDK/go@v1.0.1
    ```
 
 ## Version Bumps
@@ -36,5 +36,5 @@ git push origin sdk/go/v1.0.2
 ## Verify
 
 ```bash
-go list -m github.com/AntyBrowser/AntyBrowser.SDK/go@latest
+go list -m github.com/antybrowser/SDK/go@latest
 ```

@@ -1,6 +1,6 @@
 # AntyBrowser .NET SDK - Advanced Anti-Detect Browser Automation
 
-The official **AntyBrowser .NET SDK** is a powerful library for C#, VB.NET, and F# developers to automate **anti-detect browser** management, **multi-accounting**, and **fingerprint manipulation**. Build scalable automation workflows with the same ease as the AntyBrowser desktop application.
+The official **AntyBrowser .NET SDK** is a powerful library for C#, VB.NET, and F# developers to automate **anti-detect browser** management, **multi-accounting**, and **fingerprint manipulation**. Build scalable automation workflows with the same ease as the Antybrowser desktop application.
 
 [![NuGet version](https://img.shields.io/nuget/v/AntyBrowser.SDK.svg)](https://www.nuget.org/packages/AntyBrowser.SDK/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -16,7 +16,7 @@ The official **AntyBrowser .NET SDK** is a powerful library for C#, VB.NET, and 
 
 ## 📦 Installation
 
-Integrate the AntyBrowser SDK into your project via the NuGet Package Manager:
+Integrate the Antybrowser SDK into your project via the NuGet Package Manager:
 
 ```bash
 dotnet add package AntyBrowser.SDK
@@ -26,7 +26,7 @@ Or search for `AntyBrowser.SDK` in the Visual Studio NuGet Manager.
 
 ## 🛠 Quick Start
 
-To get started, ensure the **AntyBrowser Local API Runner** is active on your machine.
+To get started, ensure the **Antybrowser Local API Runner** is active on your machine.
 
 ### Initialize the Client
 
@@ -34,10 +34,10 @@ To get started, ensure the **AntyBrowser Local API Runner** is active on your ma
 using AntyBrowser.SDK;
 using AntyBrowser.SDK.Models;
 
-// Your API Key from AntyBrowser Settings
+// Your API Key from Antybrowser Settings
 string apiKey = "your_api_key_here";
 
-// Initialize the AntyBrowser client
+// Initialize the Antybrowser client
 using var client = new AntyBrowserClient(apiKey);
 ```
 
@@ -72,7 +72,7 @@ var runResult = await client.RunAutomationAsync(987, new RunAutomationRequest
 
 ## 📚 API Reference
 
-The SDK provides comprehensive access to the AntyBrowser ecosystem:
+The SDK provides comprehensive access to the Antybrowser ecosystem:
 
 - **Profiles**: `GetProfilesAsync`, `CreateProfileAsync`, `UpdateProfileAsync`, `DeleteProfileAsync`, `DuplicateProfileAsync`, `StartProfileAsync`, `StopProfileAsync`.
 - **Proxies**: `GetProxiesAsync`, `CreateProxyAsync`, `DeleteProxyAsync`, `CheckProxyAsync`, `CheckProxiesBulkAsync`.
@@ -84,7 +84,7 @@ The SDK provides comprehensive access to the AntyBrowser ecosystem:
 
 - **Official Website**: [https://antybrowser.com](https://antybrowser.com)
 - **Documentation**: [https://docs.antybrowser.com](https://docs.antybrowser.com)
-- **GitHub Repository**: [https://github.com/AntyBrowser/AntyBrowser.NET.SDK](https://github.com/AntyBrowser/AntyBrowser.NET.SDK)
+- **GitHub Repository**: [https://github.com/antybrowser/AntyBrowser.NET.SDK](https://github.com/antybrowser/AntyBrowser.NET.SDK)
 - **Support**: [support@antybrowser.com](mailto:support@antybrowser.com)
 
 ## 📄 License

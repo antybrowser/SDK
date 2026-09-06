@@ -1,7 +1,7 @@
 {
   "name": "@antybrowser/sdk",
   "version": "1.0.2",
-  "description": "Official AntyBrowser SDK — TypeScript client for the AntyBrowser Local API. Manage profiles, proxies, automations, groups, and extensions programmatically.",
+  "description": "Official Antybrowser SDK — TypeScript client for the Antybrowser Local API. Manage profiles, proxies, automations, groups, and extensions programmatically.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "exports": {
@@ -29,12 +29,12 @@
     "puppeteer",
     "undetected-browser"
   ],
-  "author": "AntyBrowser Team",
+  "author": "Antybrowser Team",
   "license": "MIT",
   "homepage": "https://antybrowser.com",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AntyBrowser/AntyBrowser.SDK.git"
+    "url": "git+https://github.com/antybrowser/AntyBrowser.SDK.git"
   },
   "engines": {
     "node": ">=18"

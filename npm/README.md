@@ -1,6 +1,6 @@
 # @antybrowser/sdk
 
-Official AntyBrowser TypeScript/JavaScript SDK for the Local API. Manage browser profiles, proxies, automations, groups, and extensions programmatically.
+Official Antybrowser TypeScript/JavaScript SDK for the Local API. Manage browser profiles, proxies, automations, groups, and extensions programmatically.
 
 [![npm version](https://img.shields.io/npm/v/@antybrowser/sdk.svg)](https://www.npmjs.com/package/@antybrowser/sdk)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -173,7 +173,7 @@ try {
 ## Links
 
 - [AntyBrowser Website](https://antybrowser.com)
-- [GitHub Repository](https://github.com/AntyBrowser/AntyBrowser.SDK)
+- [GitHub Repository](https://github.com/antybrowser/SDK)
 
 ## License
 

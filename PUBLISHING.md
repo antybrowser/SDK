@@ -1,4 +1,4 @@
-# Publishing AntyBrowser SDK
+# Publishing Antybrowser SDK
 
 Complete checklist for publishing to all 7 registries.
 
@@ -75,7 +75,7 @@ No token needed — auto-indexes from GitHub tags.
 
 ```bash
 # Submit repo at https://packagist.org/packages/submit
-# URL: https://github.com/AntyBrowser/SDK
+# URL: https://github.com/antybrowser/SDK
 # Enable auto-update webhook
 ```
 
@@ -178,7 +178,7 @@ gem search antybrowser --remote
 # https://search.maven.org/search?q=g:com.antybrowser
 
 # Go
-go list -m github.com/AntyBrowser/SDK/go@latest
+go list -m github.com/antybrowser/SDK/go@latest
 
 # Packagist
 # https://packagist.org/packages/antybrowser/sdk

@@ -163,7 +163,7 @@ type RunAutomationResult struct {
 	Variables map[string]any `json:"variables,omitempty"`
 }
 
-// Settings represents the AntyBrowser settings.
+// Settings represents the Antybrowser settings.
 type Settings struct {
 	ID            *int    `json:"id"`
 	ChromePath    *string `json:"chromePath"`

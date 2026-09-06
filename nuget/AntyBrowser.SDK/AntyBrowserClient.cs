@@ -11,7 +11,7 @@ using AntyBrowser.SDK.Exceptions;
 namespace AntyBrowser.SDK
 {
     /// <summary>
-    /// AntyBrowser .NET SDK Client for interacting with the AntyBrowser Local API.
+    /// AntyBrowser .NET SDK Client for interacting with the Antybrowser Local API.
     /// Provide seamless integration for browser automation, multi-accounting, and anti-detect profile management.
     /// </summary>
     public class AntyBrowserClient : IDisposable
@@ -23,8 +23,8 @@ namespace AntyBrowser.SDK
         /// <summary>
         /// Initializes a new instance of the <see cref="AntyBrowserClient"/> class.
         /// </summary>
-        /// <param name="apiKey">The API Key found in AntyBrowser settings.</param>
-        /// <param name="baseUrl">The base URL of the AntyBrowser Local API (defaults to http://127.0.0.1:5173).</param>
+        /// <param name="apiKey">The API Key found in Antybrowser settings.</param>
+        /// <param name="baseUrl">The base URL of the Antybrowser Local API (defaults to http://127.0.0.1:5173).</param>
         public AntyBrowserClient(string apiKey, string baseUrl = "http://127.0.0.1:5173")
         {
             _apiKey = apiKey ?? throw new ArgumentNullException(nameof(apiKey));
@@ -35,7 +35,7 @@ namespace AntyBrowser.SDK
 
         #region System
         /// <summary>
-        /// Checks the status of the AntyBrowser Local API.
+        /// Checks the status of the Antybrowser Local API.
         /// </summary>
         public async Task<ApiResponse> GetStatusAsync()
         {
@@ -61,7 +61,7 @@ namespace AntyBrowser.SDK
         }
 
         /// <summary>
-        /// Retrieves the global AntyBrowser settings.
+        /// Retrieves the global Antybrowser settings.
         /// </summary>
         public async Task<Settings> GetSettingsAsync()
         {
@@ -201,7 +201,7 @@ namespace AntyBrowser.SDK
         }
 
         /// <summary>
-        /// Adds a new proxy to the AntyBrowser proxy manager.
+        /// Adds a new proxy to the Antybrowser proxy manager.
         /// </summary>
         public async Task<Proxy> CreateProxyAsync(CreateProxyRequest request)
         {

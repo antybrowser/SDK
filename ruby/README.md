@@ -1,6 +1,6 @@
 # antybrowser (Ruby)
 
-Official AntyBrowser Ruby SDK for the Local API.
+Official Antybrowser Ruby SDK for the Local API.
 
 ## Installation
 

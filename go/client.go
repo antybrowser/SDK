@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-// AntyBrowserClient is the client for the AntyBrowser Local API.
+// AntyBrowserClient is the client for the Antybrowser Local API.
 type AntyBrowserClient struct {
 	apiKey     string
 	baseURL    string
@@ -47,7 +47,7 @@ func WithHTTPClient(client *http.Client) Option {
 	}
 }
 
-// NewClient creates a new AntyBrowser API client.
+// NewClient creates a new Antybrowser API client.
 func NewClient(apiKey string, opts ...Option) *AntyBrowserClient {
 	c := &AntyBrowserClient{
 		apiKey:  apiKey,
@@ -267,7 +267,7 @@ func (c *AntyBrowserClient) doRequest(method, path string, body any, result any)
 
 	resp, err := c.httpClient.Do(req)
 	if err != nil {
-		return fmt.Errorf("request failed (is AntyBrowser running?): %w", err)
+		return fmt.Errorf("request failed (is Antybrowser running?): %w", err)
 	}
 	defer resp.Body.Close()
 

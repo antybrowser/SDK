@@ -3,7 +3,7 @@ package antybrowser_test
 import (
 	"testing"
 
-	antybrowser "github.com/AntyBrowser/AntyBrowser.SDK/go"
+	antybrowser "github.com/antybrowser/SDK/go"
 )
 
 func TestNewClient(t *testing.T) {

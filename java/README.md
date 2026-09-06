@@ -1,6 +1,6 @@
 # antybrowser-sdk (Java)
 
-Official AntyBrowser Java SDK for the Local API.
+Official Antybrowser Java SDK for the Local API.
 
 ## Installation
 

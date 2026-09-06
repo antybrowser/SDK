@@ -1,11 +1,11 @@
 {
     "name": "antybrowser/sdk",
-    "description": "Official AntyBrowser SDK — PHP client for the AntyBrowser Local API",
+    "description": "Official Antybrowser SDK — PHP client for the Antybrowser Local API",
     "type": "library",
     "license": "MIT",
     "authors": [
         {
-            "name": "AntyBrowser Team",
+            "name": "Antybrowser Team",
             "email": "support@antybrowser.com"
         }
     ],
@@ -35,7 +35,7 @@
     ],
     "homepage": "https://antybrowser.com",
     "support": {
-        "issues": "https://github.com/AntyBrowser/AntyBrowser.SDK/issues",
-        "source": "https://github.com/AntyBrowser/AntyBrowser.SDK"
+        "issues": "https://github.com/antybrowser/SDK/issues",
+        "source": "https://github.com/antybrowser/SDK"
     }
 }

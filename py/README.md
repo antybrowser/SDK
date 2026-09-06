@@ -1,6 +1,6 @@
 # @antybrowser/sdk (Python)
 
-Official AntyBrowser Python SDK for the Local API.
+Official Antybrowser Python SDK for the Local API.
 
 [![PyPI version](https://img.shields.io/pypi/v/antybrowser.svg)](https://pypi.org/project/antybrowser/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)

@@ -1,11 +1,11 @@
 <p align="center">
-  <img src="https://antybrowser.com/favicon.ico" alt="AntyBrowser Logo" width="64">
+  <img src="https://antybrowser.com/favicon.ico" alt="Antybrowser Logo" width="64">
 </p>
 
-<h1 align="center">AntyBrowser SDK</h1>
+<h1 align="center">Antybrowser SDK</h1>
 
 <p align="center">
-  Official SDKs for the AntyBrowser Local API — 7 languages, one API.
+  Official SDKs for the Antybrowser Local API — 7 languages, one API.
 </p>
 
 <p align="center">
@@ -15,7 +15,7 @@
   <a href="https://rubygems.org/gems/antybrowser"><img src="https://img.shields.io/gem/v/antybrowser?color=CC342D&logo=rubygems&logoColor=white" alt="RubyGems"></a>
   <a href="https://packagist.org/packages/antybrowser/sdk"><img src="https://img.shields.io/packagist/v/antybrowser/sdk?color=8892BF&logo=php" alt="Packagist"></a>
   <a href="https://search.maven.org/artifact/com.antybrowser/antybrowser-sdk"><img src="https://img.shields.io/maven-central/v/com.antybrowser/antybrowser-sdk?color=orange&logo=apache-maven&logoColor=white" alt="Maven Central"></a>
-  <a href="https://github.com/AntyBrowser/SDK"><img src="https://img.shields.io/github/stars/AntyBrowser/SDK?logo=github" alt="GitHub Stars"></a>
+  <a href="https://github.com/antybrowser/SDK"><img src="https://img.shields.io/github/stars/antybrowser/SDK?logo=github" alt="GitHub Stars"></a>
 </p>
 
 ---
@@ -27,15 +27,15 @@
 | **TypeScript / JavaScript** | npm | `npm install @antybrowser/sdk` |
 | **Python** | PyPI | `pip install antybrowser` |
 | **C# / .NET** | NuGet | `dotnet add package AntyBrowser.SDK` |
-| **Go** | Go Modules | `go get github.com/AntyBrowser/SDK/go` |
+| **Go** | Go Modules | `go get github.com/antybrowser/SDK/go` |
 | **PHP** | Packagist | `composer require antybrowser/sdk` |
 | **Ruby** | RubyGems | `gem install antybrowser` |
 | **Java** | Maven Central | See [Java README](java/README.md) |
 
 ## Prerequisites
 
-- [AntyBrowser](https://antybrowser.com) desktop app running with the **Local API** enabled
-- An **API key** from AntyBrowser Settings → API
+- [Antybrowser](https://antybrowser.com) desktop app running with the **Local API** enabled
+- An **API key** from Antybrowser Settings → API
 - Default port: **5173** (configurable per client)
 
 ---
@@ -86,7 +86,7 @@ Console.WriteLine($"Debug port: {result.Data.DebugPort}");
 ### Go
 
 ```go
-import antybrowser "github.com/AntyBrowser/SDK/go"
+import antybrowser "github.com/antybrowser/SDK/go"
 
 client := antybrowser.NewClient("your_key", antybrowser.WithPort(5173))
 profiles, _ := client.GetProfiles()
@@ -135,7 +135,7 @@ Every SDK supports the same options:
 
 | Option | Default | Description |
 |--------|---------|-------------|
-| `apiKey` | *(required)* | Your AntyBrowser API key |
+| `apiKey` | *(required)* | Your Antybrowser API key |
 | `port` | `5173` | Local API port |
 | `baseUrl` | `http://127.0.0.1:{port}` | Full URL override |
 | `timeout` | `30s` | Request timeout |
@@ -258,7 +258,7 @@ SDK/
 ├── npm/          @antybrowser/sdk (TypeScript)
 ├── py/           antybrowser (Python)
 ├── nuget/        AntyBrowser.SDK (C#/.NET)
-├── go/           github.com/AntyBrowser/SDK/go
+├── go/           github.com/antybrowser/SDK/go
 ├── php/          antybrowser/sdk (Composer)
 ├── ruby/         antybrowser (RubyGems)
 ├── java/         com.antybrowser:antybrowser-sdk (Maven)

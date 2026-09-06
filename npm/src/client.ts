@@ -206,7 +206,7 @@ export class AntyBrowserClient {
       if (error?.name === "TimeoutError" || error?.name === "AbortError") {
         throw new AntyBrowserError(`Request to ${path} timed out after ${this.timeout}ms`);
       }
-      throw new AntyBrowserError(`Failed to connect to AntyBrowser Local API at ${this.baseUrl}. Is AntyBrowser running?\n${error?.message ?? error}`);
+      throw new AntyBrowserError(`Failed to connect to Antybrowser Local API at ${this.baseUrl}. Is AntyBrowser running?\n${error?.message ?? error}`);
     }
   }
 

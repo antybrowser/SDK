@@ -1,4 +1,4 @@
-"""Official AntyBrowser SDK — Python client for the AntyBrowser Local API."""
+"""Official Antybrowser SDK — Python client for the Antybrowser Local API."""
 
 from antybrowser.client import AntyBrowserClient
 from antybrowser.errors import AntyBrowserError

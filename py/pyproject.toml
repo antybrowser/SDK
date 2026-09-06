@@ -5,11 +5,11 @@ build-backend = "setuptools.backends._legacy:_Backend"
 [project]
 name = "antybrowser"
 version = "1.0.2"
-description = "Official AntyBrowser SDK — Python client for the AntyBrowser Local API"
+description = "Official Antybrowser SDK — Python client for the Antybrowser Local API"
 readme = "README.md"
 license = { text = "MIT" }
 requires-python = ">=3.9"
-authors = [{ name = "AntyBrowser Team" }]
+authors = [{ name = "Antybrowser Team" }]
 keywords = ["antybrowser", "anti-detect", "browser-automation", "fingerprint", "multi-accounting"]
 classifiers = [
     "Development Status :: 4 - Beta",
@@ -29,8 +29,8 @@ dependencies = [
 
 [project.urls]
 Homepage = "https://antybrowser.com"
-Repository = "https://github.com/AntyBrowser/AntyBrowser.SDK"
-Documentation = "https://github.com/AntyBrowser/AntyBrowser.SDK/tree/main/py"
+Repository = "https://github.com/antybrowser/SDK"
+Documentation = "https://github.com/antybrowser/SDK/tree/main/py"
 
 [project.optional-dependencies]
 dev = ["pytest", "pytest-asyncio"]

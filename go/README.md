@@ -1,11 +1,11 @@
 # @antybrowser/sdk (Go)
 
-Official AntyBrowser Go SDK for the Local API.
+Official Antybrowser Go SDK for the Local API.
 
 ## Installation
 
 ```bash
-go get github.com/AntyBrowser/AntyBrowser.SDK/go
+go get github.com/antybrowser/SDK/go
 ```
 
 ## Quick Start
@@ -15,7 +15,7 @@ package main
 
 import (
 	"fmt"
-	antybrowser "github.com/AntyBrowser/AntyBrowser.SDK/go"
+	antybrowser "github.com/antybrowser/SDK/go"
 )
 
 func main() {

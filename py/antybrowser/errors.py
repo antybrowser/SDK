@@ -4,7 +4,7 @@ from typing import Any, Optional
 
 
 class AntyBrowserError(Exception):
-    """Raised when the AntyBrowser API returns an error."""
+    """Raised when the Antybrowser API returns an error."""
 
     def __init__(
         self,

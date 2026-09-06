@@ -1,6 +1,6 @@
 # antybrowser/sdk (PHP)
 
-Official AntyBrowser PHP SDK for the Local API.
+Official Antybrowser PHP SDK for the Local API.
 
 [![Packagist](https://img.shields.io/packagist/v/antybrowser/sdk.svg)](https://packagist.org/packages/antybrowser/sdk)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)

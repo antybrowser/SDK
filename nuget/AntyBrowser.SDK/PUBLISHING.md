@@ -15,7 +15,7 @@ I have configured a VS Code task to automate the release process.
 1.  Edit the `.env` file in `sdk/nuget/AntyBrowser.SDK/.env` to set your desired `VERSION` and `NUGET_API_KEY`.
 2.  Open the Command Palette (`Ctrl+Shift+P`).
 3.  Type `Tasks: Run Task`.
-4.  Select `Release AntyBrowser SDK`.
+4.  Select `Release Antybrowser SDK`.
 
 This task will:
 - Update the version in `AntyBrowser.SDK.csproj`.
