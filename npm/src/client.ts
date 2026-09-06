@@ -1,4 +1,4 @@
-import { AntyBrowserError } from "./errors";
+import { AntybrowserError } from "./errors";
 import type {
   Profile,
   CreateProfileRequest,
@@ -19,19 +19,19 @@ import type {
   DuplicateProfileRequest,
 } from "./types";
 
-export interface AntyBrowserClientOptions {
+export interface AntybrowserClientOptions {
   apiKey: string;
   baseUrl?: string;
   port?: number;
   timeout?: number;
 }
 
-export class AntyBrowserClient {
+export class AntybrowserClient {
   private readonly apiKey: string;
   private readonly baseUrl: string;
   private readonly timeout: number;
 
-  constructor(apiKeyOrOptions: string | AntyBrowserClientOptions) {
+  constructor(apiKeyOrOptions: string | AntybrowserClientOptions) {
     if (typeof apiKeyOrOptions === "string") {
       this.apiKey = apiKeyOrOptions;
       this.baseUrl = "http://127.0.0.1:5173";
@@ -204,9 +204,9 @@ export class AntyBrowserClient {
       return await fetch(url, init);
     } catch (error: any) {
       if (error?.name === "TimeoutError" || error?.name === "AbortError") {
-        throw new AntyBrowserError(`Request to ${path} timed out after ${this.timeout}ms`);
+        throw new AntybrowserError(`Request to ${path} timed out after ${this.timeout}ms`);
       }
-      throw new AntyBrowserError(`Failed to connect to Antybrowser Local API at ${this.baseUrl}. Is AntyBrowser running?\n${error?.message ?? error}`);
+      throw new AntybrowserError(`Failed to connect to Antybrowser Local API at ${this.baseUrl}. Is Antybrowser running?\n${error?.message ?? error}`);
     }
   }
 
@@ -214,7 +214,7 @@ export class AntyBrowserClient {
     const text = await response.text();
 
     if (!response.ok) {
-      throw new AntyBrowserError(
+      throw new AntybrowserError(
         `API request failed with status ${response.status}`,
         response.status,
         text
@@ -228,7 +228,7 @@ export class AntyBrowserClient {
     try {
       return JSON.parse(text) as T;
     } catch {
-      throw new AntyBrowserError("Invalid JSON response from API", response.status, text);
+      throw new AntybrowserError("Invalid JSON response from API", response.status, text);
     }
   }
 }

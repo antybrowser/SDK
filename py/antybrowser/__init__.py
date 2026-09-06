@@ -1,7 +1,7 @@
 """Official Antybrowser SDK — Python client for the Antybrowser Local API."""
 
-from antybrowser.client import AntyBrowserClient
-from antybrowser.errors import AntyBrowserError
+from antybrowser.client import AntybrowserClient
+from antybrowser.errors import AntybrowserError
 from antybrowser.types import (
     Profile,
     CreateProfileRequest,
@@ -23,8 +23,8 @@ from antybrowser.types import (
 
 __version__ = "1.0.2"
 __all__ = [
-    "AntyBrowserClient",
-    "AntyBrowserError",
+    "AntybrowserClient",
+    "AntybrowserError",
     "Profile",
     "CreateProfileRequest",
     "Proxy",

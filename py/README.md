@@ -15,10 +15,10 @@ pip install antybrowser
 
 ```python
 import asyncio
-from antybrowser import AntyBrowserClient, CreateProfileRequest
+from antybrowser import AntybrowserClient, CreateProfileRequest
 
 async def main():
-    async with AntyBrowserClient(api_key="your_key", port=5173) as client:
+    async with AntybrowserClient(api_key="your_key", port=5173) as client:
         # List profiles
         profiles = await client.get_profiles()
         for p in profiles:
@@ -44,19 +44,19 @@ asyncio.run(main())
 
 ```python
 # Simple
-client = AntyBrowserClient(api_key="my_key")
+client = AntybrowserClient(api_key="my_key")
 
 # Custom port
-client = AntyBrowserClient(api_key="my_key", port=5174)
+client = AntybrowserClient(api_key="my_key", port=5174)
 
 # Full override
-client = AntyBrowserClient(api_key="my_key", base_url="http://10.0.0.5:5173")
+client = AntybrowserClient(api_key="my_key", base_url="http://10.0.0.5:5173")
 ```
 
 ## Context Manager
 
 ```python
-async with AntyBrowserClient(api_key="my_key") as client:
+async with AntybrowserClient(api_key="my_key") as client:
     profiles = await client.get_profiles()
 # Connection automatically closed
 ```
@@ -95,11 +95,11 @@ async with AntyBrowserClient(api_key="my_key") as client:
 ## Error Handling
 
 ```python
-from antybrowser import AntyBrowserError
+from antybrowser import AntybrowserError
 
 try:
     await client.get_profiles()
-except AntyBrowserError as e:
+except AntybrowserError as e:
     print(f"Status: {e.status_code}")
     print(f"Body: {e.response_body}")
 ```

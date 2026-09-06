@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace AntyBrowser\SDK;
+namespace Antybrowser\SDK;
 
-final class AntyBrowserError extends \RuntimeException
+final class AntybrowserError extends \RuntimeException
 {
     public function __construct(
         string $message,

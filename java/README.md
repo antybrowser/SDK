@@ -26,7 +26,7 @@ implementation 'com.antybrowser:antybrowser-sdk:1.0.1'
 import com.antybrowser.sdk.*;
 import java.util.*;
 
-var client = new AntyBrowserClient("your_api_key");
+var client = new AntybrowserClient("your_api_key");
 
 // List profiles
 List<Profile> profiles = client.getProfiles();
@@ -43,13 +43,13 @@ System.out.println("Debug port: " + result.getDebugPort());
 
 ```java
 // Default (port 5173)
-var client = new AntyBrowserClient("my_key");
+var client = new AntybrowserClient("my_key");
 
 // Custom port
-var client = new AntyBrowserClient("my_key", 5174);
+var client = new AntybrowserClient("my_key", 5174);
 
 // Custom base URL
-var client = new AntyBrowserClient("my_key", 5173, "http://10.0.0.5:5173");
+var client = new AntybrowserClient("my_key", 5173, "http://10.0.0.5:5173");
 ```
 
 ## Error Handling
@@ -57,7 +57,7 @@ var client = new AntyBrowserClient("my_key", 5173, "http://10.0.0.5:5173");
 ```java
 try {
     client.getProfiles();
-} catch (AntyBrowserException e) {
+} catch (AntybrowserException e) {
     System.out.println("Status: " + e.getStatusCode());
     System.out.println("Body: " + e.getResponseBody());
 }

@@ -9,47 +9,47 @@ import (
 	"time"
 )
 
-// AntyBrowserClient is the client for the Antybrowser Local API.
-type AntyBrowserClient struct {
+// AntybrowserClient is the client for the Antybrowser Local API.
+type AntybrowserClient struct {
 	apiKey     string
 	baseURL    string
 	httpClient *http.Client
 }
 
 // Option configures the client.
-type Option func(*AntyBrowserClient)
+type Option func(*AntybrowserClient)
 
 // WithPort sets a custom API port (default 5173).
 func WithPort(port int) Option {
-	return func(c *AntyBrowserClient) {
+	return func(c *AntybrowserClient) {
 		c.baseURL = fmt.Sprintf("http://127.0.0.1:%d", port)
 	}
 }
 
 // WithBaseURL overrides the full base URL.
 func WithBaseURL(url string) Option {
-	return func(c *AntyBrowserClient) {
+	return func(c *AntybrowserClient) {
 		c.baseURL = url
 	}
 }
 
 // WithTimeout sets the HTTP client timeout.
 func WithTimeout(d time.Duration) Option {
-	return func(c *AntyBrowserClient) {
+	return func(c *AntybrowserClient) {
 		c.httpClient.Timeout = d
 	}
 }
 
 // WithHTTPClient sets a custom http.Client.
 func WithHTTPClient(client *http.Client) Option {
-	return func(c *AntyBrowserClient) {
+	return func(c *AntybrowserClient) {
 		c.httpClient = client
 	}
 }
 
 // NewClient creates a new Antybrowser API client.
-func NewClient(apiKey string, opts ...Option) *AntyBrowserClient {
-	c := &AntyBrowserClient{
+func NewClient(apiKey string, opts ...Option) *AntybrowserClient {
+	c := &AntybrowserClient{
 		apiKey:  apiKey,
 		baseURL: "http://127.0.0.1:5173",
 		httpClient: &http.Client{
@@ -64,25 +64,25 @@ func NewClient(apiKey string, opts ...Option) *AntyBrowserClient {
 
 // ─── System ──────────────────────────────────────────────────────────────
 
-func (c *AntyBrowserClient) GetStatus() (*StatusResponse, error) {
+func (c *AntybrowserClient) GetStatus() (*StatusResponse, error) {
 	var result StatusResponse
 	err := c.get("/api/status", &result)
 	return &result, err
 }
 
-func (c *AntyBrowserClient) GetSettings() (*Settings, error) {
+func (c *AntybrowserClient) GetSettings() (*Settings, error) {
 	var result Settings
 	err := c.get("/api/settings", &result)
 	return &result, err
 }
 
-func (c *AntyBrowserClient) GetSyncStatus() (*SyncStatus, error) {
+func (c *AntybrowserClient) GetSyncStatus() (*SyncStatus, error) {
 	var result SyncStatus
 	err := c.get("/api/sync/status", &result)
 	return &result, err
 }
 
-func (c *AntyBrowserClient) RefreshSync(profileID *int) (map[string]any, error) {
+func (c *AntybrowserClient) RefreshSync(profileID *int) (map[string]any, error) {
 	body := map[string]any{}
 	if profileID != nil {
 		body["profileId"] = *profileID
@@ -94,43 +94,43 @@ func (c *AntyBrowserClient) RefreshSync(profileID *int) (map[string]any, error) 
 
 // ─── Profiles ────────────────────────────────────────────────────────────
 
-func (c *AntyBrowserClient) GetProfiles() ([]Profile, error) {
+func (c *AntybrowserClient) GetProfiles() ([]Profile, error) {
 	var result []Profile
 	err := c.get("/api/profiles", &result)
 	return result, err
 }
 
-func (c *AntyBrowserClient) CreateProfile(req CreateProfileRequest) (*Profile, error) {
+func (c *AntybrowserClient) CreateProfile(req CreateProfileRequest) (*Profile, error) {
 	var result Profile
 	err := c.post("/api/profiles", req, &result)
 	return &result, err
 }
 
-func (c *AntyBrowserClient) UpdateProfile(id int, data map[string]any) (*Profile, error) {
+func (c *AntybrowserClient) UpdateProfile(id int, data map[string]any) (*Profile, error) {
 	var result Profile
 	err := c.put(fmt.Sprintf("/api/profiles/%d", id), data, &result)
 	return &result, err
 }
 
-func (c *AntyBrowserClient) DeleteProfile(id int) (map[string]any, error) {
+func (c *AntybrowserClient) DeleteProfile(id int) (map[string]any, error) {
 	var result map[string]any
 	err := c.delete(fmt.Sprintf("/api/profiles/%d", id), &result)
 	return result, err
 }
 
-func (c *AntyBrowserClient) StartProfile(id int) (*StartProfileResponse, error) {
+func (c *AntybrowserClient) StartProfile(id int) (*StartProfileResponse, error) {
 	var result StartProfileResponse
 	err := c.post(fmt.Sprintf("/api/profiles/%d/start", id), nil, &result)
 	return &result, err
 }
 
-func (c *AntyBrowserClient) StopProfile(id int) (map[string]any, error) {
+func (c *AntybrowserClient) StopProfile(id int) (map[string]any, error) {
 	var result map[string]any
 	err := c.post(fmt.Sprintf("/api/profiles/%d/stop", id), nil, &result)
 	return result, err
 }
 
-func (c *AntyBrowserClient) DuplicateProfile(id int, opts *DuplicateProfileRequest) (*Profile, error) {
+func (c *AntybrowserClient) DuplicateProfile(id int, opts *DuplicateProfileRequest) (*Profile, error) {
 	var body any
 	if opts != nil {
 		body = opts
@@ -142,13 +142,13 @@ func (c *AntyBrowserClient) DuplicateProfile(id int, opts *DuplicateProfileReque
 
 // ─── Automations ─────────────────────────────────────────────────────────
 
-func (c *AntyBrowserClient) GetAutomations() ([]Automation, error) {
+func (c *AntybrowserClient) GetAutomations() ([]Automation, error) {
 	var result []Automation
 	err := c.get("/api/automations", &result)
 	return result, err
 }
 
-func (c *AntyBrowserClient) RunAutomation(id int, req RunAutomationRequest) (*RunAutomationResult, error) {
+func (c *AntybrowserClient) RunAutomation(id int, req RunAutomationRequest) (*RunAutomationResult, error) {
 	var result RunAutomationResult
 	err := c.post(fmt.Sprintf("/api/automations/%d/run", id), req, &result)
 	return &result, err
@@ -156,43 +156,43 @@ func (c *AntyBrowserClient) RunAutomation(id int, req RunAutomationRequest) (*Ru
 
 // ─── Groups ──────────────────────────────────────────────────────────────
 
-func (c *AntyBrowserClient) GetGroups() ([]Group, error) {
+func (c *AntybrowserClient) GetGroups() ([]Group, error) {
 	var result []Group
 	err := c.get("/api/groups", &result)
 	return result, err
 }
 
-func (c *AntyBrowserClient) CreateGroup(req CreateGroupRequest) (*Group, error) {
+func (c *AntybrowserClient) CreateGroup(req CreateGroupRequest) (*Group, error) {
 	var result Group
 	err := c.post("/api/groups", req, &result)
 	return &result, err
 }
 
-func (c *AntyBrowserClient) UpdateGroup(id int, data map[string]any) (*Group, error) {
+func (c *AntybrowserClient) UpdateGroup(id int, data map[string]any) (*Group, error) {
 	var result Group
 	err := c.put(fmt.Sprintf("/api/groups/%d", id), data, &result)
 	return &result, err
 }
 
-func (c *AntyBrowserClient) DeleteGroup(id int) error {
+func (c *AntybrowserClient) DeleteGroup(id int) error {
 	return c.deleteNoBody(fmt.Sprintf("/api/groups/%d", id))
 }
 
 // ─── Proxies ─────────────────────────────────────────────────────────────
 
-func (c *AntyBrowserClient) GetProxies() ([]Proxy, error) {
+func (c *AntybrowserClient) GetProxies() ([]Proxy, error) {
 	var result []Proxy
 	err := c.get("/api/proxies", &result)
 	return result, err
 }
 
-func (c *AntyBrowserClient) CreateProxy(req CreateProxyRequest) (*Proxy, error) {
+func (c *AntybrowserClient) CreateProxy(req CreateProxyRequest) (*Proxy, error) {
 	var result Proxy
 	err := c.post("/api/proxies", req, &result)
 	return &result, err
 }
 
-func (c *AntyBrowserClient) CheckProxy(host string, port int, username, password, proxyType *string) (*ProxyCheckResult, error) {
+func (c *AntybrowserClient) CheckProxy(host string, port int, username, password, proxyType *string) (*ProxyCheckResult, error) {
 	body := map[string]any{"host": host, "port": port}
 	if username != nil {
 		body["username"] = *username
@@ -208,7 +208,7 @@ func (c *AntyBrowserClient) CheckProxy(host string, port int, username, password
 	return &result, err
 }
 
-func (c *AntyBrowserClient) CheckProxiesBulk(proxies []any) ([]ProxyCheckResult, error) {
+func (c *AntybrowserClient) CheckProxiesBulk(proxies []any) ([]ProxyCheckResult, error) {
 	body := map[string]any{"proxies": proxies}
 	var raw struct {
 		Results []ProxyCheckResult `json:"results"`
@@ -217,29 +217,29 @@ func (c *AntyBrowserClient) CheckProxiesBulk(proxies []any) ([]ProxyCheckResult,
 	return raw.Results, err
 }
 
-func (c *AntyBrowserClient) DeleteProxy(id int) error {
+func (c *AntybrowserClient) DeleteProxy(id int) error {
 	return c.deleteNoBody(fmt.Sprintf("/api/proxies/%d", id))
 }
 
 // ─── Extensions ──────────────────────────────────────────────────────────
 
-func (c *AntyBrowserClient) GetExtensions() ([]Extension, error) {
+func (c *AntybrowserClient) GetExtensions() ([]Extension, error) {
 	var result []Extension
 	err := c.get("/api/extensions", &result)
 	return result, err
 }
 
-func (c *AntyBrowserClient) DeleteExtension(id int) error {
+func (c *AntybrowserClient) DeleteExtension(id int) error {
 	return c.deleteNoBody(fmt.Sprintf("/api/extensions/%d", id))
 }
 
-func (c *AntyBrowserClient) GetProfileExtensions(profileID int, details bool) ([]Extension, error) {
+func (c *AntybrowserClient) GetProfileExtensions(profileID int, details bool) ([]Extension, error) {
 	var result []Extension
 	err := c.get(fmt.Sprintf("/api/profiles/%d/extensions?details=%t", profileID, details), &result)
 	return result, err
 }
 
-func (c *AntyBrowserClient) SetProfileExtensions(profileID int, extensionIDs []int) (map[string]any, error) {
+func (c *AntybrowserClient) SetProfileExtensions(profileID int, extensionIDs []int) (map[string]any, error) {
 	body := map[string]any{"extensionIds": extensionIDs}
 	var result map[string]any
 	err := c.post(fmt.Sprintf("/api/profiles/%d/extensions", profileID), body, &result)
@@ -248,7 +248,7 @@ func (c *AntyBrowserClient) SetProfileExtensions(profileID int, extensionIDs []i
 
 // ─── HTTP Helpers ────────────────────────────────────────────────────────
 
-func (c *AntyBrowserClient) doRequest(method, path string, body any, result any) error {
+func (c *AntybrowserClient) doRequest(method, path string, body any, result any) error {
 	var bodyReader io.Reader
 	if body != nil {
 		data, err := json.Marshal(body)
@@ -277,7 +277,7 @@ func (c *AntyBrowserClient) doRequest(method, path string, body any, result any)
 	}
 
 	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
-		return &AntyBrowserError{
+		return &AntybrowserError{
 			Message:      fmt.Sprintf("API request failed with status %d", resp.StatusCode),
 			StatusCode:   resp.StatusCode,
 			ResponseBody: string(respBody),
@@ -286,7 +286,7 @@ func (c *AntyBrowserClient) doRequest(method, path string, body any, result any)
 
 	if result != nil && len(respBody) > 0 {
 		if err := json.Unmarshal(respBody, result); err != nil {
-			return &AntyBrowserError{
+			return &AntybrowserError{
 				Message:      "Invalid JSON response from API",
 				StatusCode:   resp.StatusCode,
 				ResponseBody: string(respBody),
@@ -296,22 +296,22 @@ func (c *AntyBrowserClient) doRequest(method, path string, body any, result any)
 	return nil
 }
 
-func (c *AntyBrowserClient) get(path string, result any) error {
+func (c *AntybrowserClient) get(path string, result any) error {
 	return c.doRequest(http.MethodGet, path, nil, result)
 }
 
-func (c *AntyBrowserClient) post(path string, body any, result any) error {
+func (c *AntybrowserClient) post(path string, body any, result any) error {
 	return c.doRequest(http.MethodPost, path, body, result)
 }
 
-func (c *AntyBrowserClient) put(path string, body any, result any) error {
+func (c *AntybrowserClient) put(path string, body any, result any) error {
 	return c.doRequest(http.MethodPut, path, body, result)
 }
 
-func (c *AntyBrowserClient) delete(path string, result any) error {
+func (c *AntybrowserClient) delete(path string, result any) error {
 	return c.doRequest(http.MethodDelete, path, nil, result)
 }
 
-func (c *AntyBrowserClient) deleteNoBody(path string) error {
+func (c *AntybrowserClient) deleteNoBody(path string) error {
 	return c.doRequest(http.MethodDelete, path, nil, nil)
 }

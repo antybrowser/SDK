@@ -1,4 +1,4 @@
-module AntyBrowser
+module Antybrowser
   class Profile
     attr_reader :id, :name, :directory_name, :group_id, :proxy_id,
                 :browser_type, :browser_version, :os_fingerprint,

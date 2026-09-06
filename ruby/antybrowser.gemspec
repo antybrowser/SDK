@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |spec|
   spec.name          = "antybrowser"
-  spec.version       = AntyBrowser::VERSION
+  spec.version       = Antybrowser::VERSION
   spec.authors       = ["Antybrowser Team"]
   spec.email         = ["support@antybrowser.com"]
 

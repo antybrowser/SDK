@@ -1,14 +1,14 @@
 package com.antybrowser.sdk;
 
-public class AntyBrowserException extends RuntimeException {
+public class AntybrowserException extends RuntimeException {
     private final int statusCode;
     private final String responseBody;
 
-    public AntyBrowserException(String message) {
+    public AntybrowserException(String message) {
         this(message, 0, null);
     }
 
-    public AntyBrowserException(String message, int statusCode, String responseBody) {
+    public AntybrowserException(String message, int statusCode, String responseBody) {
         super(message);
         this.statusCode = statusCode;
         this.responseBody = responseBody;

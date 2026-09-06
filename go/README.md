@@ -54,7 +54,7 @@ client := antybrowser.NewClient("my_key", antybrowser.WithBaseURL("http://10.0.0
 ```go
 profiles, err := client.GetProfiles()
 if err != nil {
-	var apiErr *antybrowser.AntyBrowserError
+	var apiErr *antybrowser.AntybrowserError
 	if errors.As(err, &apiErr) {
 		fmt.Printf("Status: %d\nBody: %s\n", apiErr.StatusCode, apiErr.ResponseBody)
 	}

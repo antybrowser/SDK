@@ -1,6 +1,6 @@
-export { AntyBrowserClient } from "./client";
-export type { AntyBrowserClientOptions } from "./client";
-export { AntyBrowserError } from "./errors";
+export { AntybrowserClient } from "./client";
+export type { AntybrowserClientOptions } from "./client";
+export { AntybrowserError } from "./errors";
 export type {
   Profile,
   CreateProfileRequest,

@@ -18,12 +18,12 @@
     },
     "autoload": {
         "psr-4": {
-            "AntyBrowser\\SDK\\": "src/"
+            "Antybrowser\\SDK\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "AntyBrowser\\SDK\\Tests\\": "tests/"
+            "Antybrowser\\SDK\\Tests\\": "tests/"
         }
     },
     "keywords": [

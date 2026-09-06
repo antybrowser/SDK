@@ -36,7 +36,7 @@ twine upload dist/*
 
 ```bash
 pip install antybrowser
-python -c "from antybrowser import AntyBrowserClient; print('OK')"
+python -c "from antybrowser import AntybrowserClient; print('OK')"
 ```
 
 ## Version Bumps

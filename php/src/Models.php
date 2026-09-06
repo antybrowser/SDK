@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AntyBrowser\SDK;
+namespace Antybrowser\SDK;
 
 final class Profile
 {

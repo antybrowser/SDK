@@ -5,27 +5,27 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using AntyBrowser.SDK.Models;
-using AntyBrowser.SDK.Exceptions;
+using Antybrowser.SDK.Models;
+using Antybrowser.SDK.Exceptions;
 
-namespace AntyBrowser.SDK
+namespace Antybrowser.SDK
 {
     /// <summary>
-    /// AntyBrowser .NET SDK Client for interacting with the Antybrowser Local API.
+    /// Antybrowser .NET SDK Client for interacting with the Antybrowser Local API.
     /// Provide seamless integration for browser automation, multi-accounting, and anti-detect profile management.
     /// </summary>
-    public class AntyBrowserClient : IDisposable
+    public class AntybrowserClient : IDisposable
     {
         private readonly HttpClient _httpClient;
         private readonly string _apiKey;
         private readonly string _baseUrl;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AntyBrowserClient"/> class.
+        /// Initializes a new instance of the <see cref="AntybrowserClient"/> class.
         /// </summary>
         /// <param name="apiKey">The API Key found in Antybrowser settings.</param>
         /// <param name="baseUrl">The base URL of the Antybrowser Local API (defaults to http://127.0.0.1:5173).</param>
-        public AntyBrowserClient(string apiKey, string baseUrl = "http://127.0.0.1:5173")
+        public AntybrowserClient(string apiKey, string baseUrl = "http://127.0.0.1:5173")
         {
             _apiKey = apiKey ?? throw new ArgumentNullException(nameof(apiKey));
             _baseUrl = baseUrl.TrimEnd('/');
@@ -233,7 +233,7 @@ namespace AntyBrowser.SDK
             if (!response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();
-                throw new AntyBrowserException("Failed to delete proxy", response.StatusCode, content);
+                throw new AntybrowserException("Failed to delete proxy", response.StatusCode, content);
             }
         }
         #endregion
@@ -256,7 +256,7 @@ namespace AntyBrowser.SDK
             if (!response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();
-                throw new AntyBrowserException("Failed to delete extension", response.StatusCode, content);
+                throw new AntybrowserException("Failed to delete extension", response.StatusCode, content);
             }
         }
 
@@ -315,7 +315,7 @@ namespace AntyBrowser.SDK
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
             {
-                throw new AntyBrowserException($"API request failed with status {response.StatusCode}", response.StatusCode, content);
+                throw new AntybrowserException($"API request failed with status {response.StatusCode}", response.StatusCode, content);
             }
 
             try
@@ -323,11 +323,11 @@ namespace AntyBrowser.SDK
                 return JsonSerializer.Deserialize<T>(content, new JsonSerializerOptions
                 {
                     PropertyNameCaseInsensitive = true
-                }) ?? throw new AntyBrowserException("Failed to deserialize response");
+                }) ?? throw new AntybrowserException("Failed to deserialize response");
             }
             catch (JsonException ex)
             {
-                throw new AntyBrowserException("Invalid JSON response from API", ex);
+                throw new AntybrowserException("Invalid JSON response from API", ex);
             }
         }
         #endregion

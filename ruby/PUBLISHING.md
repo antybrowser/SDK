@@ -32,5 +32,5 @@ gem push antybrowser-1.0.1.gem
 
 ```bash
 gem install antybrowser
-ruby -e "require 'antybrowser'; puts AntyBrowser::VERSION"
+ruby -e "require 'antybrowser'; puts Antybrowser::VERSION"
 ```

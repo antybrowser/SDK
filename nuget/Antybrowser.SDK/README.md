@@ -1,8 +1,8 @@
-# AntyBrowser .NET SDK - Advanced Anti-Detect Browser Automation
+# Antybrowser .NET SDK - Advanced Anti-Detect Browser Automation
 
-The official **AntyBrowser .NET SDK** is a powerful library for C#, VB.NET, and F# developers to automate **anti-detect browser** management, **multi-accounting**, and **fingerprint manipulation**. Build scalable automation workflows with the same ease as the Antybrowser desktop application.
+The official **Antybrowser .NET SDK** is a powerful library for C#, VB.NET, and F# developers to automate **anti-detect browser** management, **multi-accounting**, and **fingerprint manipulation**. Build scalable automation workflows with the same ease as the Antybrowser desktop application.
 
-[![NuGet version](https://img.shields.io/nuget/v/AntyBrowser.SDK.svg)](https://www.nuget.org/packages/AntyBrowser.SDK/)
+[![NuGet version](https://img.shields.io/nuget/v/Antybrowser.SDK.svg)](https://www.nuget.org/packages/Antybrowser.SDK/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## 🚀 Key Features
@@ -19,10 +19,10 @@ The official **AntyBrowser .NET SDK** is a powerful library for C#, VB.NET, and 
 Integrate the Antybrowser SDK into your project via the NuGet Package Manager:
 
 ```bash
-dotnet add package AntyBrowser.SDK
+dotnet add package Antybrowser.SDK
 ```
 
-Or search for `AntyBrowser.SDK` in the Visual Studio NuGet Manager.
+Or search for `Antybrowser.SDK` in the Visual Studio NuGet Manager.
 
 ## 🛠 Quick Start
 
@@ -31,14 +31,14 @@ To get started, ensure the **Antybrowser Local API Runner** is active on your ma
 ### Initialize the Client
 
 ```csharp
-using AntyBrowser.SDK;
-using AntyBrowser.SDK.Models;
+using Antybrowser.SDK;
+using Antybrowser.SDK.Models;
 
 // Your API Key from Antybrowser Settings
 string apiKey = "your_api_key_here";
 
 // Initialize the Antybrowser client
-using var client = new AntyBrowserClient(apiKey);
+using var client = new AntybrowserClient(apiKey);
 ```
 
 ### Manage Browser Profiles
@@ -84,7 +84,7 @@ The SDK provides comprehensive access to the Antybrowser ecosystem:
 
 - **Official Website**: [https://antybrowser.com](https://antybrowser.com)
 - **Documentation**: [https://docs.antybrowser.com](https://docs.antybrowser.com)
-- **GitHub Repository**: [https://github.com/antybrowser/AntyBrowser.NET.SDK](https://github.com/antybrowser/AntyBrowser.NET.SDK)
+- **GitHub Repository**: [https://github.com/antybrowser/SDK](https://github.com/antybrowser/SDK)
 - **Support**: [support@antybrowser.com](mailto:support@antybrowser.com)
 
 ## 📄 License
@@ -92,4 +92,4 @@ The SDK provides comprehensive access to the Antybrowser ecosystem:
 This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.
 
 ---
-*AntyBrowser - The ultimate solution for secure and undetectable multi-accounting.*
+*Antybrowser - The ultimate solution for secure and undetectable multi-accounting.*

@@ -4,7 +4,7 @@ from typing import Any, Dict, List, Optional, Union
 
 import httpx
 
-from antybrowser.errors import AntyBrowserError
+from antybrowser.errors import AntybrowserError
 from antybrowser.types import (
     Automation,
     CreateGroupRequest,
@@ -26,7 +26,7 @@ from antybrowser.types import (
 )
 
 
-class AntyBrowserClient:
+class AntybrowserClient:
     """Client for the Antybrowser Local API.
 
     Args:
@@ -54,7 +54,7 @@ class AntyBrowserClient:
     async def close(self) -> None:
         await self._client.aclose()
 
-    async def __aenter__(self) -> AntyBrowserClient:
+    async def __aenter__(self) -> AntybrowserClient:
         return self
 
     async def __aexit__(self, *args: Any) -> None:
@@ -225,33 +225,33 @@ class AntyBrowserClient:
         try:
             resp = await self._client.get(path)
         except httpx.HTTPError as e:
-            raise AntyBrowserError(f"Failed to connect to AntyBrowser: {e}")
+            raise AntybrowserError(f"Failed to connect to Antybrowser: {e}")
         return self._handle(resp)
 
     async def _post(self, path: str, body: Optional[Dict[str, Any]] = None) -> Any:
         try:
             resp = await self._client.post(path, json=body or {})
         except httpx.HTTPError as e:
-            raise AntyBrowserError(f"Failed to connect to AntyBrowser: {e}")
+            raise AntybrowserError(f"Failed to connect to Antybrowser: {e}")
         return self._handle(resp)
 
     async def _put(self, path: str, body: Dict[str, Any]) -> Any:
         try:
             resp = await self._client.put(path, json=body)
         except httpx.HTTPError as e:
-            raise AntyBrowserError(f"Failed to connect to AntyBrowser: {e}")
+            raise AntybrowserError(f"Failed to connect to Antybrowser: {e}")
         return self._handle(resp)
 
     async def _delete(self, path: str) -> Any:
         try:
             resp = await self._client.delete(path)
         except httpx.HTTPError as e:
-            raise AntyBrowserError(f"Failed to connect to AntyBrowser: {e}")
+            raise AntybrowserError(f"Failed to connect to Antybrowser: {e}")
         return self._handle(resp)
 
     def _handle(self, resp: httpx.Response) -> Any:
         if not resp.is_success:
-            raise AntyBrowserError(
+            raise AntybrowserError(
                 f"API request failed with status {resp.status_code}",
                 status_code=resp.status_code,
                 response_body=resp.text,
@@ -261,7 +261,7 @@ class AntyBrowserClient:
         try:
             return resp.json()
         except Exception:
-            raise AntyBrowserError(
+            raise AntybrowserError(
                 "Invalid JSON response from API",
                 status_code=resp.status_code,
                 response_body=resp.text,

@@ -19,7 +19,7 @@ gem "antybrowser"
 ```ruby
 require "antybrowser"
 
-client = AntyBrowser::Client.new("your_api_key")
+client = Antybrowser::Client.new("your_api_key")
 
 # List profiles
 profiles = client.get_profiles
@@ -34,13 +34,13 @@ puts "Debug port: #{result['data']['debugPort']}"
 
 ```ruby
 # Default (port 5173)
-client = AntyBrowser::Client.new("my_key")
+client = Antybrowser::Client.new("my_key")
 
 # Custom port
-client = AntyBrowser::Client.new("my_key", port: 5174)
+client = Antybrowser::Client.new("my_key", port: 5174)
 
 # Custom base URL
-client = AntyBrowser::Client.new("my_key", base_url: "http://10.0.0.5:5173")
+client = Antybrowser::Client.new("my_key", base_url: "http://10.0.0.5:5173")
 ```
 
 ## Error Handling
@@ -48,7 +48,7 @@ client = AntyBrowser::Client.new("my_key", base_url: "http://10.0.0.5:5173")
 ```ruby
 begin
   client.get_profiles
-rescue AntyBrowser::AntyBrowserError => e
+rescue Antybrowser::AntybrowserError => e
   puts "Status: #{e.status_code}"
   puts "Body: #{e.response_body}"
 end

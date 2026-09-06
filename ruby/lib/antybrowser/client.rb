@@ -2,7 +2,7 @@ require "net/http"
 require "json"
 require "uri"
 
-module AntyBrowser
+module Antybrowser
   class Client
     attr_reader :base_url, :api_key
 
@@ -179,7 +179,7 @@ module AntyBrowser
       begin
         response = http.request(req)
       rescue StandardError => e
-        raise AntyBrowserError, "Failed to connect to AntyBrowser: #{e.message}"
+        raise AntybrowserError, "Failed to connect to Antybrowser: #{e.message}"
       end
 
       parse_response(response)
@@ -190,7 +190,7 @@ module AntyBrowser
       body = response.body || ""
 
       if code < 200 || code >= 300
-        raise AntyBrowserError.new(
+        raise AntybrowserError.new(
           "API request failed with status #{code}",
           status_code: code,
           response_body: body
@@ -201,7 +201,7 @@ module AntyBrowser
 
       JSON.parse(body)
     rescue JSON::ParserError
-      raise AntyBrowserError.new(
+      raise AntybrowserError.new(
         "Invalid JSON response from API",
         status_code: response.code.to_i,
         response_body: body

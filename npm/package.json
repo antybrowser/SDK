@@ -34,7 +34,7 @@
   "homepage": "https://antybrowser.com",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/antybrowser/AntyBrowser.SDK.git"
+    "url": "git+https://github.com/antybrowser/Antybrowser.SDK.git"
   },
   "engines": {
     "node": ">=18"

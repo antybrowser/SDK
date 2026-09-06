@@ -14,9 +14,9 @@ composer require antybrowser/sdk
 ## Quick Start
 
 ```php
-use AntyBrowser\SDK\AntyBrowserClient;
+use Antybrowser\SDK\AntybrowserClient;
 
-$client = new AntyBrowserClient(apiKey: 'your_key');
+$client = new AntybrowserClient(apiKey: 'your_key');
 
 // List profiles
 $profiles = $client->getProfiles();
@@ -33,23 +33,23 @@ echo "Debug port: {$result['data']['debugPort']}\n";
 
 ```php
 // Default (port 5173)
-$client = new AntyBrowserClient(apiKey: 'my_key');
+$client = new AntybrowserClient(apiKey: 'my_key');
 
 // Custom port
-$client = new AntyBrowserClient(apiKey: 'my_key', port: 5174);
+$client = new AntybrowserClient(apiKey: 'my_key', port: 5174);
 
 // Custom base URL
-$client = new AntyBrowserClient(apiKey: 'my_key', baseUrl: 'http://10.0.0.5:5173');
+$client = new AntybrowserClient(apiKey: 'my_key', baseUrl: 'http://10.0.0.5:5173');
 ```
 
 ## Error Handling
 
 ```php
-use AntyBrowser\SDK\AntyBrowserError;
+use Antybrowser\SDK\AntybrowserError;
 
 try {
     $profiles = $client->getProfiles();
-} catch (AntyBrowserError $e) {
+} catch (AntybrowserError $e) {
     echo "Status: {$e->statusCode}\n";
     echo "Body: {$e->responseBody}\n";
 }

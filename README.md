@@ -10,7 +10,7 @@
 
 <p align="center">
   <a href="https://www.npmjs.com/package/@antybrowser/sdk"><img src="https://img.shields.io/npm/v/@antybrowser/sdk?color=cb3837&logo=npm" alt="npm"></a>
-  <a href="https://www.nuget.org/packages/AntyBrowser.SDK/"><img src="https://img.shields.io/nuget/v/AntyBrowser.SDK?logo=nuget" alt="NuGet"></a>
+  <a href="https://www.nuget.org/packages/Antybrowser.SDK/"><img src="https://img.shields.io/nuget/v/Antybrowser.SDK?logo=nuget" alt="NuGet"></a>
   <a href="https://pypi.org/project/antybrowser/"><img src="https://img.shields.io/pypi/v/antybrowser?color=3776AB&logo=python&logoColor=white" alt="PyPI"></a>
   <a href="https://rubygems.org/gems/antybrowser"><img src="https://img.shields.io/gem/v/antybrowser?color=CC342D&logo=rubygems&logoColor=white" alt="RubyGems"></a>
   <a href="https://packagist.org/packages/antybrowser/sdk"><img src="https://img.shields.io/packagist/v/antybrowser/sdk?color=8892BF&logo=php" alt="Packagist"></a>
@@ -26,7 +26,7 @@
 |----------|----------|---------|
 | **TypeScript / JavaScript** | npm | `npm install @antybrowser/sdk` |
 | **Python** | PyPI | `pip install antybrowser` |
-| **C# / .NET** | NuGet | `dotnet add package AntyBrowser.SDK` |
+| **C# / .NET** | NuGet | `dotnet add package Antybrowser.SDK` |
 | **Go** | Go Modules | `go get github.com/antybrowser/SDK/go` |
 | **PHP** | Packagist | `composer require antybrowser/sdk` |
 | **Ruby** | RubyGems | `gem install antybrowser` |
@@ -45,9 +45,9 @@
 ### TypeScript / JavaScript
 
 ```typescript
-import { AntyBrowserClient } from "@antybrowser/sdk";
+import { AntybrowserClient } from "@antybrowser/sdk";
 
-const client = new AntyBrowserClient({ apiKey: "your_key", port: 5173 });
+const client = new AntybrowserClient({ apiKey: "your_key", port: 5173 });
 
 const profiles = await client.getProfiles();
 console.log(profiles);
@@ -60,10 +60,10 @@ console.log(`Debug port: ${result.data.debugPort}`);
 
 ```python
 import asyncio
-from antybrowser import AntyBrowserClient, CreateProfileRequest
+from antybrowser import AntybrowserClient, CreateProfileRequest
 
 async def main():
-    async with AntyBrowserClient(api_key="your_key") as client:
+    async with AntybrowserClient(api_key="your_key") as client:
         profiles = await client.get_profiles()
         
         result = await client.start_profile(123)
@@ -75,9 +75,9 @@ asyncio.run(main())
 ### C# / .NET
 
 ```csharp
-using AntyBrowser.SDK;
+using Antybrowser.SDK;
 
-using var client = new AntyBrowserClient("your_api_key");
+using var client = new AntybrowserClient("your_api_key");
 var profiles = await client.GetProfilesAsync();
 var result = await client.StartProfileAsync(123);
 Console.WriteLine($"Debug port: {result.Data.DebugPort}");
@@ -97,9 +97,9 @@ fmt.Printf("Debug port: %d\n", result.Data.DebugPort)
 ### PHP
 
 ```php
-use AntyBrowser\SDK\AntyBrowserClient;
+use Antybrowser\SDK\AntybrowserClient;
 
-$client = new AntyBrowserClient(apiKey: 'your_key');
+$client = new AntybrowserClient(apiKey: 'your_key');
 $profiles = $client->getProfiles();
 $result = $client->startProfile(123);
 echo "Debug port: {$result['data']['debugPort']}\n";
@@ -110,7 +110,7 @@ echo "Debug port: {$result['data']['debugPort']}\n";
 ```ruby
 require "antybrowser"
 
-client = AntyBrowser::Client.new("your_key")
+client = Antybrowser::Client.new("your_key")
 profiles = client.get_profiles
 result = client.start_profile(123)
 puts "Debug port: #{result['data']['debugPort']}"
@@ -121,7 +121,7 @@ puts "Debug port: #{result['data']['debugPort']}"
 ```java
 import com.antybrowser.sdk.*;
 
-var client = new AntyBrowserClient("your_key");
+var client = new AntybrowserClient("your_key");
 var profiles = client.getProfiles();
 var result = client.startProfile(123);
 System.out.println("Debug port: " + result.getDebugPort());
@@ -204,9 +204,9 @@ Every SDK has a typed error class with `statusCode` and `responseBody`:
 
 ```typescript
 // TypeScript
-import { AntyBrowserError } from "@antybrowser/sdk";
+import { AntybrowserError } from "@antybrowser/sdk";
 try { ... } catch (e) {
-  if (e instanceof AntyBrowserError) {
+  if (e instanceof AntybrowserError) {
     console.error(e.statusCode, e.responseBody);
   }
 }
@@ -214,9 +214,9 @@ try { ... } catch (e) {
 
 ```python
 # Python
-from antybrowser import AntyBrowserError
+from antybrowser import AntybrowserError
 try: ...
-except AntyBrowserError as e:
+except AntybrowserError as e:
     print(e.status_code, e.response_body)
 ```
 
@@ -257,7 +257,7 @@ Beyond the 7 language registries, list your package here for discoverability:
 SDK/
 ├── npm/          @antybrowser/sdk (TypeScript)
 ├── py/           antybrowser (Python)
-├── nuget/        AntyBrowser.SDK (C#/.NET)
+├── nuget/        Antybrowser.SDK (C#/.NET)
 ├── go/           github.com/antybrowser/SDK/go
 ├── php/          antybrowser/sdk (Composer)
 ├── ruby/         antybrowser (RubyGems)

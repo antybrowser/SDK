@@ -21,9 +21,9 @@ jobs:
         run: echo "VERSION=${GITHUB_REF_NAME#sdk-nuget/v}" >> "$GITHUB_OUTPUT"
 
       - name: Pack
-        working-directory: nuget/AntyBrowser.SDK
+        working-directory: nuget/Antybrowser.SDK
         run: dotnet pack -c Release -p:Version=${{ steps.version.outputs.VERSION }}
 
       - name: Push
-        working-directory: nuget/AntyBrowser.SDK
+        working-directory: nuget/Antybrowser.SDK
         run: dotnet nuget push bin/Release/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json

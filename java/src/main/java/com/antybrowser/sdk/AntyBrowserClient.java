@@ -13,21 +13,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AntyBrowserClient {
+public class AntybrowserClient {
     private final String apiKey;
     private final String baseUrl;
     private final HttpClient httpClient;
     private final Gson gson = new Gson();
 
-    public AntyBrowserClient(String apiKey) {
+    public AntybrowserClient(String apiKey) {
         this(apiKey, 5173, null);
     }
 
-    public AntyBrowserClient(String apiKey, int port) {
+    public AntybrowserClient(String apiKey, int port) {
         this(apiKey, port, null);
     }
 
-    public AntyBrowserClient(String apiKey, int port, String baseUrl) {
+    public AntybrowserClient(String apiKey, int port, String baseUrl) {
         this.apiKey = apiKey;
         this.baseUrl = baseUrl != null ? baseUrl : "http://127.0.0.1:" + port;
         this.httpClient = HttpClient.newBuilder()
@@ -211,7 +211,7 @@ public class AntyBrowserClient {
             String body = response.body();
 
             if (code < 200 || code >= 300) {
-                throw new AntyBrowserException(
+                throw new AntybrowserException(
                     "API request failed with status " + code, code, body
                 );
             }
@@ -221,13 +221,13 @@ public class AntyBrowserClient {
             }
 
             return gson.fromJson(body, type);
-        } catch (AntyBrowserException e) {
+        } catch (AntybrowserException e) {
             throw e;
         } catch (IOException e) {
-            throw new AntyBrowserException("Failed to connect to AntyBrowser: " + e.getMessage());
+            throw new AntybrowserException("Failed to connect to Antybrowser: " + e.getMessage());
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-            throw new AntyBrowserException("Request interrupted: " + e.getMessage());
+            throw new AntybrowserException("Request interrupted: " + e.getMessage());
         }
     }
 }

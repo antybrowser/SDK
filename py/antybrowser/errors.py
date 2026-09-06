@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import Any, Optional
 
 
-class AntyBrowserError(Exception):
+class AntybrowserError(Exception):
     """Raised when the Antybrowser API returns an error."""
 
     def __init__(

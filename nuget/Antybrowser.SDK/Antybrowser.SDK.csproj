@@ -5,11 +5,11 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
-    <PackageId>AntyBrowser.SDK</PackageId>
+    <PackageId>Antybrowser.SDK</PackageId>
     <Version>1.0.2</Version>
     <Authors>Antybrowser Team</Authors>
-    <Company>AntyBrowser</Company>
-    <Title>AntyBrowser .NET SDK - Anti-Detect Browser Automation</Title>
+    <Company>Antybrowser</Company>
+    <Title>Antybrowser .NET SDK - Anti-Detect Browser Automation</Title>
     <Description>The official Antybrowser .NET SDK for advanced anti-detect browser management, automation, and multi-accounting. Control browser profiles, manage fingerprints, automate workflows, and handle proxies with ease. Built for performance and SEO-friendly browser automation.</Description>
     <PackageTags>antidetect browser automation antybrowser multi-accounting fingerprinting web-scraping proxy-management selenium-alternative dotnet-sdk</PackageTags>
     <PackageProjectUrl>https://antybrowser.com</PackageProjectUrl>

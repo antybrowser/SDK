@@ -2,13 +2,13 @@ package antybrowser
 
 import "fmt"
 
-// AntyBrowserError is returned when the API returns an error response.
-type AntyBrowserError struct {
+// AntybrowserError is returned when the API returns an error response.
+type AntybrowserError struct {
 	Message      string
 	StatusCode   int
 	ResponseBody string
 }
 
-func (e *AntyBrowserError) Error() string {
+func (e *AntybrowserError) Error() string {
 	return fmt.Sprintf("%s (status %d)", e.Message, e.StatusCode)
 }

@@ -7,7 +7,7 @@ Official Antybrowser TypeScript/JavaScript SDK for the Local API. Manage browser
 
 ## Prerequisites
 
-- **AntyBrowser** desktop app running with the Local API enabled
+- **Antybrowser** desktop app running with the Local API enabled
 - **Node.js >= 18** (uses native `fetch`)
 
 ## Installation
@@ -19,13 +19,13 @@ npm install @antybrowser/sdk
 ## Quick Start
 
 ```typescript
-import { AntyBrowserClient } from "@antybrowser/sdk";
+import { AntybrowserClient } from "@antybrowser/sdk";
 
 // Connect to the local API (default port 5173)
-const client = new AntyBrowserClient("your_api_key_here");
+const client = new AntybrowserClient("your_api_key_here");
 
 // Or specify a custom port
-const client = new AntyBrowserClient({ apiKey: "your_key", port: 5174 });
+const client = new AntybrowserClient({ apiKey: "your_key", port: 5174 });
 
 // List all profiles
 const profiles = await client.getProfiles();
@@ -40,10 +40,10 @@ console.log(`Debug port: ${result.data.debugPort}`);
 
 ```typescript
 // Simple — API key only (uses default port 5173)
-const client = new AntyBrowserClient("my_api_key");
+const client = new AntybrowserClient("my_api_key");
 
 // Full options
-const client = new AntyBrowserClient({
+const client = new AntybrowserClient({
   apiKey: "my_api_key",
   port: 5174,           // custom port (default: 5173)
   timeout: 60_000,      // request timeout in ms (default: 30000)
@@ -113,9 +113,9 @@ const client = new AntyBrowserClient({
 ### Create and launch a profile
 
 ```typescript
-import { AntyBrowserClient } from "@antybrowser/sdk";
+import { AntybrowserClient } from "@antybrowser/sdk";
 
-const client = new AntyBrowserClient("your_api_key");
+const client = new AntybrowserClient("your_api_key");
 
 // Create a profile
 const profile = await client.createProfile({
@@ -158,12 +158,12 @@ console.log(result.message); // "Automation completed"
 ## Error Handling
 
 ```typescript
-import { AntyBrowserError } from "@antybrowser/sdk";
+import { AntybrowserError } from "@antybrowser/sdk";
 
 try {
   await client.getProfiles();
 } catch (error) {
-  if (error instanceof AntyBrowserError) {
+  if (error instanceof AntybrowserError) {
     console.error(`Status: ${error.statusCode}`);
     console.error(`Body: ${error.responseBody}`);
   }
@@ -172,7 +172,7 @@ try {
 
 ## Links
 
-- [AntyBrowser Website](https://antybrowser.com)
+- [Antybrowser Website](https://antybrowser.com)
 - [GitHub Repository](https://github.com/antybrowser/SDK)
 
 ## License

@@ -1,6 +1,6 @@
 # Publishing to NuGet.org
 
-Follow these instructions to publish the `AntyBrowser.SDK` package to [NuGet.org](https://www.nuget.org/).
+Follow these instructions to publish the `Antybrowser.SDK` package to [NuGet.org](https://www.nuget.org/).
 
 ## Prerequisites
 
@@ -12,13 +12,13 @@ Follow these instructions to publish the `AntyBrowser.SDK` package to [NuGet.org
 
 I have configured a VS Code task to automate the release process. 
 
-1.  Edit the `.env` file in `sdk/nuget/AntyBrowser.SDK/.env` to set your desired `VERSION` and `NUGET_API_KEY`.
+1.  Edit the `.env` file in `sdk/nuget/Antybrowser.SDK/.env` to set your desired `VERSION` and `NUGET_API_KEY`.
 2.  Open the Command Palette (`Ctrl+Shift+P`).
 3.  Type `Tasks: Run Task`.
 4.  Select `Release Antybrowser SDK`.
 
 This task will:
-- Update the version in `AntyBrowser.SDK.csproj`.
+- Update the version in `Antybrowser.SDK.csproj`.
 - Pack the project in Release mode.
 - Push the package to NuGet.org using the API key from your `.env` file.
 
@@ -26,7 +26,7 @@ This task will:
 
 ### Step 1: Pack the Project
 
-Run the following command in the `sdk/nuget/AntyBrowser.SDK` directory:
+Run the following command in the `sdk/nuget/Antybrowser.SDK` directory:
 
 ```bash
 dotnet pack -c Release
@@ -37,7 +37,7 @@ dotnet pack -c Release
 Replace `<YOUR_API_KEY>` with your actual NuGet API key and run:
 
 ```bash
-dotnet nuget push bin/Release/AntyBrowser.SDK.<VERSION>.nupkg --api-key <YOUR_API_KEY> --source https://api.nuget.org/v3/index.json
+dotnet nuget push bin/Release/Antybrowser.SDK.<VERSION>.nupkg --api-key <YOUR_API_KEY> --source https://api.nuget.org/v3/index.json
 ```
 
 ---

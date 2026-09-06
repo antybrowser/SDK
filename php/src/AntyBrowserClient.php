@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace AntyBrowser\SDK;
+namespace Antybrowser\SDK;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 
-final class AntyBrowserClient
+final class AntybrowserClient
 {
     private Client $httpClient;
     private string $apiKey;
@@ -202,7 +202,7 @@ final class AntyBrowserClient
             $response = $this->httpClient->get($path);
             return $this->handleResponse($response);
         } catch (GuzzleException $e) {
-            throw new AntyBrowserError("Failed to connect to AntyBrowser: {$e->getMessage()}");
+            throw new AntybrowserError("Failed to connect to Antybrowser: {$e->getMessage()}");
         }
     }
 
@@ -212,7 +212,7 @@ final class AntyBrowserClient
             $response = $this->httpClient->post($path, ['json' => $body]);
             return $this->handleResponse($response);
         } catch (GuzzleException $e) {
-            throw new AntyBrowserError("Failed to connect to AntyBrowser: {$e->getMessage()}");
+            throw new AntybrowserError("Failed to connect to Antybrowser: {$e->getMessage()}");
         }
     }
 
@@ -222,7 +222,7 @@ final class AntyBrowserClient
             $response = $this->httpClient->put($path, ['json' => $body]);
             return $this->handleResponse($response);
         } catch (GuzzleException $e) {
-            throw new AntyBrowserError("Failed to connect to AntyBrowser: {$e->getMessage()}");
+            throw new AntybrowserError("Failed to connect to Antybrowser: {$e->getMessage()}");
         }
     }
 
@@ -232,7 +232,7 @@ final class AntyBrowserClient
             $response = $this->httpClient->delete($path);
             return $this->handleResponse($response);
         } catch (GuzzleException $e) {
-            throw new AntyBrowserError("Failed to connect to AntyBrowser: {$e->getMessage()}");
+            throw new AntybrowserError("Failed to connect to Antybrowser: {$e->getMessage()}");
         }
     }
 
@@ -242,7 +242,7 @@ final class AntyBrowserClient
         $body = (string) $response->getBody();
 
         if ($statusCode < 200 || $statusCode >= 300) {
-            throw new AntyBrowserError(
+            throw new AntybrowserError(
                 message: "API request failed with status $statusCode",
                 statusCode: $statusCode,
                 responseBody: $body,
@@ -255,7 +255,7 @@ final class AntyBrowserClient
 
         $decoded = json_decode($body, true);
         if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new AntyBrowserError(
+            throw new AntybrowserError(
                 message: 'Invalid JSON response from API',
                 statusCode: $statusCode,
                 responseBody: $body,

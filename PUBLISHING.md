@@ -92,7 +92,7 @@ All SDKs share the same version. Update all files, then tag:
 #    - py/antybrowser/__init__.py → "__version__"
 #    - ruby/lib/antybrowser/version.rb → VERSION
 #    - java/pom.xml → <version>
-#    - nuget/AntyBrowser.SDK/AntyBrowser.SDK.csproj → <Version>
+#    - nuget/Antybrowser.SDK/Antybrowser.SDK.csproj → <Version>
 #    - php/composer.json → "version" (optional, Packagist uses tags)
 
 # 2. Commit
@@ -144,7 +144,7 @@ cd py && python -m build && twine upload dist/*
 
 ### NuGet
 ```bash
-cd nuget/AntyBrowser.SDK && dotnet pack -c Release && dotnet nuget push bin/Release/*.nupkg
+cd nuget/Antybrowser.SDK && dotnet pack -c Release && dotnet nuget push bin/Release/*.nupkg
 ```
 
 ### RubyGems
@@ -169,7 +169,7 @@ npm info @antybrowser/sdk
 pip install antybrowser --dry-run
 
 # NuGet
-dotnet package search AntyBrowser.SDK
+dotnet package search Antybrowser.SDK
 
 # RubyGems
 gem search antybrowser --remote

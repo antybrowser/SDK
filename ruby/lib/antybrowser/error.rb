@@ -1,5 +1,5 @@
-module AntyBrowser
-  class AntyBrowserError < StandardError
+module Antybrowser
+  class AntybrowserError < StandardError
     attr_reader :status_code, :response_body
 
     def initialize(message, status_code: nil, response_body: nil)
