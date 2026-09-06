@@ -4,7 +4,7 @@ build-backend = "setuptools.backends._legacy:_Backend"
 
 [project]
 name = "antybrowser"
-version = "1.0.1"
+version = "1.0.2"
 description = "Official AntyBrowser SDK — Python client for the AntyBrowser Local API"
 readme = "README.md"
 license = { text = "MIT" }
