@@ -1,0 +1,45 @@
+{
+  "name": "@antybrowser/sdk",
+  "version": "1.0.1",
+  "description": "Official AntyBrowser SDK — TypeScript client for the AntyBrowser Local API. Manage profiles, proxies, automations, groups, and extensions programmatically.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "antybrowser",
+    "anti-detect",
+    "browser-automation",
+    "fingerprint",
+    "multi-accounting",
+    "proxy",
+    "selenium",
+    "puppeteer",
+    "undetected-browser"
+  ],
+  "author": "AntyBrowser Team",
+  "license": "MIT",
+  "homepage": "https://antybrowser.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AntyBrowser/AntyBrowser.SDK.git"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0"
+  }
+}

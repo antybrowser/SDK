@@ -1,0 +1,39 @@
+# Dependencies
+node_modules/
+vendor/
+__pycache__/
+*.pyc
+*.pyo
+*.gem
+Gemfile.lock
+
+# Build output
+dist/
+build/
+target/
+out/
+bin/
+obj/
+
+# Package archives
+*.tgz
+*.tar.gz
+*.nupkg
+*.snupkg
+*.whl
+*.jar
+
+# IDE
+.idea/
+.vscode/
+*.iml
+.classpath
+.project
+.settings/
+
+# Environment (secrets)
+.env
+
+# OS
+.DS_Store
+Thumbs.db

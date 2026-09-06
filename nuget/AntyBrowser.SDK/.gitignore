@@ -1,0 +1,8 @@
+bin/
+obj/
+*.user
+*.suo
+*.sln.docstates
+.vs/
+*.nupkg
+*.snupkg

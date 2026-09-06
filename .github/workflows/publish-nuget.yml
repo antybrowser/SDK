@@ -1,0 +1,29 @@
+name: Publish to NuGet
+
+on:
+  push:
+    tags: ['sdk-nuget/v*']
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0'
+
+      - name: Extract version
+        id: version
+        run: echo "VERSION=${GITHUB_REF_NAME#sdk-nuget/v}" >> "$GITHUB_OUTPUT"
+
+      - name: Pack
+        working-directory: nuget/AntyBrowser.SDK
+        run: dotnet pack -c Release -p:Version=${{ steps.version.outputs.VERSION }}
+
+      - name: Push
+        working-directory: nuget/AntyBrowser.SDK
+        run: dotnet nuget push bin/Release/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
