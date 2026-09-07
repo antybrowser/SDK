@@ -1,6 +1,6 @@
 name: antybrowser
 description: Official Antybrowser SDK — Dart client for the Antybrowser Local API. Manage profiles, proxies, automations, groups, and extensions programmatically.
-version: 1.0.2
+version: 1.0.3
 homepage: https://antybrowser.com
 repository: https://github.com/antybrowser/SDK
 issue_tracker: https://github.com/antybrowser/SDK/issues
