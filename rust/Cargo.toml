@@ -1,0 +1,20 @@
+[package]
+name = "antybrowser"
+version = "1.0.2"
+edition = "2021"
+authors = ["Antybrowser.com <support@antybrowser.com>"]
+description = "Official Antybrowser SDK — Rust client for the Antybrowser Local API"
+license = "MIT"
+repository = "https://github.com/antybrowser/SDK"
+homepage = "https://antybrowser.com"
+documentation = "https://docs.rs/antybrowser"
+readme = "README.md"
+keywords = ["antybrowser", "anti-detect", "browser-automation", "fingerprint", "proxy"]
+categories = ["web-programming", "api-bindings"]
+
+[dependencies]
+reqwest = { version = "0.12", features = ["json"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "2"
+tokio = { version = "1", features = ["full"] }
