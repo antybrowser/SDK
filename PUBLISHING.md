@@ -205,6 +205,6 @@ go list -m github.com/antybrowser/SDK/go@latest
 # https://packagist.org/packages/antybrowser/sdk
 
 # CPAN
-cpan Antybrowser
-# https://metacpan.org/pod/Antybrowser
+cpan Antybrowser::SDK
+# https://metacpan.org/pod/Antybrowser::SDK
 ```

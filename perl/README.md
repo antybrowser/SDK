@@ -1,6 +1,6 @@
 # Antybrowser SDK for Perl
 
-[![CPAN](https://img.shields.io/badge/CPAN-Antybrowser-green)](https://metacpan.org/pod/Antybrowser)
+[![CPAN](https://img.shields.io/badge/CPAN-Antybrowser::SDK-green)](https://metacpan.org/pod/Antybrowser::SDK)
 
 Official Perl client for the [Antybrowser](https://antybrowser.com) Local API.
 
@@ -9,7 +9,7 @@ Official Perl client for the [Antybrowser](https://antybrowser.com) Local API.
 ### CPAN
 
 ```sh
-cpan Antybrowser
+cpan Antybrowser::SDK
 ```
 
 ### From source
@@ -27,9 +27,9 @@ make install
 ## Usage
 
 ```perl
-use Antybrowser;
+use Antybrowser::SDK;
 
-my $client = Antybrowser->new(api_key => 'your_api_key');
+my $client = Antybrowser::SDK->new(api_key => 'your_api_key');
 
 # List profiles
 my $profiles = $client->get_profiles();
@@ -52,7 +52,7 @@ $client->delete_profile($profile->{id});
 ### Constructor
 
 ```perl
-Antybrowser->new(api_key => 'key', port => 5173)
+Antybrowser::SDK->new(api_key => 'key', port => 5173)
 ```
 
 - `api_key` — your Antybrowser API key (required)

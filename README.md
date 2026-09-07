@@ -15,6 +15,7 @@
   <a href="https://rubygems.org/gems/antybrowser"><img src="https://img.shields.io/gem/v/antybrowser?color=CC342D&logo=rubygems&logoColor=white" alt="RubyGems"></a>
   <a href="https://packagist.org/packages/antybrowser/sdk"><img src="https://img.shields.io/packagist/v/antybrowser/sdk?color=8892BF&logo=php" alt="Packagist"></a>
   <a href="https://search.maven.org/artifact/com.antybrowser/antybrowser-sdk"><img src="https://img.shields.io/maven-central/v/com.antybrowser/antybrowser-sdk?color=orange&logo=apache-maven&logoColor=white" alt="Maven Central"></a>
+  <a href="https://metacpan.org/pod/Antybrowser::SDK"><img src="https://img.shields.io/cpan/v/Antybrowser-SDK?color=green&logo=perl" alt="CPAN"></a>
   <a href="https://github.com/antybrowser/SDK"><img src="https://img.shields.io/github/stars/antybrowser/SDK?logo=github" alt="GitHub Stars"></a>
   <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
 </p>
@@ -31,6 +32,7 @@
 | **Go** | Go Modules | `go get github.com/antybrowser/SDK/go` |
 | **PHP** | Packagist | `composer require antybrowser/sdk` |
 | **Ruby** | RubyGems | `gem install antybrowser` |
+| **Perl** | CPAN | `cpan Antybrowser::SDK` |
 | **Java** | Maven Central | See [Java README](java/README.md) |
 | **Kotlin** | Maven Central | See [Kotlin README](kotlin/README.md) |
 
@@ -263,6 +265,7 @@ SDK/
 ├── go/           github.com/antybrowser/SDK/go
 ├── php/          antybrowser/sdk (Composer)
 ├── ruby/         antybrowser (RubyGems)
+├── perl/         Antybrowser::SDK (CPAN)
 ├── java/         com.antybrowser:antybrowser-sdk (Maven)
 ├── kotlin/       com.antybrowser:antybrowser-sdk (Maven/Kotlin DSL)
 └── .github/      CI/CD workflows
