@@ -1,5 +1,5 @@
 name = "Antybrowser"
-uuid = "antybrowser-sdk-00000000-0000-0000-0000-000000000001"
+uuid = "a3f0b3c4-d5e6-7890-ab12-cd3e4f567890"
 version = "1.0.2"
 authors = ["Antybrowser.com <support@antybrowser.com>"]
 description = "Official Antybrowser SDK — Julia client for the Antybrowser Local API"
@@ -8,7 +8,7 @@ repository = "https://github.com/antybrowser/SDK"
 
 [deps]
 HTTP = "cd3eb016-35fb-5094-929b-558a96fad6f3"
-JSON3 = "0f8b85d8-7281-11e9-16c2-3944c64cfc0d"
+JSON3 = "0f8b85d8-7281-11e9-16c2-39a750bddbf1"
 
 [compat]
 julia = "1.6"
