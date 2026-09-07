@@ -1,6 +1,6 @@
 {
   "name": "@antybrowser/sdk",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Official Antybrowser SDK — TypeScript client for the Antybrowser Local API. Manage profiles, proxies, automations, groups, and extensions programmatically.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
