@@ -5,7 +5,7 @@ require_relative "lib/antybrowser/version"
 Gem::Specification.new do |spec|
   spec.name          = "antybrowser"
   spec.version       = Antybrowser::VERSION
-  spec.authors       = ["Antybrowser Team"]
+  spec.authors       = ["Antybrowser.com"]
   spec.email         = ["support@antybrowser.com"]
 
   spec.summary       = "Official Antybrowser SDK — Ruby client for the Local API"

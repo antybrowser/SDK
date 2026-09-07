@@ -1,9 +1,21 @@
-# @antybrowser/sdk (Python)
+<p align="center">
+  <img src="https://antybrowser.com/favicon.ico" alt="Antybrowser Logo" width="64">
+</p>
 
-Official Antybrowser Python SDK for the Local API.
+<h1 align="center">Antybrowser SDK — Python</h1>
 
-[![PyPI version](https://img.shields.io/pypi/v/antybrowser.svg)](https://pypi.org/project/antybrowser/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+<p align="center">
+  Official Python client for the Antybrowser Local API. Manage browser profiles, proxies, automations, groups, and extensions programmatically.
+</p>
+
+<p align="center">
+  <a href="https://pypi.org/project/antybrowser/"><img src="https://img.shields.io/pypi/v/antybrowser?color=3776AB&logo=python&logoColor=white" alt="PyPI"></a>
+  <a href="https://pypi.org/project/antybrowser/"><img src="https://img.shields.io/pypi/pyversions/antybrowser" alt="Python"></a>
+  <a href="https://github.com/antybrowser/SDK"><img src="https://img.shields.io/github/stars/antybrowser/SDK?logo=github" alt="GitHub Stars"></a>
+  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
+</p>
+
+---
 
 ## Installation
 
@@ -103,6 +115,17 @@ except AntybrowserError as e:
     print(f"Status: {e.status_code}")
     print(f"Body: {e.response_body}")
 ```
+
+---
+
+## Links
+
+- [Antybrowser Website](https://antybrowser.com)
+- [GitHub Repository](https://github.com/antybrowser/SDK)
+- [PyPI Package](https://pypi.org/project/antybrowser/)
+- [npm Package](https://www.npmjs.com/package/@antybrowser/sdk)
+- [NuGet Package](https://www.nuget.org/packages/Antybrowser.SDK/)
+- [RubyGems Package](https://rubygems.org/gems/antybrowser)
 
 ## License
 

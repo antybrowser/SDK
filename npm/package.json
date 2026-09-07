@@ -29,12 +29,12 @@
     "puppeteer",
     "undetected-browser"
   ],
-  "author": "Antybrowser Team",
+  "author": "Antybrowser.com",
   "license": "MIT",
   "homepage": "https://antybrowser.com",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/antybrowser/Antybrowser.SDK.git"
+    "url": "git+https://github.com/antybrowser/SDK.git"
   },
   "engines": {
     "node": ">=18"
