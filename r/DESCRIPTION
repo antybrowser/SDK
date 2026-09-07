@@ -1,0 +1,14 @@
+Package: antybrowser
+Type: Package
+Title: Official Antybrowser SDK for R
+Version: 1.0.2
+Authors@R: person("Antybrowser.com", email = "support@antybrowser.com", role = c("aut", "cre"))
+Description: R client for the Antybrowser Local API. Manage browser profiles, proxies, automations, groups, and extensions programmatically.
+License: MIT
+Encoding: UTF-8
+URL: https://antybrowser.com, https://github.com/antybrowser/SDK
+BugReports: https://github.com/antybrowser/SDK/issues
+Depends: R (>= 3.5.0)
+Imports:
+    httr,
+    jsonlite

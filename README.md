@@ -16,6 +16,7 @@
   <a href="https://packagist.org/packages/antybrowser/sdk"><img src="https://img.shields.io/packagist/v/antybrowser/sdk?color=8892BF&logo=php" alt="Packagist"></a>
   <a href="https://search.maven.org/artifact/com.antybrowser/antybrowser-sdk"><img src="https://img.shields.io/maven-central/v/com.antybrowser/antybrowser-sdk?color=orange&logo=apache-maven&logoColor=white" alt="Maven Central"></a>
   <a href="https://github.com/antybrowser/SDK"><img src="https://img.shields.io/github/stars/antybrowser/SDK?logo=github" alt="GitHub Stars"></a>
+  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
 </p>
 
 ---
@@ -31,6 +32,7 @@
 | **PHP** | Packagist | `composer require antybrowser/sdk` |
 | **Ruby** | RubyGems | `gem install antybrowser` |
 | **Java** | Maven Central | See [Java README](java/README.md) |
+| **Kotlin** | Maven Central | See [Kotlin README](kotlin/README.md) |
 
 ## Prerequisites
 
@@ -262,6 +264,7 @@ SDK/
 ├── php/          antybrowser/sdk (Composer)
 ├── ruby/         antybrowser (RubyGems)
 ├── java/         com.antybrowser:antybrowser-sdk (Maven)
+├── kotlin/       com.antybrowser:antybrowser-sdk (Maven/Kotlin DSL)
 └── .github/      CI/CD workflows
 ```
 

@@ -1,0 +1,16 @@
+package com.antybrowser.sdk
+
+data class ApiResponse(val success: Boolean = false, val message: String? = null, val data: Any? = null)
+data class StartProfileResponse(val success: Boolean = false, val data: Map<String, Any> = emptyMap())
+data class Profile(val id: Int = 0, val name: String? = null, val status: String? = null, val browserType: String? = null, val osFingerprint: String? = null, val language: String? = null, val directoryName: String? = null, val createdAt: String? = null, val updatedAt: String? = null)
+data class CreateProfileRequest(val name: String, val browserType: String? = null, val osFingerprint: String? = null, val language: String? = null, val useFingerprint: Boolean? = null, val groupId: Int? = null, val proxyId: Int? = null)
+data class Automation(val id: Int = 0, val name: String = "", val description: String? = null, val status: String? = null)
+data class RunAutomationResult(val success: Boolean = false, val message: String? = null)
+data class Group(val id: Int = 0, val name: String = "", val description: String? = null, val color: String? = null)
+data class CreateGroupRequest(val name: String, val description: String? = null)
+data class Proxy(val id: Int = 0, val name: String? = null, val host: String? = null, val port: Int? = null, val protocol: String? = null)
+data class CreateProxyRequest(val name: String, val host: String, val port: Int, val protocol: String? = null, val username: String? = null, val password: String? = null)
+data class ProxyCheckResult(val success: Boolean = false, val ip: String? = null, val country: String? = null, val error: String? = null)
+data class Extension(val id: Int = 0, val name: String = "", val description: String? = null, val version: String? = null)
+data class Settings(val apiKey: String? = null, val language: String? = null)
+data class SyncStatus(val isSyncing: Boolean = false, val total: Int = 0, val completed: Int = 0)
