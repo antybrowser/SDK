@@ -1,0 +1,16 @@
+name: Publish to Packagist
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Packagist update
+        run: |
+          curl -XPOST \
+            -H "Content-Type: application/json" \
+            -d '{"repository":{"url":"https://github.com/antybrowser/SDK"}}' \
+            "https://packagist.org/api/update-package?username=antybrowser&apiToken=${{ secrets.PACKAGIST_API_TOKEN }}"
