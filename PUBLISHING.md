@@ -1,6 +1,6 @@
 # Publishing Antybrowser SDK
 
-Complete checklist for publishing to all 7 registries.
+Complete checklist for publishing to all 8 registries.
 
 ---
 
@@ -69,6 +69,16 @@ pip install twine build
 
 No token needed — versioned via git tags.
 
+### 8. CPAN / PAUSE (Perl)
+
+```bash
+# Create PAUSE account at https://pause.perl.org
+# Generate upload token at https://pause.perl.org/pause/authenquery?ACTION=new_token
+# The token is shown only once — store it in your password manager
+```
+
+**GitHub Secret:** `PAUSE_TOKEN`
+
 ### 7. Packagist (PHP)
 
 No token needed — auto-indexes from GitHub tags.
@@ -94,6 +104,7 @@ All SDKs share the same version. Update all files, then tag:
 #    - java/pom.xml → <version>
 #    - nuget/Antybrowser.SDK/Antybrowser.SDK.csproj → <Version>
 #    - php/composer.json → "version" (optional, Packagist uses tags)
+#    - perl/lib/Antybrowser.pm → "$VERSION" (VERSION_FROM)
 
 # 2. Commit
 git add -A
@@ -107,6 +118,7 @@ git tag sdk-ruby/v1.0.2
 git tag sdk-java/v1.0.2
 git tag sdk-go/v1.0.2
 git tag sdk-php/v1.0.2
+git tag sdk-perl/v1.0.2
 
 # 4. Push
 git push origin main --tags
@@ -127,6 +139,7 @@ Each tag triggers the corresponding GitHub Action:
 | `sdk-java/v*` | Maven Central | `.github/workflows/publish-java.yml` |
 | `sdk-go/v*` | Go Modules | _(auto — no workflow needed)_ |
 | `sdk-php/v*` | Packagist | _(auto — no workflow needed)_ |
+| `sdk-perl/v*` | CPAN / PAUSE | `.github/workflows/publish-perl.yml` |
 
 ---
 
@@ -157,6 +170,14 @@ cd ruby && gem build antybrowser.gemspec && gem push antybrowser-*.gem
 cd java && mvn clean deploy -P release
 ```
 
+### CPAN / PAUSE
+```bash
+cd perl && perl Makefile.PL && make manifest && make dist
+```
+Upload `perl/Antybrowser-<version>.tar.gz` via the CI workflow
+(`git push origin main --tags` with an `sdk-perl/v*` tag) or the PAUSE
+upload form at pause.perl.org.
+
 ---
 
 ## Verification After Publish
@@ -182,4 +203,8 @@ go list -m github.com/antybrowser/SDK/go@latest
 
 # Packagist
 # https://packagist.org/packages/antybrowser/sdk
+
+# CPAN
+cpan Antybrowser
+# https://metacpan.org/pod/Antybrowser
 ```

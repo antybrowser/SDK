@@ -1,0 +1,31 @@
+name: Publish to CPAN (PAUSE)
+
+on:
+  push:
+    tags: ['sdk-perl/v*']
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: perl/setup-perl@v2
+        with:
+          perl-version: '5.36'
+
+      - name: Build distribution
+        working-directory: perl
+        run: |
+          perl Makefile.PL
+          make manifest
+          make dist
+
+      - name: Upload to PAUSE
+        uses: skaji/action-pause-upload@v1
+        env:
+          PAUSE_TOKEN: ${{ secrets.PAUSE_TOKEN }}
+        with:
+          files: perl/Antybrowser-*.tar.gz
