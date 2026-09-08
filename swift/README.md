@@ -1,11 +1,30 @@
-# Antybrowser Swift SDK
+<p align="center">
+  <img src="https://antybrowser.com/favicon.ico" alt="Antybrowser Logo" width="64">
+</p>
 
-[![Swift](https://img.shields.io/badge/Swift-5.9-orange.svg)](https://swift.org)
-[![Platform](https://img.shields.io/badge/Platform-iOS%2013+%20%7C%20macOS%2010.15+-blue.svg)](https://swift.org)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![GitHub Stars](https://img.shields.io/github/stars/antybrowser/SDK?style=social)](https://github.com/antybrowser/SDK)
+<h1 align="center">Antybrowser SDK — Swift</h1>
 
-A Swift client library for the [Antybrowser](https://antybrowser.com) Local API.
+<p align="center">
+  Official Swift client for the Antybrowser Local API. Manage browser profiles, proxies, automations, groups, and extensions programmatically.
+</p>
+
+<p align="center">
+  <a href="https://swift.org"><img src="https://img.shields.io/badge/Swift-5.9-orange.svg" alt="Swift 5.9"></a>
+  <a href="https://swift.org"><img src="https://img.shields.io/badge/Platform-iOS%2013+%20%7C%20macOS%2010.15+-blue.svg" alt="Platform"></a>
+  <a href="https://github.com/antybrowser/SDK"><img src="https://img.shields.io/github/stars/antybrowser/SDK?style=social" alt="GitHub Stars"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-green.svg" alt="MIT License"></a>
+</p>
+
+---
+
+## 🚀 Key Features
+
+- **Profile Management**: Programmatically create, configure, start, and stop isolated browser profiles.
+- **Fingerprint Control**: Manage canvas, WebGL, Audio, and other browser fingerprints to prevent detection.
+- **Workflow Automation**: Execute complex browser automation scripts via our internal runner.
+- **Proxy Management**: Seamlessly integrate HTTP, SOCKS4, and SOCKS5 proxies with bulk verification.
+- **Multi-Accounting**: Scale your operations across hundreds of accounts with complete isolation.
+- **Sync & Cloud**: Monitor profile synchronization status and cloud-based settings.
 
 ## Requirements
 
@@ -105,12 +124,19 @@ let _ = try await client.refreshSync()
 
 ## API Reference
 
+### System
+
 | Method | Description |
 |--------|-------------|
 | `getStatus()` | Get system status |
 | `getSettings()` | Get app settings |
 | `getSyncStatus()` | Get sync status |
 | `refreshSync(profileId:)` | Trigger sync refresh |
+
+### Profiles
+
+| Method | Description |
+|--------|-------------|
 | `getProfiles()` | List all profiles |
 | `createProfile(_:)` | Create a new profile |
 | `updateProfile(id:data:)` | Update a profile |
@@ -118,16 +144,36 @@ let _ = try await client.refreshSync()
 | `startProfile(id:)` | Start a profile |
 | `stopProfile(id:)` | Stop a profile |
 | `duplicateProfile(id:name:)` | Duplicate a profile |
+
+### Automations
+
+| Method | Description |
+|--------|-------------|
 | `getAutomations()` | List automations |
 | `runAutomation(id:profileId:)` | Run an automation |
+
+### Groups
+
+| Method | Description |
+|--------|-------------|
 | `getGroups()` | List groups |
 | `createGroup(_:)` | Create a group |
 | `updateGroup(id:data:)` | Update a group |
 | `deleteGroup(id:)` | Delete a group |
+
+### Proxies
+
+| Method | Description |
+|--------|-------------|
 | `getProxies()` | List proxies |
 | `createProxy(_:)` | Create a proxy |
 | `checkProxy(data:)` | Check proxy connectivity |
 | `deleteProxy(id:)` | Delete a proxy |
+
+### Extensions
+
+| Method | Description |
+|--------|-------------|
 | `getExtensions()` | List extensions |
 | `deleteExtension(id:)` | Delete an extension |
 | `getProfileExtensions(profileId:)` | Get profile extensions |
@@ -147,6 +193,31 @@ do {
 }
 ```
 
-## License
+## 🌐 Links
 
-[MIT](LICENSE) - Copyright (c) 2026 [Antybrowser.com](https://antybrowser.com)
+- [Antybrowser Website](https://antybrowser.com)
+- [Documentation](https://docs.antybrowser.com)
+- [GitHub Repository](https://github.com/antybrowser/SDK)
+- [npm Package](https://www.npmjs.com/package/@antybrowser/sdk)
+- [PyPI Package](https://pypi.org/project/antybrowser/)
+- [Maven Central](https://central.sonatype.com/artifact/com.antybrowser/antybrowser-sdk)
+- [NuGet Package](https://www.nuget.org/packages/Antybrowser.SDK/)
+- [Go Module](https://github.com/antybrowser/SDK/tree/main/go)
+- [crates.io](https://crates.io/crates/antybrowser)
+- [RubyGems](https://rubygems.org/gems/antybrowser)
+- [Packagist](https://packagist.org/packages/antybrowser/sdk)
+- [Hex.pm](https://hex.pm/packages/antybrowser)
+- [LuaRocks](https://luarocks.org/modules/antybrowser)
+- [CPAN](https://metacpan.org/pod/Antybrowser::SDK)
+- [pub.dev](https://pub.dev/packages/antybrowser)
+- [Swift Package](https://github.com/antybrowser/SDK/tree/main/swift)
+- [Julia Package](https://github.com/antybrowser/SDK/tree/main/julia)
+- [R Package](https://cran.r-project.org/package=antybrowser)
+- [Support](mailto:support@antybrowser.com)
+
+## 📄 License
+
+[MIT](LICENSE) — Copyright (c) 2026 [Antybrowser.com](https://antybrowser.com)
+
+---
+*Antybrowser - The ultimate solution for secure and undetectable multi-accounting.*

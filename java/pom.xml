@@ -9,8 +9,8 @@
     <version>1.0.2</version>
     <packaging>jar</packaging>
 
-    <name>AntyBrowser SDK</name>
-    <description>Official AntyBrowser SDK — Java client for the AntyBrowser Local API</description>
+    <name>Antybrowser SDK</name>
+    <description>Official Antybrowser SDK — Java client for the Antybrowser Local API</description>
     <url>https://antybrowser.com</url>
 
     <licenses>
@@ -28,8 +28,8 @@
     </developers>
 
     <scm>
-        <connection>scm:git:https://github.com/AntyBrowser/AntyBrowser.SDK.git</connection>
-        <url>https://github.com/AntyBrowser/AntyBrowser.SDK</url>
+        <connection>scm:git:https://github.com/antybrowser/SDK.git</connection>
+        <url>https://github.com/antybrowser/SDK</url>
     </scm>
 
     <properties>

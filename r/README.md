@@ -1,9 +1,34 @@
-# antybrowser <img src="https://www.r-pkg.org/badges/version/antybrowser" alt="CRAN version" />
+<p align="center">
+  <img src="https://antybrowser.com/favicon.ico" alt="Antybrowser Logo" width="64">
+</p>
 
-[![CRAN](https://www.r-pkg.org/badges/version/antybrowser)](https://cran.r-project.org/package=antybrowser)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+<h1 align="center">Antybrowser SDK — R</h1>
 
-Official R client for the [Antybrowser](https://antybrowser.com) Local API.
+<p align="center">
+  Official R client for the Antybrowser Local API. Manage browser profiles, proxies, automations, groups, and extensions programmatically.
+</p>
+
+<p align="center">
+  <a href="https://cran.r-project.org/package=antybrowser"><img src="https://www.r-pkg.org/badges/version/antybrowser" alt="CRAN version"></a>
+  <a href="https://github.com/antybrowser/SDK"><img src="https://img.shields.io/github/stars/antybrowser/SDK?style=social" alt="GitHub Stars"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-green.svg" alt="MIT License"></a>
+</p>
+
+---
+
+## 📋 Prerequisites
+
+- R >= 3.5.0
+- [Antybrowser](https://antybrowser.com) desktop app running on `http://127.0.0.1:5173`
+
+## 🚀 Key Features
+
+- **Profile Management**: Programmatically create, configure, start, and stop isolated browser profiles.
+- **Fingerprint Control**: Manage canvas, WebGL, Audio, and other browser fingerprints to prevent detection.
+- **Workflow Automation**: Execute complex browser automation scripts via our internal runner.
+- **Proxy Management**: Seamlessly integrate HTTP, SOCKS4, and SOCKS5 proxies with bulk verification.
+- **Multi-Accounting**: Scale your operations across hundreds of accounts with complete isolation.
+- **Sync & Cloud**: Monitor profile synchronization status and cloud-based settings.
 
 ## Installation
 
@@ -84,7 +109,7 @@ delete_profile(client, new_profile$id)
 | Function | Description |
 |---|---|
 | `get_groups(client)` | List all groups |
-| `create_group(client, data)` | Create a new group |
+| `create_group(client, data)` | Create a group |
 | `update_group(client, id, data)` | Update a group |
 | `delete_group(client, id)` | Delete a group |
 
@@ -106,8 +131,76 @@ delete_profile(client, new_profile$id)
 | `get_profile_extensions(client, profile_id)` | List profile extensions |
 | `set_profile_extensions(client, profile_id, extension_ids)` | Set profile extensions |
 
-## Links
+## Examples
 
-- [Antybrowser](https://antybrowser.com)
-- [GitHub](https://github.com/antybrowser/SDK)
-- [Issues](https://github.com/antybrowser/SDK/issues)
+### Create and launch a profile
+
+```r
+library(antybrowser)
+
+client <- AntybrowserClient("your-api-key")
+
+profile <- create_profile(client, list(name = "My Profile"))
+result <- start_profile(client, profile$id)
+cat("Debug port:", result$data$debugPort, "\n")
+```
+
+### Bulk proxy check
+
+```r
+library(antybrowser)
+
+client <- AntybrowserClient("your-api-key")
+
+proxies <- get_proxies(client)
+for (proxy in proxies) {
+  check <- check_proxy(client, list(
+    host = proxy$host,
+    port = proxy$port,
+    username = proxy$username,
+    password = proxy$password
+  ))
+  cat(proxy$name, ":", check$data$status, "\n")
+}
+```
+
+### Run an automation
+
+```r
+library(antybrowser)
+
+client <- AntybrowserClient("your-api-key")
+
+automations <- get_automations(client)
+result <- run_automation(client, automations[[1]]$id, 1)
+cat("Automation started:", result, "\n")
+```
+
+## 🌐 Links
+
+- [Antybrowser Website](https://antybrowser.com)
+- [Documentation](https://docs.antybrowser.com)
+- [GitHub Repository](https://github.com/antybrowser/SDK)
+- [npm Package](https://www.npmjs.com/package/@antybrowser/sdk)
+- [PyPI Package](https://pypi.org/project/antybrowser/)
+- [Maven Central](https://central.sonatype.com/artifact/com.antybrowser/antybrowser-sdk)
+- [NuGet Package](https://www.nuget.org/packages/Antybrowser.SDK/)
+- [Go Module](https://github.com/antybrowser/SDK/tree/main/go)
+- [crates.io](https://crates.io/crates/antybrowser)
+- [RubyGems](https://rubygems.org/gems/antybrowser)
+- [Packagist](https://packagist.org/packages/antybrowser/sdk)
+- [Hex.pm](https://hex.pm/packages/antybrowser)
+- [LuaRocks](https://luarocks.org/modules/antybrowser)
+- [CPAN](https://metacpan.org/pod/Antybrowser::SDK)
+- [pub.dev](https://pub.dev/packages/antybrowser)
+- [Swift Package](https://github.com/antybrowser/SDK/tree/main/swift)
+- [Julia Package](https://github.com/antybrowser/SDK/tree/main/julia)
+- [R Package](https://cran.r-project.org/package=antybrowser)
+- [Support](mailto:support@antybrowser.com)
+
+## 📄 License
+
+This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.
+
+---
+*Antybrowser - The ultimate solution for secure and undetectable multi-accounting.*

@@ -1,14 +1,34 @@
-# @antybrowser/sdk
+<p align="center">
+  <img src="https://antybrowser.com/favicon.ico" alt="Antybrowser Logo" width="64">
+</p>
 
-Official Antybrowser TypeScript/JavaScript SDK for the Local API. Manage browser profiles, proxies, automations, groups, and extensions programmatically.
+<h1 align="center">Antybrowser SDK — TypeScript / JavaScript</h1>
 
-[![npm version](https://img.shields.io/npm/v/@antybrowser/sdk.svg)](https://www.npmjs.com/package/@antybrowser/sdk)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+<p align="center">
+  Official TypeScript/JavaScript client for the Antybrowser Local API. Manage browser profiles, proxies, automations, groups, and extensions programmatically.
+</p>
+
+<p align="center">
+  <a href="https://www.npmjs.com/package/@antybrowser/sdk"><img src="https://img.shields.io/npm/v/@antybrowser/sdk.svg" alt="npm version"></a>
+  <a href="https://github.com/antybrowser/SDK"><img src="https://img.shields.io/github/stars/antybrowser/SDK?logo=github" alt="GitHub Stars"></a>
+  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
+</p>
+
+---
 
 ## Prerequisites
 
-- **Antybrowser** desktop app running with the Local API enabled
 - **Node.js >= 18** (uses native `fetch`)
+- **Antybrowser** desktop app running with the Local API enabled
+
+## 🚀 Key Features
+
+- **Profile Management**: Programmatically create, configure, start, and stop isolated browser profiles.
+- **Fingerprint Control**: Manage canvas, WebGL, Audio, and other browser fingerprints to prevent detection.
+- **Workflow Automation**: Execute complex browser automation scripts via our internal runner.
+- **Proxy Management**: Seamlessly integrate HTTP, SOCKS4, and SOCKS5 proxies with bulk verification.
+- **Multi-Accounting**: Scale your operations across hundreds of accounts with complete isolation.
+- **Sync & Cloud**: Monitor profile synchronization status and cloud-based settings.
 
 ## Installation
 
@@ -170,11 +190,31 @@ try {
 }
 ```
 
-## Links
+## 🌐 Links
 
 - [Antybrowser Website](https://antybrowser.com)
+- [Documentation](https://docs.antybrowser.com)
 - [GitHub Repository](https://github.com/antybrowser/SDK)
+- [npm Package](https://www.npmjs.com/package/@antybrowser/sdk)
+- [PyPI Package](https://pypi.org/project/antybrowser/)
+- [Maven Central](https://central.sonatype.com/artifact/com.antybrowser/antybrowser-sdk)
+- [NuGet Package](https://www.nuget.org/packages/Antybrowser.SDK/)
+- [Go Module](https://github.com/antybrowser/SDK/tree/main/go)
+- [crates.io](https://crates.io/crates/antybrowser)
+- [RubyGems](https://rubygems.org/gems/antybrowser)
+- [Packagist](https://packagist.org/packages/antybrowser/sdk)
+- [Hex.pm](https://hex.pm/packages/antybrowser)
+- [LuaRocks](https://luarocks.org/modules/antybrowser)
+- [CPAN](https://metacpan.org/pod/Antybrowser::SDK)
+- [pub.dev](https://pub.dev/packages/antybrowser)
+- [Swift Package](https://github.com/antybrowser/SDK/tree/main/swift)
+- [Julia Package](https://github.com/antybrowser/SDK/tree/main/julia)
+- [R Package](https://cran.r-project.org/package=antybrowser)
+- [Support](mailto:support@antybrowser.com)
 
-## License
+## 📄 License
 
 MIT
+
+---
+*Antybrowser - The ultimate solution for secure and undetectable multi-accounting.*
