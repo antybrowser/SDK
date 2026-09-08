@@ -1,0 +1,27 @@
+opam-version: "2.0"
+name: "antybrowser"
+version: "1.0.3"
+synopsis: "OCaml SDK for the Antybrowser Local API"
+description: """
+A client library for the Antybrowser anti-detect browser Local API.
+Provides typed access to all 26 API endpoints for managing profiles,
+proxies, groups, extensions, automations, and system settings.
+"""
+license: "MIT"
+authors: ["Antybrowser.com"]
+homepage: "https://antybrowser.com"
+doc: "https://antybrowser.com"
+bug-reports: "https://github.com/antybrowser/antybrowser-sdk/issues"
+
+depends: [
+  "ocaml" {>= "4.12"}
+  "dune" {>= "3.0"}
+  "cohttp-lwt-unix"
+  "yojson"
+  "uri"
+  "lwt"
+]
+
+build: [
+  ["dune" "build" "-p" name "-j" jobs]
+]

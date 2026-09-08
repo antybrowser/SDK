@@ -1,0 +1,4 @@
+(library
+ (name antybrowser_sdk)
+ (public_name antybrowser)
+ (libraries cohttp-lwt-unix yojson uri lwt))

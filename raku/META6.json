@@ -1,0 +1,18 @@
+{
+  "name": "Antybrowser::SDK",
+  "description": "Official Antybrowser SDK — Raku client for the Antybrowser Local API",
+  "version": "1.0.3",
+  "perl": "6.d",
+  "auth": "zef:antybrowser",
+  "license": "Artistic-2.0",
+  "source-url": "https://github.com/antybrowser/SDK",
+  "provides": {
+    "Antybrowser::SDK": "lib/Antybrowser/SDK.rakumod",
+    "Antybrowser::SDK::Client": "lib/Antybrowser/SDK/Client.rakumod",
+    "Antybrowser::SDK::Types": "lib/Antybrowser/SDK/Types.rakumod",
+    "Antybrowser::SDK::Error": "lib/Antybrowser/SDK/Error.rakumod"
+  },
+  "depends": ["HTTP::UserAgent", "JSON::Fast"],
+  "build-depends": [],
+  "test-depends": ["Test"]
+}

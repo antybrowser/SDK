@@ -1,0 +1,9 @@
+{
+  "name": "antybrowser",
+  "version": "1.0.3",
+  "description": "Official Antybrowser SDK — C++ client for the Antybrowser Local API",
+  "dependencies": [
+    "curl",
+    "nlohmann-json"
+  ]
+}

@@ -1,0 +1,36 @@
+cabal-version:      2.4
+name:               antybrowser-sdk
+version:            1.0.3
+synopsis:           Official Antybrowser SDK — Haskell client for the Antybrowser Local API
+description:
+  Manage browser profiles, proxies, automations, groups, and extensions
+  programmatically via the Antybrowser Local API.
+license:            MIT
+license-file:       LICENSE
+author:             Antybrowser.com
+maintainer:         support@antybrowser.com
+homepage:           https://antybrowser.com
+repository:         https://github.com/antybrowser/SDK
+bug-reports:        https://github.com/antybrowser/SDK/issues
+category:           Network, Web
+build-type:         Simple
+
+library
+  exposed-modules:
+    Antybrowser
+    Antybrowser.Client
+    Antybrowser.Types
+    Antybrowser.Error
+  hs-source-dirs:   src
+  default-language:  Haskell2010
+  ghc-options:       -Wall -O2
+  build-depends:
+      base                 >= 4.14 && < 5
+    , aeson                >= 2.0
+    , bytestring           >= 0.10
+    , containers           >= 0.6
+    , http-client          >= 0.7
+    , http-client-tls      >= 0.3
+    , http-types           >= 1.12
+    , text                 >= 1.2
+    , unordered-containers >= 0.2

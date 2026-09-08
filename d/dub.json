@@ -1,0 +1,10 @@
+{
+    "name": "antybrowser",
+    "description": "Official Antybrowser SDK — D client for the Antybrowser Local API",
+    "authors": ["Antybrowser.com"],
+    "license": "MIT",
+    "libs": ["curl"],
+    "sourcePaths": ["source"],
+    "targetType": "library",
+    "dflags": ["-version=Have_curl"]
+}

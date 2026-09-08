@@ -5,7 +5,7 @@
 <h1 align="center">Antybrowser SDK</h1>
 
 <p align="center">
-  Official SDKs for the Antybrowser Local API — 7 languages, one API.
+  Official SDKs for the Antybrowser Local API — 23 languages, one API.
 </p>
 
 <p align="center">
@@ -35,6 +35,21 @@
 | **Perl** | CPAN | `cpan Antybrowser::SDK` |
 | **Java** | Maven Central | See [Java README](java/README.md) |
 | **Kotlin** | Maven Central | See [Kotlin README](kotlin/README.md) |
+| **Rust** | crates.io | `cargo add antybrowser` |
+| **Dart / Flutter** | pub.dev | `dart pub add antybrowser` |
+| **Swift** | Swift Package Manager | See [Swift README](swift/README.md) |
+| **Elixir** | Hex | `mix deps.get antybrowser` |
+| **Lua** | LuaRocks | `luarocks install antybrowser` |
+| **Julia** | Julia Packages | `Pkg.add("Antybrowser")` |
+| **R** | CRAN | `install.packages("antybrowser")` |
+| **Haskell** | Hackage | `cabal install antybrowser-sdk` |
+| **OCaml** | OPAM | `opam install antybrowser` |
+| **Nim** | Nimble | `nimble install antybrowser` |
+| **Zig** | Zig Network | See [Zig README](zig/README.md) |
+| **C / C++** | vcpkg / Conan | See [C++ README](cpp/README.md) |
+| **PureScript** | Pursuit | `spago install antybrowser` |
+| **Raku** | Raku Modules | `zef install Antybrowser::SDK` |
+| **D** | DUB | `dub fetch antybrowser` |
 
 ## Prerequisites
 
@@ -131,6 +146,39 @@ var result = client.startProfile(123);
 System.out.println("Debug port: " + result.getDebugPort());
 ```
 
+### Rust
+
+```rust
+use antybrowser::AntybrowserClient;
+
+let client = AntybrowserClient::new("your_key")?;
+let profiles = client.get_profiles()?;
+let result = client.start_profile(123)?;
+println!("Debug port: {:?}", result.data.debug_port);
+```
+
+### Haskell
+
+```haskell
+import Antybrowser
+
+main = do
+  client <- newClient "your_key" Nothing Nothing Nothing
+  profiles <- getProfiles client
+  print profiles
+```
+
+### C++
+
+```cpp
+#include <antybrowser/antybrowser.hpp>
+
+antybrowser::AntybrowserClient client("your_key");
+auto profiles = client.getProfiles();
+auto result = client.startProfile(123);
+std::cout << "Debug port: " << result["data"]["debugPort"] << std::endl;
+```
+
 ---
 
 ## Configuration
@@ -148,7 +196,7 @@ Every SDK supports the same options:
 
 ## API Methods
 
-All 7 SDKs implement the same 26 endpoints:
+All 23 SDKs implement the same 26 endpoints:
 
 ### System
 | Method | Description |
@@ -234,7 +282,7 @@ See [PUBLISHING.md](PUBLISHING.md) for the full checklist — registry tokens, f
 
 ## Additional Registries & Backlinks
 
-Beyond the 7 language registries, list your package here for discoverability:
+Beyond the 23 language registries, list your package here for discoverability:
 
 | Platform | Type | Action |
 |----------|------|--------|
@@ -259,16 +307,31 @@ Beyond the 7 language registries, list your package here for discoverability:
 
 ```
 SDK/
-├── npm/          @antybrowser/sdk (TypeScript)
-├── py/           antybrowser (Python)
-├── nuget/        Antybrowser.SDK (C#/.NET)
-├── go/           github.com/antybrowser/SDK/go
-├── php/          antybrowser/sdk (Composer)
-├── ruby/         antybrowser (RubyGems)
-├── perl/         Antybrowser::SDK (CPAN)
-├── java/         com.antybrowser:antybrowser-sdk (Maven)
-├── kotlin/       com.antybrowser:antybrowser-sdk (Maven/Kotlin DSL)
-└── .github/      CI/CD workflows
+├── npm/            @antybrowser/sdk (TypeScript/JavaScript)
+├── py/             antybrowser (Python)
+├── nuget/          Antybrowser.SDK (C#/.NET)
+├── go/             github.com/antybrowser/SDK/go
+├── php/            antybrowser/sdk (Composer)
+├── ruby/           antybrowser (RubyGems)
+├── perl/           Antybrowser::SDK (CPAN)
+├── java/           com.antybrowser:antybrowser-sdk (Maven)
+├── kotlin/         com.antybrowser:antybrowser-sdk (Maven/Kotlin DSL)
+├── rust/           antybrowser (crates.io)
+├── dart/           antybrowser (pub.dev)
+├── swift/          AntybrowserSDK (Swift Package Manager)
+├── elixir/         antybrowser (Hex)
+├── lua/            antybrowser (LuaRocks)
+├── julia/          Antybrowser (Julia Packages)
+├── r/              antybrowser (CRAN)
+├── haskell/        antybrowser-sdk (Hackage)
+├── ocaml/          antybrowser (OPAM)
+├── nim/            antybrowser (Nimble)
+├── zig/            antybrowser (Zig Network)
+├── cpp/            antybrowser (vcpkg/Conan)
+├── purescript/     antybrowser (Pursuit)
+├── raku/           Antybrowser::SDK (Raku Modules)
+├── d/              antybrowser (DUB)
+└── .github/        CI/CD workflows
 ```
 
 ## License
