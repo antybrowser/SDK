@@ -1,5 +1,5 @@
 # Package
-packageName = "antybrowser"
+packageName = "antybrowser-sdk"
 version = "1.0.3"
 author = "Antybrowser.com"
 description = "Official Antybrowser SDK - Nim client for the Antybrowser Local API"
