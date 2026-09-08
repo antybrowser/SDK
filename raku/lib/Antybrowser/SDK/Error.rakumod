@@ -1,6 +1,6 @@
 unit module Antybrowser::SDK::Error;
 
-class AntybrowserError is Exception {
+class AntybrowserError is Exception is export {
     has Str $.message;
     has Int $.status-code;
     has Str $.response-body;

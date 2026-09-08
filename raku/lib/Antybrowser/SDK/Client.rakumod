@@ -1,6 +1,7 @@
 unit module Antybrowser::SDK::Client;
 
 use HTTP::UserAgent;
+use HTTP::Status;
 use JSON::Fast;
 use Antybrowser::SDK::Error;
 use Antybrowser::SDK::Types;
@@ -173,7 +174,7 @@ class AntybrowserClient is export {
         try {
             $resp = $!ua.request($req);
             CATCH {
-                when X::HTTP::UserAgent::ConnectionError {
+                default {
                     AntybrowserError.new(
                         message => "Failed to connect to Antybrowser Local API at $!base-url. Is Antybrowser running?\n{$_.message}",
                     ).throw;
@@ -195,7 +196,7 @@ class AntybrowserClient is export {
         try {
             $resp = $!ua.request($req);
             CATCH {
-                when X::HTTP::UserAgent::ConnectionError {
+                default {
                     AntybrowserError.new(
                         message => "Failed to connect to Antybrowser Local API at $!base-url. Is Antybrowser running?\n{$_.message}",
                     ).throw;
@@ -217,7 +218,7 @@ class AntybrowserClient is export {
         try {
             $resp = $!ua.request($req);
             CATCH {
-                when X::HTTP::UserAgent::ConnectionError {
+                default {
                     AntybrowserError.new(
                         message => "Failed to connect to Antybrowser Local API at $!base-url. Is Antybrowser running?\n{$_.message}",
                     ).throw;
@@ -238,7 +239,7 @@ class AntybrowserClient is export {
         try {
             $resp = $!ua.request($req);
             CATCH {
-                when X::HTTP::UserAgent::ConnectionError {
+                default {
                     AntybrowserError.new(
                         message => "Failed to connect to Antybrowser Local API at $!base-url. Is Antybrowser running?\n{$_.message}",
                     ).throw;
