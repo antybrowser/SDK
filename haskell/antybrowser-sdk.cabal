@@ -10,7 +10,6 @@ license-file:       LICENSE
 author:             Antybrowser.com
 maintainer:         support@antybrowser.com
 homepage:           https://antybrowser.com
-repository:         https://github.com/antybrowser/SDK
 bug-reports:        https://github.com/antybrowser/SDK/issues
 category:           Network, Web
 build-type:         Simple
