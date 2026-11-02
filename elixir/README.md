@@ -74,14 +74,6 @@ Antybrowser.new(api_key, opts \\ [])
 - `opts` — keyword list:
   - `:port` — API port (default: `5173`)
 
-### System
-| Function | Description |
-|----------|-------------|
-| `get_status/1` | Check API connection status |
-| `get_settings/1` | Get current application settings |
-| `get_sync_status/1` | Get sync queue status |
-| `refresh_sync/2` | Trigger a sync refresh (optional `profile_id`) |
-
 ### Profiles
 | Function | Description |
 |----------|-------------|
@@ -112,7 +104,6 @@ Antybrowser.new(api_key, opts \\ [])
 |----------|-------------|
 | `get_proxies/1` | List proxies |
 | `create_proxy/2` | Create a proxy |
-| `check_proxy/2` | Check proxy connectivity |
 | `delete_proxy/2` | Delete a proxy |
 
 ### Extensions
@@ -120,8 +111,6 @@ Antybrowser.new(api_key, opts \\ [])
 |----------|-------------|
 | `get_extensions/1` | List extensions |
 | `delete_extension/2` | Delete an extension |
-| `get_profile_extensions/2` | List profile extensions |
-| `set_profile_extensions/3` | Set profile extensions |
 
 ## 💡 Examples
 
@@ -137,20 +126,6 @@ client = Antybrowser.new("your_api_key")
 
 {:ok, result} = Antybrowser.start_profile(client, profile["id"])
 IO.puts("Debug port: #{result["data"]["debugPort"]}")
-```
-
-### Bulk Proxy Check
-
-```elixir
-proxies = [
-  %{host: "1.2.3.4", port: 8080, type: "socks5"},
-  %{host: "5.6.7.8", port: 1080, type: "socks5"}
-]
-
-{:ok, results} = Antybrowser.check_proxies_bulk(client, proxies)
-Enum.each(results, fn r ->
-  IO.puts("#{r["host"]}:#{r["port"]} — #{if r["alive"], do: "OK", else: "Failed"}")
-end)
 ```
 
 ### Run an Automation

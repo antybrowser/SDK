@@ -63,28 +63,6 @@ let put ?body client path = do_request ?body client `PUT path
 
 let delete client path = do_request client `DELETE path
 
-(* ── System ────────────────────────────────────────────────────────────── *)
-
-let get_status client =
-  get client "/api/status"
-  >|= Antybrowser_types.status_response_of_json
-
-let get_settings client =
-  get client "/api/settings"
-  >|= Antybrowser_types.settings_of_json
-
-let get_sync_status client =
-  get client "/api/sync/status"
-  >|= Antybrowser_types.sync_status_of_json
-
-let refresh_sync ?profile_id client =
-  let body =
-    match profile_id with
-    | None -> `Assoc []
-    | Some id -> `Assoc [ ("profileId", `Int id) ]
-  in
-  post ~body client "/api/sync/refresh"
-
 (* ── Profiles ──────────────────────────────────────────────────────────── *)
 
 let get_profiles client =
@@ -161,28 +139,6 @@ let create_proxy client req =
   post ~body client "/api/proxies"
   >|= Antybrowser_types.proxy_of_json
 
-let check_proxy client ~host ~port ?username ?password ?type_ () =
-  let base = [ ("host", `String host); ("port", `Int port) ] in
-  let with_user =
-    match username with None -> base | Some u -> ("username", `String u) :: base
-  in
-  let with_pass =
-    match password with None -> with_user | Some p -> ("password", `String p) :: with_user
-  in
-  let with_type =
-    match type_ with None -> with_pass | Some t -> ("type", `String t) :: with_pass
-  in
-  post ~body:(`Assoc with_type) client "/api/proxies/check"
-  >|= Antybrowser_types.proxy_check_result_of_json
-
-let check_proxies_bulk client proxies =
-  let body = `Assoc [ ("proxies", `List proxies) ] in
-  post ~body client "/api/proxies/check-bulk"
-  >|= fun json ->
-  Yojson.Safe.Util.member "results" json
-  |> Yojson.Safe.Util.to_list
-  |> List.map Antybrowser_types.proxy_check_result_of_json
-
 let delete_proxy client id =
   delete client (Printf.sprintf "/api/proxies/%d" id)
 
@@ -195,18 +151,3 @@ let get_extensions client =
 
 let delete_extension client id =
   delete client (Printf.sprintf "/api/extensions/%d" id)
-
-let get_profile_extensions client ~profile_id ?(details = false) () =
-  let path =
-    Printf.sprintf "/api/profiles/%d/extensions?details=%b" profile_id details
-  in
-  get client path
-  >|= fun json ->
-  Yojson.Safe.Util.to_list json |> List.map Antybrowser_types.extension_of_json
-
-let set_profile_extensions client ~profile_id extension_ids =
-  let body =
-    `Assoc
-      [ ("extensionIds", `List (List.map (fun i -> `Int i) extension_ids)) ]
-  in
-  post ~body client (Printf.sprintf "/api/profiles/%d/extensions" profile_id)

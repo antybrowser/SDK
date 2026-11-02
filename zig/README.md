@@ -55,11 +55,6 @@ pub fn main() !void {
     // client = client.withPort(5174);
     // client = client.withBaseUrl("http://my-host:5173");
 
-    // Get server status
-    const status = try client.getStatus();
-    std.debug.print("Version: {s}\n", .{status.version orelse "unknown"});
-    std.debug.print("Running: {}\n", .{status.running orelse false});
-
     // List all profiles
     const profiles = try client.listProfiles();
     for (profiles.data orelse &[_]antybrowser.types.Profile{}) |profile| {
@@ -96,7 +91,6 @@ pub fn main() !void {
 
 | Method | HTTP | Endpoint | Description |
 |--------|------|----------|-------------|
-| `getStatus` | GET | `/api/status` | Get server status |
 | `listProfiles` | GET | `/api/profiles` | List all profiles |
 | `createProfile` | POST | `/api/profiles` | Create a new profile |
 | `getProfile` | GET | `/api/profiles/{id}` | Get profile by ID |
@@ -109,7 +103,6 @@ pub fn main() !void {
 | `createProxy` | POST | `/api/proxies` | Create a new proxy |
 | `getProxy` | GET | `/api/proxies/{id}` | Get proxy by ID |
 | `deleteProxy` | DELETE | `/api/proxies/{id}` | Delete a proxy |
-| `checkProxy` | POST | `/api/proxies/check` | Check proxy connectivity |
 | `listGroups` | GET | `/api/groups` | List all groups |
 | `createGroup` | POST | `/api/groups` | Create a new group |
 | `getGroup` | GET | `/api/groups/{id}` | Get group by ID |
@@ -121,8 +114,6 @@ pub fn main() !void {
 | `runAutomation` | POST | `/api/automations/run` | Run an automation |
 | `stopAutomation` | POST | `/api/automations/{id}/stop` | Stop an automation |
 | `getAutomationStatus` | GET | `/api/automations/{id}/status` | Get automation status |
-| `getSettings` | GET | `/api/settings` | Get settings |
-| `updateSettings` | PUT | `/api/settings` | Update settings |
 
 ### Types
 
@@ -133,15 +124,12 @@ All types are defined in `src/types.zig`:
 - `DuplicateProfileRequest` — Options for duplicating a profile
 - `Proxy` — Proxy configuration
 - `CreateProxyRequest` — Request body for creating proxies
-- `ProxyCheckResult` — Result of a proxy connectivity check
 - `Group` — Profile group
 - `CreateGroupRequest` — Request body for creating/updating groups
 - `Extension` — Browser extension
 - `Automation` — Automation script
 - `RunAutomationRequest` — Request body for running automations
 - `RunAutomationResult` — Result of starting an automation
-- `Settings` — Application settings
-- `StatusResponse` — Server status information
 - `StartProfileResponse` — Response from starting a profile
 - `ApiResponse` — Generic API response
 

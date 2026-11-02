@@ -91,15 +91,6 @@ let client = AntybrowserClient::new("my_key")
 
 ## API Reference
 
-### System
-
-| Method | Description |
-|--------|-------------|
-| `get_status()` | Check API connection status |
-| `get_settings()` | Get current settings |
-| `get_sync_status()` | Get sync queue status |
-| `refresh_sync(profile_id)` | Trigger a sync refresh |
-
 ### Profiles
 
 | Method | Description |
@@ -134,8 +125,6 @@ let client = AntybrowserClient::new("my_key")
 |--------|-------------|
 | `get_proxies()` | List all proxies |
 | `create_proxy(request)` | Add a proxy (validates connection) |
-| `check_proxy(data)` | Check a single proxy |
-| `check_proxies_bulk(proxies)` | Check multiple proxies |
 | `delete_proxy(id)` | Delete a proxy |
 
 ### Extensions
@@ -144,8 +133,6 @@ let client = AntybrowserClient::new("my_key")
 |--------|-------------|
 | `get_extensions()` | List all extensions |
 | `delete_extension(id)` | Delete an extension |
-| `get_profile_extensions(id)` | Get extensions for a profile |
-| `set_profile_extensions(id, ids)` | Set extensions for a profile |
 
 ## Examples
 
@@ -163,24 +150,6 @@ let profile = client.create_profile(antybrowser::CreateProfileRequest {
 
 let result = client.start_profile(profile.id).await?;
 println!("Debug port: {}", result.data.debug_port);
-```
-
-### Bulk proxy check
-
-```rust
-let results = client.check_proxies_bulk(vec![
-    "user:pass:1.2.3.4:8080".to_string(),
-    "5.6.7.8:3128:socks5".to_string(),
-]).await?;
-
-for (i, r) in results.iter().enumerate() {
-    let label = if r.success {
-        r.details.as_ref().map(|d| d.country.as_deref().unwrap_or("?")).unwrap_or("?")
-    } else {
-        r.error_message.as_deref().unwrap_or("unknown")
-    };
-    println!("Proxy {}: {}", i + 1, label);
-}
 ```
 
 ### Run an automation

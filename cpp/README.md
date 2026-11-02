@@ -45,9 +45,6 @@ Copy the `include/antybrowser/` directory into your project and link libcurl.
 int main() {
     antybrowser::AntybrowserClient client("YOUR_API_KEY");
 
-    auto status = client.get_status();
-    std::cout << "Version: " << status.version << "\n";
-
     auto profiles = client.get_profiles();
     for (const auto& p : profiles) {
         std::cout << p.name << "\n";
@@ -79,10 +76,6 @@ cmake --build .
 
 | Endpoint | Method |
 |---|---|
-| GET /api/status | `get_status()` |
-| GET /api/settings | `get_settings()` |
-| GET /api/sync/status | `get_sync_status()` |
-| POST /api/sync/refresh | `refresh_sync()` |
 | GET /api/profiles | `get_profiles()` |
 | POST /api/profiles | `create_profile()` |
 | PUT /api/profiles/:id | `update_profile()` |
@@ -98,13 +91,9 @@ cmake --build .
 | DELETE /api/groups/:id | `delete_group()` |
 | GET /api/proxies | `get_proxies()` |
 | POST /api/proxies | `create_proxy()` |
-| POST /api/proxies/check | `check_proxy()` |
-| POST /api/proxies/check-bulk | `check_proxies_bulk()` |
 | DELETE /api/proxies/:id | `delete_proxy()` |
 | GET /api/extensions | `get_extensions()` |
 | DELETE /api/extensions/:id | `delete_extension()` |
-| GET /api/profiles/:id/extensions | `get_profile_extensions()` |
-| POST /api/profiles/:id/extensions | `set_profile_extensions()` |
 
 ## License
 

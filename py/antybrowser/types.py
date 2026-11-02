@@ -1,14 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional, Union
-
-
-@dataclass
-class StatusResponse:
-    success: bool
-    status: str
-    version: str
+from typing import Any, Dict, Optional, Union
 
 
 @dataclass
@@ -30,6 +23,8 @@ class StartProfileResponse:
 class Profile:
     id: int
     name: str
+    user_id: Optional[int] = None
+    user_guid: Optional[str] = None
     directory_name: Optional[str] = None
     group_id: Optional[int] = None
     proxy_id: Optional[int] = None
@@ -37,27 +32,56 @@ class Profile:
     browser_version: Optional[str] = None
     os_fingerprint: Optional[str] = None
     screen_resolution: Optional[str] = None
+    screen_maximizable: Optional[bool] = None
     language: Optional[str] = None
     accept_language: Optional[str] = None
     timezone: Optional[str] = None
     use_fingerprint: Optional[bool] = None
+    #: Server-owned noise seed. Read-only — never sent on create/update.
     fingerprint_id: Optional[str] = None
+    # --- Fingerprint surface ---
+    platform_version: Optional[str] = None
+    brand_version: Optional[str] = None
+    engine_version: Optional[str] = None
+    gpu_vendor: Optional[str] = None
+    gpu_model: Optional[str] = None
+    hardware_concurrency: Optional[Union[str, int]] = None
+    device_memory: Optional[Union[str, int]] = None
+    device_scale_factor: Optional[Union[str, int]] = None
+    mobile_model: Optional[str] = None
+    mobile_version: Optional[Union[str, int]] = None
+    ch_platform: Optional[str] = None
+    ch_platform_version: Optional[str] = None
+    ch_arch: Optional[str] = None
+    ch_bitness: Optional[str] = None
+    ch_model: Optional[str] = None
+    ch_mobile: Optional[Union[str, int]] = None
+    disable_spoofing: Optional[str] = None
+    # --- Geolocation spoof ---
+    location_mode: Optional[str] = None
+    location_latitude: Optional[str] = None
+    location_longitude: Optional[str] = None
+    location_accuracy: Optional[str] = None
+    user_agent: Optional[str] = None
     restore_session: Optional[bool] = None
     low_bandwidth: Optional[bool] = None
     notes: Optional[str] = None
     start_url: Optional[str] = None
     custom_flags: Optional[str] = None
     status: Optional[str] = None
+    status_machine_id: Optional[str] = None
+    status_heartbeat_at: Optional[str] = None
     needs_sync: Optional[bool] = None
     last_pid: Optional[int] = None
     debug_port: Optional[int] = None
+    tabs_snapshot: Optional[str] = None
+    hidden: Optional[bool] = None
+    trash: Optional[bool] = None
+    deleted_at: Optional[str] = None
     created_at: Optional[str] = None
     updated_at: Optional[str] = None
     last_synced_at: Optional[str] = None
     s3_key: Optional[str] = None
-    trash: Optional[bool] = None
-    deleted_at: Optional[str] = None
-    hidden: Optional[bool] = None
     extra: Dict[str, Any] = field(default_factory=dict)
 
     @classmethod
@@ -67,6 +91,8 @@ class Profile:
         return cls(
             id=d["id"],
             name=d["name"],
+            user_id=d.get("userId"),
+            user_guid=d.get("userGuid"),
             directory_name=d.get("directoryName"),
             group_id=d.get("groupId"),
             proxy_id=d.get("proxyId"),
@@ -74,27 +100,53 @@ class Profile:
             browser_version=d.get("browserVersion"),
             os_fingerprint=d.get("osFingerprint"),
             screen_resolution=d.get("screenResolution"),
+            screen_maximizable=d.get("screenMaximizable"),
             language=d.get("language"),
             accept_language=d.get("acceptLanguage"),
             timezone=d.get("timezone"),
             use_fingerprint=d.get("useFingerprint"),
             fingerprint_id=d.get("fingerprintId"),
+            platform_version=d.get("platformVersion"),
+            brand_version=d.get("brandVersion"),
+            engine_version=d.get("engineVersion"),
+            gpu_vendor=d.get("gpuVendor"),
+            gpu_model=d.get("gpuModel"),
+            hardware_concurrency=d.get("hardwareConcurrency"),
+            device_memory=d.get("deviceMemory"),
+            device_scale_factor=d.get("deviceScaleFactor"),
+            mobile_model=d.get("mobileModel"),
+            mobile_version=d.get("mobileVersion"),
+            ch_platform=d.get("chPlatform"),
+            ch_platform_version=d.get("chPlatformVersion"),
+            ch_arch=d.get("chArch"),
+            ch_bitness=d.get("chBitness"),
+            ch_model=d.get("chModel"),
+            ch_mobile=d.get("chMobile"),
+            disable_spoofing=d.get("disableSpoofing"),
+            location_mode=d.get("locationMode"),
+            location_latitude=d.get("locationLatitude"),
+            location_longitude=d.get("locationLongitude"),
+            location_accuracy=d.get("locationAccuracy"),
+            user_agent=d.get("userAgent"),
             restore_session=d.get("restoreSession"),
             low_bandwidth=d.get("lowBandwidth"),
             notes=d.get("notes"),
             start_url=d.get("startUrl"),
             custom_flags=d.get("customFlags"),
             status=d.get("status"),
+            status_machine_id=d.get("statusMachineId"),
+            status_heartbeat_at=d.get("statusHeartbeatAt"),
             needs_sync=d.get("needsSync"),
             last_pid=d.get("lastPid"),
             debug_port=d.get("debugPort"),
+            tabs_snapshot=d.get("tabsSnapshot"),
+            hidden=d.get("hidden"),
+            trash=d.get("trash"),
+            deleted_at=d.get("deletedAt"),
             created_at=d.get("createdAt"),
             updated_at=d.get("updatedAt"),
             last_synced_at=d.get("lastSyncedAt"),
             s3_key=d.get("s3Key"),
-            trash=d.get("trash"),
-            deleted_at=d.get("deletedAt"),
-            hidden=d.get("hidden"),
             extra=extra,
         )
 
@@ -106,35 +158,71 @@ class CreateProfileRequest:
     group_id: Optional[int] = None
     proxy_id: Optional[int] = None
     browser_type: Optional[str] = None
+    browser_version: Optional[str] = None
     os_fingerprint: Optional[str] = None
     screen_resolution: Optional[str] = None
+    screen_maximizable: Optional[bool] = None
     language: Optional[str] = None
     accept_language: Optional[str] = None
     timezone: Optional[str] = None
     use_fingerprint: Optional[bool] = None
-    fingerprint_id: Optional[str] = None
+    platform_version: Optional[str] = None
+    brand_version: Optional[str] = None
+    engine_version: Optional[str] = None
+    gpu_vendor: Optional[str] = None
+    gpu_model: Optional[str] = None
+    hardware_concurrency: Optional[Union[str, int]] = None
+    device_memory: Optional[Union[str, int]] = None
+    device_scale_factor: Optional[Union[str, int]] = None
+    mobile_model: Optional[str] = None
+    mobile_version: Optional[Union[str, int]] = None
+    ch_platform: Optional[str] = None
+    ch_platform_version: Optional[str] = None
+    ch_arch: Optional[str] = None
+    ch_bitness: Optional[str] = None
+    ch_model: Optional[str] = None
+    ch_mobile: Optional[Union[str, int]] = None
+    disable_spoofing: Optional[str] = None
+    location_mode: Optional[str] = None
+    location_latitude: Optional[str] = None
+    location_longitude: Optional[str] = None
+    location_accuracy: Optional[str] = None
     restore_session: Optional[bool] = None
     low_bandwidth: Optional[bool] = None
     notes: Optional[str] = None
     start_url: Optional[str] = None
     custom_flags: Optional[str] = None
+    status: Optional[str] = None
+    hidden: Optional[bool] = None
 
     def to_dict(self) -> Dict[str, Any]:
         d: Dict[str, Any] = {"name": self.name}
         mapping = {
             "directory_name": "directoryName", "group_id": "groupId",
             "proxy_id": "proxyId", "browser_type": "browserType",
-            "os_fingerprint": "osFingerprint", "screen_resolution": "screenResolution",
+            "browser_version": "browserVersion", "os_fingerprint": "osFingerprint",
+            "screen_resolution": "screenResolution",
+            "screen_maximizable": "screenMaximizable",
             "accept_language": "acceptLanguage", "use_fingerprint": "useFingerprint",
-            "fingerprint_id": "fingerprintId", "restore_session": "restoreSession",
-            "low_bandwidth": "lowBandwidth", "start_url": "startUrl",
-            "custom_flags": "customFlags",
+            "platform_version": "platformVersion", "brand_version": "brandVersion",
+            "engine_version": "engineVersion", "gpu_vendor": "gpuVendor",
+            "gpu_model": "gpuModel", "hardware_concurrency": "hardwareConcurrency",
+            "device_memory": "deviceMemory", "device_scale_factor": "deviceScaleFactor",
+            "mobile_model": "mobileModel", "mobile_version": "mobileVersion",
+            "ch_platform": "chPlatform", "ch_platform_version": "chPlatformVersion",
+            "ch_arch": "chArch", "ch_bitness": "chBitness", "ch_model": "chModel",
+            "ch_mobile": "chMobile", "disable_spoofing": "disableSpoofing",
+            "location_mode": "locationMode", "location_latitude": "locationLatitude",
+            "location_longitude": "locationLongitude",
+            "location_accuracy": "locationAccuracy",
+            "restore_session": "restoreSession", "low_bandwidth": "lowBandwidth",
+            "start_url": "startUrl", "custom_flags": "customFlags",
         }
         for py_key, api_key in mapping.items():
             val = getattr(self, py_key)
             if val is not None:
                 d[api_key] = val
-        for attr in ("language", "timezone", "notes"):
+        for attr in ("language", "timezone", "notes", "status", "hidden"):
             val = getattr(self, attr)
             if val is not None:
                 d[attr] = val
@@ -190,13 +278,6 @@ class CreateProxyRequest:
         if self.password is not None:
             d["password"] = self.password
         return d
-
-
-@dataclass
-class ProxyCheckResult:
-    success: bool
-    details: Optional[Dict[str, Any]] = None
-    error_message: Optional[str] = None
 
 
 @dataclass
@@ -294,43 +375,6 @@ class RunAutomationResult:
     success: bool
     message: str
     variables: Optional[Dict[str, Any]] = None
-
-
-@dataclass
-class Settings:
-    id: Optional[int] = None
-    chrome_path: Optional[str] = None
-    api_key: Optional[str] = None
-    language: Optional[str] = None
-    extra: Dict[str, Any] = field(default_factory=dict)
-
-    @classmethod
-    def from_dict(cls, d: Dict[str, Any]) -> Settings:
-        return cls(
-            id=d.get("id"), chrome_path=d.get("chromePath"),
-            api_key=d.get("apiKey"), language=d.get("language"),
-            extra={k: v for k, v in d.items() if k not in ("id", "chromePath", "apiKey", "language")},
-        )
-
-
-@dataclass
-class SyncStatus:
-    total: int
-    completed: int
-    is_syncing: bool
-    active: List[Any] = field(default_factory=list)
-    active_extensions: List[Any] = field(default_factory=list)
-    errors: Dict[str, Any] = field(default_factory=dict)
-    progress: Dict[str, Any] = field(default_factory=dict)
-
-    @classmethod
-    def from_dict(cls, d: Dict[str, Any]) -> SyncStatus:
-        return cls(
-            total=d.get("total", 0), completed=d.get("completed", 0),
-            is_syncing=d.get("isSyncing", False), active=d.get("active", []),
-            active_extensions=d.get("activeExtensions", []),
-            errors=d.get("errors", {}), progress=d.get("progress", {}),
-        )
 
 
 @dataclass

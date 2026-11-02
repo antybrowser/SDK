@@ -2,26 +2,6 @@ unit module Antybrowser::SDK::Types;
 
 use JSON::Fast;
 
-# ─── StatusResponse ────────────────────────────────────────────────────────
-
-class StatusResponse is export {
-    has Bool $.success;
-    has Str $.status;
-    has Str $.version;
-
-    method from-json($json) {
-        self.bless(
-            success => $json<success>.Bool,
-            status  => $json<status> // '',
-            version => $json<version> // '',
-        );
-    }
-
-    method to-json() {
-        { success => $!success, status => $!status, version => $!version };
-    }
-}
-
 # ─── StartProfileResponse ──────────────────────────────────────────────────
 
 class StartProfileData is export {
@@ -61,6 +41,8 @@ class StartProfileResponse is export {
 
 class Profile is export {
     has Int $.id;
+    has Int $.user-id;
+    has Str $.user-guid;
     has Str $.name;
     has Str $.directory-name;
     has Int $.group-id;
@@ -69,20 +51,47 @@ class Profile is export {
     has Str $.browser-version;
     has Str $.os-fingerprint;
     has Str $.screen-resolution;
+    has Bool $.screen-maximizable;
     has Str $.language;
     has Str $.accept-language;
     has Str $.timezone;
     has Bool $.use-fingerprint;
+    # Server-owned noise seed. Read-only — never sent on create/update.
     has Str $.fingerprint-id;
+    has Str $.platform-version;
+    has Str $.brand-version;
+    has Str $.engine-version;
+    has Str $.gpu-vendor;
+    has Str $.gpu-model;
+    has $.hardware-concurrency;
+    has $.device-memory;
+    has $.device-scale-factor;
+    has Str $.mobile-model;
+    has $.mobile-version;
+    has Str $.ch-platform;
+    has Str $.ch-platform-version;
+    has Str $.ch-arch;
+    has Str $.ch-bitness;
+    has Str $.ch-model;
+    has $.ch-mobile;
+    has Str $.disable-spoofing;
+    has Str $.location-mode;
+    has Str $.location-latitude;
+    has Str $.location-longitude;
+    has Str $.location-accuracy;
+    has Str $.user-agent;
     has Bool $.restore-session;
     has Bool $.low-bandwidth;
     has Str $.notes;
     has Str $.start-url;
     has Str $.custom-flags;
     has Str $.status;
+    has Str $.status-machine-id;
+    has Str $.status-heartbeat-at;
     has Bool $.needs-sync;
     has Int $.last-pid;
     has Int $.debug-port;
+    has Str $.tabs-snapshot;
     has Str $.created-at;
     has Str $.updated-at;
     has Str $.last-synced-at;
@@ -93,42 +102,72 @@ class Profile is export {
 
     method from-json($json) {
         self.bless(
-            id                => $json<id>.Int,
-            name              => $json<name> // '',
-            directory-name    => $json<directoryName>,
-            group-id          => $json<groupId>,
-            proxy-id          => $json<proxyId>,
-            browser-type      => $json<browserType>,
-            browser-version   => $json<browserVersion>,
-            os-fingerprint    => $json<osFingerprint>,
-            screen-resolution => $json<screenResolution>,
-            language          => $json<language>,
-            accept-language   => $json<acceptLanguage>,
-            timezone          => $json<timezone>,
-            use-fingerprint   => $json<useFingerprint>,
-            fingerprint-id    => $json<fingerprintId>,
-            restore-session   => $json<restoreSession>,
-            low-bandwidth     => $json<lowBandwidth>,
-            notes             => $json<notes>,
-            start-url         => $json<startUrl>,
-            custom-flags      => $json<customFlags>,
-            status            => $json<status>,
-            needs-sync        => $json<needsSync>,
-            last-pid          => $json<lastPid>,
-            debug-port        => $json<debugPort>,
-            created-at        => $json<createdAt>,
-            updated-at        => $json<updatedAt>,
-            last-synced-at    => $json<lastSyncedAt>,
-            s3-key            => $json<s3Key>,
-            trash             => $json<trash>,
-            deleted-at        => $json<deletedAt>,
-            hidden            => $json<hidden>,
+            id                    => $json<id>.Int,
+            user-id               => $json<userId>,
+            user-guid             => $json<userGuid>,
+            name                  => $json<name> // '',
+            directory-name        => $json<directoryName>,
+            group-id              => $json<groupId>,
+            proxy-id              => $json<proxyId>,
+            browser-type          => $json<browserType>,
+            browser-version       => $json<browserVersion>,
+            os-fingerprint        => $json<osFingerprint>,
+            screen-resolution     => $json<screenResolution>,
+            screen-maximizable    => $json<screenMaximizable>,
+            language              => $json<language>,
+            accept-language       => $json<acceptLanguage>,
+            timezone              => $json<timezone>,
+            use-fingerprint       => $json<useFingerprint>,
+            fingerprint-id        => $json<fingerprintId>,
+            platform-version      => $json<platformVersion>,
+            brand-version         => $json<brandVersion>,
+            engine-version        => $json<engineVersion>,
+            gpu-vendor            => $json<gpuVendor>,
+            gpu-model             => $json<gpuModel>,
+            hardware-concurrency  => $json<hardwareConcurrency>,
+            device-memory         => $json<deviceMemory>,
+            device-scale-factor   => $json<deviceScaleFactor>,
+            mobile-model          => $json<mobileModel>,
+            mobile-version        => $json<mobileVersion>,
+            ch-platform           => $json<chPlatform>,
+            ch-platform-version   => $json<chPlatformVersion>,
+            ch-arch               => $json<chArch>,
+            ch-bitness            => $json<chBitness>,
+            ch-model              => $json<chModel>,
+            ch-mobile             => $json<chMobile>,
+            disable-spoofing      => $json<disableSpoofing>,
+            location-mode         => $json<locationMode>,
+            location-latitude     => $json<locationLatitude>,
+            location-longitude    => $json<locationLongitude>,
+            location-accuracy     => $json<locationAccuracy>,
+            user-agent            => $json<userAgent>,
+            restore-session       => $json<restoreSession>,
+            low-bandwidth         => $json<lowBandwidth>,
+            notes                 => $json<notes>,
+            start-url             => $json<startUrl>,
+            custom-flags          => $json<customFlags>,
+            status                => $json<status>,
+            status-machine-id     => $json<statusMachineId>,
+            status-heartbeat-at   => $json<statusHeartbeatAt>,
+            needs-sync            => $json<needsSync>,
+            last-pid              => $json<lastPid>,
+            debug-port            => $json<debugPort>,
+            tabs-snapshot         => $json<tabsSnapshot>,
+            created-at            => $json<createdAt>,
+            updated-at            => $json<updatedAt>,
+            last-synced-at        => $json<lastSyncedAt>,
+            s3-key                => $json<s3Key>,
+            trash                 => $json<trash>,
+            deleted-at            => $json<deletedAt>,
+            hidden                => $json<hidden>,
         );
     }
 
     method to-json() {
         my %h;
         %h<id> = $!id;
+        %h<userId> = $_ with $!user-id;
+        %h<userGuid> = $_ with $!user-guid;
         %h<name> = $!name;
         %h<directoryName> = $_ with $!directory-name;
         %h<groupId> = $_ with $!group-id;
@@ -137,20 +176,46 @@ class Profile is export {
         %h<browserVersion> = $_ with $!browser-version;
         %h<osFingerprint> = $_ with $!os-fingerprint;
         %h<screenResolution> = $_ with $!screen-resolution;
+        %h<screenMaximizable> = $_ with $!screen-maximizable;
         %h<language> = $_ with $!language;
         %h<acceptLanguage> = $_ with $!accept-language;
         %h<timezone> = $_ with $!timezone;
         %h<useFingerprint> = $_ with $!use-fingerprint;
         %h<fingerprintId> = $_ with $!fingerprint-id;
+        %h<platformVersion> = $_ with $!platform-version;
+        %h<brandVersion> = $_ with $!brand-version;
+        %h<engineVersion> = $_ with $!engine-version;
+        %h<gpuVendor> = $_ with $!gpu-vendor;
+        %h<gpuModel> = $_ with $!gpu-model;
+        %h<hardwareConcurrency> = $_ with $!hardware-concurrency;
+        %h<deviceMemory> = $_ with $!device-memory;
+        %h<deviceScaleFactor> = $_ with $!device-scale-factor;
+        %h<mobileModel> = $_ with $!mobile-model;
+        %h<mobileVersion> = $_ with $!mobile-version;
+        %h<chPlatform> = $_ with $!ch-platform;
+        %h<chPlatformVersion> = $_ with $!ch-platform-version;
+        %h<chArch> = $_ with $!ch-arch;
+        %h<chBitness> = $_ with $!ch-bitness;
+        %h<chModel> = $_ with $!ch-model;
+        %h<chMobile> = $_ with $!ch-mobile;
+        %h<disableSpoofing> = $_ with $!disable-spoofing;
+        %h<locationMode> = $_ with $!location-mode;
+        %h<locationLatitude> = $_ with $!location-latitude;
+        %h<locationLongitude> = $_ with $!location-longitude;
+        %h<locationAccuracy> = $_ with $!location-accuracy;
+        %h<userAgent> = $_ with $!user-agent;
         %h<restoreSession> = $_ with $!restore-session;
         %h<lowBandwidth> = $_ with $!low-bandwidth;
         %h<notes> = $_ with $!notes;
         %h<startUrl> = $_ with $!start-url;
         %h<customFlags> = $_ with $!custom-flags;
         %h<status> = $_ with $!status;
+        %h<statusMachineId> = $_ with $!status-machine-id;
+        %h<statusHeartbeatAt> = $_ with $!status-heartbeat-at;
         %h<needsSync> = $_ with $!needs-sync;
         %h<lastPid> = $_ with $!last-pid;
         %h<debugPort> = $_ with $!debug-port;
+        %h<tabsSnapshot> = $_ with $!tabs-snapshot;
         %h<createdAt> = $_ with $!created-at;
         %h<updatedAt> = $_ with $!updated-at;
         %h<lastSyncedAt> = $_ with $!last-synced-at;
@@ -169,20 +234,46 @@ class CreateProfileRequest is export {
     has Str $.directory-name;
     has Int $.group-id;
     has Int $.proxy-id;
+    # Brand. Chromium is not a brand — it folds to Chrome.
     has Str $.browser-type;
     has Str $.browser-version;
     has Str $.os-fingerprint;
     has Str $.screen-resolution;
+    has Bool $.screen-maximizable;
     has Str $.language;
     has Str $.accept-language;
     has Str $.timezone;
     has Bool $.use-fingerprint;
-    has Str $.fingerprint-id;
+    has Str $.platform-version;
+    has Str $.brand-version;
+    has Str $.engine-version;
+    has Str $.gpu-vendor;
+    has Str $.gpu-model;
+    has $.hardware-concurrency;
+    has $.device-memory;
+    has $.device-scale-factor;
+    has Str $.mobile-model;
+    has $.mobile-version;
+    has Str $.ch-platform;
+    has Str $.ch-platform-version;
+    has Str $.ch-arch;
+    has Str $.ch-bitness;
+    has Str $.ch-model;
+    has $.ch-mobile;
+    # Comma list of spoof features to turn OFF.
+    has Str $.disable-spoofing;
+    # One of "", "proxy", "manual".
+    has Str $.location-mode;
+    has Str $.location-latitude;
+    has Str $.location-longitude;
+    has Str $.location-accuracy;
     has Bool $.restore-session;
     has Bool $.low-bandwidth;
     has Str $.notes;
     has Str $.start-url;
     has Str $.custom-flags;
+    has Str $.status;
+    has Bool $.hidden;
 
     method to-json() {
         my %h;
@@ -194,16 +285,39 @@ class CreateProfileRequest is export {
         %h<browserVersion> = $_ with $!browser-version;
         %h<osFingerprint> = $_ with $!os-fingerprint;
         %h<screenResolution> = $_ with $!screen-resolution;
+        %h<screenMaximizable> = $_ with $!screen-maximizable;
         %h<language> = $_ with $!language;
         %h<acceptLanguage> = $_ with $!accept-language;
         %h<timezone> = $_ with $!timezone;
         %h<useFingerprint> = $_ with $!use-fingerprint;
-        %h<fingerprintId> = $_ with $!fingerprint-id;
+        %h<platformVersion> = $_ with $!platform-version;
+        %h<brandVersion> = $_ with $!brand-version;
+        %h<engineVersion> = $_ with $!engine-version;
+        %h<gpuVendor> = $_ with $!gpu-vendor;
+        %h<gpuModel> = $_ with $!gpu-model;
+        %h<hardwareConcurrency> = $_ with $!hardware-concurrency;
+        %h<deviceMemory> = $_ with $!device-memory;
+        %h<deviceScaleFactor> = $_ with $!device-scale-factor;
+        %h<mobileModel> = $_ with $!mobile-model;
+        %h<mobileVersion> = $_ with $!mobile-version;
+        %h<chPlatform> = $_ with $!ch-platform;
+        %h<chPlatformVersion> = $_ with $!ch-platform-version;
+        %h<chArch> = $_ with $!ch-arch;
+        %h<chBitness> = $_ with $!ch-bitness;
+        %h<chModel> = $_ with $!ch-model;
+        %h<chMobile> = $_ with $!ch-mobile;
+        %h<disableSpoofing> = $_ with $!disable-spoofing;
+        %h<locationMode> = $_ with $!location-mode;
+        %h<locationLatitude> = $_ with $!location-latitude;
+        %h<locationLongitude> = $_ with $!location-longitude;
+        %h<locationAccuracy> = $_ with $!location-accuracy;
         %h<restoreSession> = $_ with $!restore-session;
         %h<lowBandwidth> = $_ with $!low-bandwidth;
         %h<notes> = $_ with $!notes;
         %h<startUrl> = $_ with $!start-url;
         %h<customFlags> = $_ with $!custom-flags;
+        %h<status> = $_ with $!status;
+        %h<hidden> = $_ with $!hidden;
         %h;
     }
 }
@@ -331,30 +445,6 @@ class CreateProxyRequest is export {
         %h<type> = $!type;
         %h<username> = $_ with $!username;
         %h<password> = $_ with $!password;
-        %h;
-    }
-}
-
-# ─── ProxyCheckResult ──────────────────────────────────────────────────────
-
-class ProxyCheckResult is export {
-    has Bool $.success;
-    has $.details;
-    has Str $.error-message;
-
-    method from-json($json) {
-        self.bless(
-            success      => $json<success>.Bool,
-            details      => $json<details>,
-            error-message => $json<errorMessage>,
-        );
-    }
-
-    method to-json() {
-        my %h;
-        %h<success> = $!success;
-        %h<details> = $_ with $!details;
-        %h<errorMessage> = $_ with $!error-message;
         %h;
     }
 }
@@ -526,117 +616,6 @@ class RunAutomationResult is export {
         %h<message> = $!message;
         %h<variables> = %!variables if %!variables.elems;
         %h;
-    }
-}
-
-# ─── Settings ──────────────────────────────────────────────────────────────
-
-class Settings is export {
-    has Int $.id;
-    has Str $.chrome-path;
-    has Str $.license-key;
-    has Str $.default-browser-type;
-    has Str $.default-os-fingerprint;
-    has Str $.default-screen-resolution;
-    has Str $.default-language;
-    has Str $.default-accept-language;
-    has Str $.default-timezone;
-    has Bool $.default-low-bandwidth;
-    has Bool $.api-enabled;
-    has Str $.api-key;
-    has Str $.language;
-    has Str $.on-close-action where 'minimize' | 'exit' | Any;
-    has Bool $.launch-on-startup;
-    has Bool $.launch-minimized-on-startup;
-    has Str $.ip-quality-score-api-key;
-    has Bool $.use-ip-quality-score;
-    has Str $.browser-flags;
-    has Str $.font-size-scale;
-
-    method from-json($json) {
-        self.bless(
-            id                          => $json<id>,
-            chrome-path                 => $json<chromePath>,
-            license-key                 => $json<licenseKey>,
-            default-browser-type        => $json<defaultBrowserType>,
-            default-os-fingerprint      => $json<defaultOsFingerprint>,
-            default-screen-resolution   => $json<defaultScreenResolution>,
-            default-language            => $json<defaultLanguage>,
-            default-accept-language     => $json<defaultAcceptLanguage>,
-            default-timezone            => $json<defaultTimezone>,
-            default-low-bandwidth       => $json<defaultLowBandwidth>,
-            api-enabled                 => $json<apiEnabled>,
-            api-key                     => $json<apiKey>,
-            language                    => $json<language>,
-            on-close-action             => $json<onCloseAction>,
-            launch-on-startup           => $json<launchOnStartup>,
-            launch-minimized-on-startup => $json<launchMinimizedOnStartup>,
-            ip-quality-score-api-key    => $json<ipQualityScoreApiKey>,
-            use-ip-quality-score        => $json<useIpQualityScore>,
-            browser-flags               => $json<browserFlags>,
-            font-size-scale             => $json<fontSizeScale>,
-        );
-    }
-
-    method to-json() {
-        my %h;
-        %h<id> = $_ with $!id;
-        %h<chromePath> = $_ with $!chrome-path;
-        %h<licenseKey> = $_ with $!license-key;
-        %h<defaultBrowserType> = $_ with $!default-browser-type;
-        %h<defaultOsFingerprint> = $_ with $!default-os-fingerprint;
-        %h<defaultScreenResolution> = $_ with $!default-screen-resolution;
-        %h<defaultLanguage> = $_ with $!default-language;
-        %h<defaultAcceptLanguage> = $_ with $!default-accept-language;
-        %h<defaultTimezone> = $_ with $!default-timezone;
-        %h<defaultLowBandwidth> = $_ with $!default-low-bandwidth;
-        %h<apiEnabled> = $_ with $!api-enabled;
-        %h<apiKey> = $_ with $!api-key;
-        %h<language> = $_ with $!language;
-        %h<onCloseAction> = $_ with $!on-close-action;
-        %h<launchOnStartup> = $_ with $!launch-on-startup;
-        %h<launchMinimizedOnStartup> = $_ with $!launch-minimized-on-startup;
-        %h<ipQualityScoreApiKey> = $_ with $!ip-quality-score-api-key;
-        %h<useIpQualityScore> = $_ with $!use-ip-quality-score;
-        %h<browserFlags> = $_ with $!browser-flags;
-        %h<fontSizeScale> = $_ with $!font-size-scale;
-        %h;
-    }
-}
-
-# ─── SyncStatus ────────────────────────────────────────────────────────────
-
-class SyncStatus is export {
-    has @.active;
-    has @.active-extensions;
-    has Int $.total;
-    has Int $.completed;
-    has %.errors;
-    has %.progress;
-    has Bool $.is-syncing;
-
-    method from-json($json) {
-        self.bless(
-            active            => ($json<active> // []).list,
-            active-extensions => ($json<activeExtensions> // []).list,
-            total             => ($json<total> // 0).Int,
-            completed         => ($json<completed> // 0).Int,
-            errors            => $json<errors> // {},
-            progress          => $json<progress> // {},
-            is-syncing        => $json<isSyncing>.Bool,
-        );
-    }
-
-    method to-json() {
-        {
-            active            => @!active,
-            activeExtensions  => @!active-extensions,
-            total             => $!total,
-            completed         => $!completed,
-            errors            => %!errors,
-            progress          => %!progress,
-            isSyncing         => $!is-syncing,
-        };
     }
 }
 

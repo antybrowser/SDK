@@ -2,18 +2,15 @@ import { AntybrowserError } from "./errors";
 import type {
   Profile,
   CreateProfileRequest,
+  UpdateProfileRequest,
   Proxy,
   CreateProxyRequest,
-  ProxyCheckResult,
   Group,
   CreateGroupRequest,
   Extension,
   Automation,
   RunAutomationRequest,
   RunAutomationResult,
-  Settings,
-  SyncStatus,
-  StatusResponse,
   StartProfileResponse,
   ApiResponse,
   DuplicateProfileRequest,
@@ -44,24 +41,6 @@ export class AntybrowserClient {
     }
   }
 
-  // ─── System ──────────────────────────────────────────────────────────────
-
-  async getStatus(): Promise<StatusResponse> {
-    return this.get<StatusResponse>("/api/status");
-  }
-
-  async getSettings(): Promise<Settings> {
-    return this.get<Settings>("/api/settings");
-  }
-
-  async getSyncStatus(): Promise<SyncStatus> {
-    return this.get<SyncStatus>("/api/sync/status");
-  }
-
-  async refreshSync(profileId?: number): Promise<ApiResponse> {
-    return this.post<ApiResponse>("/api/sync/refresh", profileId != null ? { profileId } : undefined);
-  }
-
   // ─── Profiles ────────────────────────────────────────────────────────────
 
   async getProfiles(): Promise<Profile[]> {
@@ -72,7 +51,7 @@ export class AntybrowserClient {
     return this.post<Profile>("/api/profiles", data);
   }
 
-  async updateProfile(id: number, data: Partial<CreateProfileRequest>): Promise<Profile> {
+  async updateProfile(id: number, data: UpdateProfileRequest): Promise<Profile> {
     return this.put<Profile>(`/api/profiles/${id}`, data);
   }
 
@@ -130,15 +109,6 @@ export class AntybrowserClient {
     return this.post<Proxy>("/api/proxies", data);
   }
 
-  async checkProxy(data: { host: string; port: number; username?: string; password?: string; type?: string }): Promise<ProxyCheckResult> {
-    return this.post<ProxyCheckResult>("/api/proxies/check", data);
-  }
-
-  async checkProxiesBulk(proxies: Array<string | { host: string; port: number; username?: string; password?: string; type?: string }>): Promise<ProxyCheckResult[]> {
-    const result = await this.post<{ success: boolean; results: ProxyCheckResult[] }>("/api/proxies/check-bulk", { proxies });
-    return result.results;
-  }
-
   async deleteProxy(id: number): Promise<void> {
     await this.delete<void>(`/api/proxies/${id}`);
   }
@@ -151,14 +121,6 @@ export class AntybrowserClient {
 
   async deleteExtension(id: number): Promise<void> {
     await this.delete<void>(`/api/extensions/${id}`);
-  }
-
-  async getProfileExtensions(profileId: number, details = false): Promise<Extension[]> {
-    return this.get<Extension[]>(`/api/profiles/${profileId}/extensions?details=${details}`);
-  }
-
-  async setProfileExtensions(profileId: number, extensionIds: number[]): Promise<ApiResponse> {
-    return this.post<ApiResponse>(`/api/profiles/${profileId}/extensions`, { extensionIds });
   }
 
   // ─── HTTP Helpers ────────────────────────────────────────────────────────

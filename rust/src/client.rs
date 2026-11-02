@@ -27,29 +27,6 @@ impl AntybrowserClient {
         self
     }
 
-    // System
-
-    pub async fn get_status(&self) -> Result<ApiResponse, AntybrowserError> {
-        self.get("/api/status").await
-    }
-
-    pub async fn get_settings(&self) -> Result<Settings, AntybrowserError> {
-        self.get("/api/settings").await
-    }
-
-    pub async fn get_sync_status(&self) -> Result<SyncStatus, AntybrowserError> {
-        self.get("/api/sync/status").await
-    }
-
-    pub async fn refresh_sync(&self, profile_id: Option<i64>) -> Result<ApiResponse, AntybrowserError> {
-        let body = if let Some(id) = profile_id {
-            serde_json::json!({ "profileId": id })
-        } else {
-            serde_json::json!({})
-        };
-        self.post("/api/sync/refresh", Some(body)).await
-    }
-
     // Profiles
 
     pub async fn get_profiles(&self) -> Result<Vec<Profile>, AntybrowserError> {
@@ -60,8 +37,8 @@ impl AntybrowserClient {
         self.post("/api/profiles", Some(serde_json::to_value(request)?)).await
     }
 
-    pub async fn update_profile(&self, id: i64, data: serde_json::Value) -> Result<Profile, AntybrowserError> {
-        self.put(&format!("/api/profiles/{}", id), data).await
+    pub async fn update_profile(&self, id: i64, request: UpdateProfileRequest) -> Result<Profile, AntybrowserError> {
+        self.put(&format!("/api/profiles/{}", id), serde_json::to_value(request)?).await
     }
 
     pub async fn delete_profile(&self, id: i64) -> Result<ApiResponse, AntybrowserError> {
@@ -119,10 +96,6 @@ impl AntybrowserClient {
         self.post("/api/proxies", Some(serde_json::to_value(request)?)).await
     }
 
-    pub async fn check_proxy(&self, data: serde_json::Value) -> Result<ProxyCheckResult, AntybrowserError> {
-        self.post("/api/proxies/check", Some(data)).await
-    }
-
     pub async fn delete_proxy(&self, id: i64) -> Result<ApiResponse, AntybrowserError> {
         self.delete(&format!("/api/proxies/{}", id)).await
     }
@@ -135,14 +108,6 @@ impl AntybrowserClient {
 
     pub async fn delete_extension(&self, id: i64) -> Result<ApiResponse, AntybrowserError> {
         self.delete(&format!("/api/extensions/{}", id)).await
-    }
-
-    pub async fn get_profile_extensions(&self, profile_id: i64) -> Result<Vec<Extension>, AntybrowserError> {
-        self.get(&format!("/api/profiles/{}/extensions", profile_id)).await
-    }
-
-    pub async fn set_profile_extensions(&self, profile_id: i64, extension_ids: Vec<i64>) -> Result<ApiResponse, AntybrowserError> {
-        self.post(&format!("/api/profiles/{}/extensions", profile_id), Some(serde_json::json!({ "extensionIds": extension_ids }))).await
     }
 
     // HTTP helpers

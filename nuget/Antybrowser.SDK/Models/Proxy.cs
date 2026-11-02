@@ -49,25 +49,4 @@ namespace Antybrowser.SDK.Models
         [JsonPropertyName("password")]
         public string? Password { get; set; }
     }
-
-    public class ProxyCheckResult
-    {
-        [JsonPropertyName("success")]
-        public bool Success { get; set; }
-
-        [JsonPropertyName("ip")]
-        public string? Ip { get; set; }
-
-        [JsonPropertyName("country")]
-        public string? Country { get; set; }
-
-        [JsonPropertyName("city")]
-        public string? City { get; set; }
-
-        [JsonPropertyName("timezone")]
-        public string? Timezone { get; set; }
-
-        [JsonPropertyName("error")]
-        public string? Error { get; set; }
-    }
 }

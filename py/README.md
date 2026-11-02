@@ -89,23 +89,14 @@ async with AntybrowserClient(api_key="my_key") as client:
 
 ## API Reference
 
-### System
-
-| Method | Description |
-|--------|-------------|
-| `get_status()` | Check API connection status |
-| `get_settings()` | Get current settings |
-| `get_sync_status()` | Get sync queue status |
-| `refresh_sync(profile_id?)` | Trigger a sync refresh |
-
 ### Profiles
 
 | Method | Description |
 |--------|-------------|
-| `get_profiles()` | List all profiles |
+| `get_profiles()` | List all profiles (hidden ones included) |
 | `create_profile(request)` | Create a new profile |
 | `update_profile(id, **fields)` | Update a profile |
-| `delete_profile(id)` | Delete a profile |
+| `delete_profile(id)` | Delete a profile (Trash on paid plans) |
 | `start_profile(id)` | Start a profile (returns debug port) |
 | `stop_profile(id)` | Stop a running profile |
 | `duplicate_profile(id, opts?)` | Duplicate a profile |
@@ -132,8 +123,6 @@ async with AntybrowserClient(api_key="my_key") as client:
 |--------|-------------|
 | `get_proxies()` | List all proxies |
 | `create_proxy(request)` | Add a proxy (validates connection) |
-| `check_proxy(host, port, ...)` | Check a single proxy |
-| `check_proxies_bulk(proxies)` | Check multiple proxies |
 | `delete_proxy(id)` | Delete a proxy |
 
 ### Extensions
@@ -142,8 +131,6 @@ async with AntybrowserClient(api_key="my_key") as client:
 |--------|-------------|
 | `get_extensions()` | List all extensions |
 | `delete_extension(id)` | Delete an extension |
-| `get_profile_extensions(id)` | Get extensions for a profile |
-| `set_profile_extensions(id, ids)` | Set extensions for a profile |
 
 ## Examples
 
@@ -164,19 +151,6 @@ profile = await client.create_profile(CreateProfileRequest(
 
 result = await client.start_profile(profile.id)
 print(f"Debug port: {result.data.debug_port}")
-```
-
-### Bulk proxy check
-
-```python
-results = await client.check_proxies_bulk([
-    "user:pass:1.2.3.4:8080",
-    {"host": "5.6.7.8", "port": 3128, "type": "socks5"},
-])
-
-for i, r in enumerate(results):
-    country = r.details.country if r.success else r.error_message
-    print(f"Proxy {i + 1}: {country}")
 ```
 
 ### Run an automation

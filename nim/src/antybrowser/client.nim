@@ -70,11 +70,6 @@ proc put(client: AntybrowserClient, path: string, body: JsonNode = nil): Future[
 proc deleteRequest(client: AntybrowserClient, path: string): Future[JsonNode] {.async.} =
   return await client.request("DELETE", path)
 
-# Status / General
-proc getStatus*(client: AntybrowserClient): Future[StatusResponse] {.async.} =
-  let resp = await client.get("/api/status")
-  return parseStatusResponse(resp)
-
 # Profiles
 proc listProfiles*(client: AntybrowserClient): Future[seq[Profile]] {.async.} =
   let resp = await client.get("/api/profiles")
@@ -151,12 +146,6 @@ proc deleteProxy*(client: AntybrowserClient, proxyId: string): Future[ApiRespons
   let resp = await client.deleteRequest("/api/proxies/" & proxyId)
   return parseApiResponse(resp)
 
-proc checkProxy*(client: AntybrowserClient, proxyId: string): Future[ProxyCheckResult] {.async.} =
-  let resp = await client.post("/api/proxies/" & proxyId & "/check")
-  if resp.hasKey("data"):
-    return parseProxyCheckResult(resp["data"])
-  return parseProxyCheckResult(resp)
-
 # Groups
 proc listGroups*(client: AntybrowserClient): Future[seq[Group]] {.async.} =
   let resp = await client.get("/api/groups")
@@ -218,27 +207,3 @@ proc runAutomation*(client: AntybrowserClient, request: RunAutomationRequest): F
   if resp.hasKey("data"):
     return parseRunAutomationResult(resp["data"])
   return parseRunAutomationResult(resp)
-
-# Settings
-proc getSettings*(client: AntybrowserClient): Future[Settings] {.async.} =
-  let resp = await client.get("/api/settings")
-  if resp.hasKey("data"):
-    return parseSettings(resp["data"])
-  return parseSettings(resp)
-
-proc updateSettings*(client: AntybrowserClient, settings: Settings): Future[Settings] {.async.} =
-  let resp = await client.put("/api/settings", %settings)
-  if resp.hasKey("data"):
-    return parseSettings(resp["data"])
-  return parseSettings(resp)
-
-# Sync
-proc getSyncStatus*(client: AntybrowserClient): Future[SyncStatus] {.async.} =
-  let resp = await client.get("/api/sync/status")
-  if resp.hasKey("data"):
-    return parseSyncStatus(resp["data"])
-  return parseSyncStatus(resp)
-
-proc triggerSync*(client: AntybrowserClient): Future[ApiResponse] {.async.} =
-  let resp = await client.post("/api/sync/trigger")
-  return parseApiResponse(resp)

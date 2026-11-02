@@ -108,14 +108,6 @@ try {
 
 ## API Reference
 
-### System
-| Method | Description |
-|--------|-------------|
-| `getStatus()` | Check API connection status |
-| `getSettings()` | Get current application settings |
-| `getSyncStatus()` | Get sync queue status |
-| `refreshSync()` | Trigger a sync refresh |
-
 ### Profiles
 | Method | Description |
 |--------|-------------|
@@ -146,7 +138,6 @@ try {
 |--------|-------------|
 | `getProxies()` | List all proxies |
 | `createProxy(request)` | Add a proxy (validates connection) |
-| `checkProxy(data)` | Check a single proxy |
 | `deleteProxy(id)` | Delete a proxy |
 
 ### Extensions
@@ -154,8 +145,6 @@ try {
 |--------|-------------|
 | `getExtensions()` | List all extensions |
 | `deleteExtension(id)` | Delete an extension |
-| `getProfileExtensions(id)` | Get extensions for a profile |
-| `setProfileExtensions(id, ids)` | Set extensions for a profile |
 
 ## Examples
 
@@ -172,20 +161,6 @@ final profile = await client.createProfile(CreateProfileRequest(
 
 final result = await client.startProfile(profile.id);
 print('Chrome launched on debug port: ${result['data']['debugPort']}');
-```
-
-### Bulk proxy check
-
-```dart
-final proxies = [
-  CreateProxyRequest(host: '1.2.3.4', port: 8080, type: 'http'),
-  CreateProxyRequest(host: '5.6.7.8', port: 1080, type: 'socks5'),
-];
-
-for (final proxy in proxies) {
-  final result = await client.checkProxy(proxy);
-  print('${proxy.host}:${proxy.port} — ${result['data']['status']}');
-}
 ```
 
 ### Run an automation

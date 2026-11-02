@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Dict, List, Optional
 
 import httpx
 
@@ -14,14 +14,10 @@ from antybrowser.types import (
     Group,
     Profile,
     Proxy,
-    ProxyCheckResult,
     RunAutomationRequest,
     RunAutomationResult,
-    Settings,
     StartProfileData,
     StartProfileResponse,
-    StatusResponse,
-    SyncStatus,
     DuplicateProfileRequest,
 )
 
@@ -59,24 +55,6 @@ class AntybrowserClient:
 
     async def __aexit__(self, *args: Any) -> None:
         await self.close()
-
-    # ─── System ──────────────────────────────────────────────────────────
-
-    async def get_status(self) -> StatusResponse:
-        data = await self._get("/api/status")
-        return StatusResponse(**data)
-
-    async def get_settings(self) -> Settings:
-        data = await self._get("/api/settings")
-        return Settings.from_dict(data)
-
-    async def get_sync_status(self) -> SyncStatus:
-        data = await self._get("/api/sync/status")
-        return SyncStatus.from_dict(data)
-
-    async def refresh_sync(self, profile_id: Optional[int] = None) -> Dict[str, Any]:
-        body = {"profileId": profile_id} if profile_id is not None else {}
-        return await self._post("/api/sync/refresh", body)
 
     # ─── Profiles ────────────────────────────────────────────────────────
 
@@ -158,42 +136,6 @@ class AntybrowserClient:
         data = await self._post("/api/proxies", request.to_dict())
         return Proxy.from_dict(data)
 
-    async def check_proxy(
-        self,
-        host: str,
-        port: int,
-        username: Optional[str] = None,
-        password: Optional[str] = None,
-        type: Optional[str] = None,
-    ) -> ProxyCheckResult:
-        body: Dict[str, Any] = {"host": host, "port": port}
-        if username:
-            body["username"] = username
-        if password:
-            body["password"] = password
-        if type:
-            body["type"] = type
-        data = await self._post("/api/proxies/check", body)
-        return ProxyCheckResult(
-            success=data.get("success", False),
-            details=data.get("details"),
-            error_message=data.get("errorMessage"),
-        )
-
-    async def check_proxies_bulk(
-        self, proxies: List[Union[str, Dict[str, Any]]]
-    ) -> List[ProxyCheckResult]:
-        data = await self._post("/api/proxies/check-bulk", {"proxies": proxies})
-        results = data.get("results", data) if isinstance(data, dict) else data
-        return [
-            ProxyCheckResult(
-                success=r.get("success", False),
-                details=r.get("details"),
-                error_message=r.get("errorMessage"),
-            )
-            for r in results
-        ]
-
     async def delete_proxy(self, proxy_id: int) -> None:
         await self._delete(f"/api/proxies/{proxy_id}")
 
@@ -205,19 +147,6 @@ class AntybrowserClient:
 
     async def delete_extension(self, extension_id: int) -> None:
         await self._delete(f"/api/extensions/{extension_id}")
-
-    async def get_profile_extensions(
-        self, profile_id: int, details: bool = False
-    ) -> List[Extension]:
-        data = await self._get(f"/api/profiles/{profile_id}/extensions?details={str(details).lower()}")
-        return [Extension.from_dict(e) for e in data]
-
-    async def set_profile_extensions(
-        self, profile_id: int, extension_ids: List[int]
-    ) -> Dict[str, Any]:
-        return await self._post(
-            f"/api/profiles/{profile_id}/extensions", {"extensionIds": extension_ids}
-        )
 
     # ─── HTTP Helpers ────────────────────────────────────────────────────
 

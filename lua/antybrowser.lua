@@ -36,16 +36,6 @@ local function request(self, method, path, body)
     return json.decode(raw)
 end
 
--- System
-function M:get_status() return request(self, "GET", "/api/status") end
-function M:get_settings() return request(self, "GET", "/api/settings") end
-function M:get_sync_status() return request(self, "GET", "/api/sync/status") end
-
-function M:refresh_sync(profile_id)
-    local body = profile_id and { profileId = profile_id } or {}
-    return request(self, "POST", "/api/sync/refresh", body)
-end
-
 -- Profiles
 function M:get_profiles() return request(self, "GET", "/api/profiles") end
 function M:create_profile(data) return request(self, "POST", "/api/profiles", data) end
@@ -72,15 +62,10 @@ function M:delete_group(id) return request(self, "DELETE", "/api/groups/" .. id)
 -- Proxies
 function M:get_proxies() return request(self, "GET", "/api/proxies") end
 function M:create_proxy(data) return request(self, "POST", "/api/proxies", data) end
-function M:check_proxy(data) return request(self, "POST", "/api/proxies/check", data) end
 function M:delete_proxy(id) return request(self, "DELETE", "/api/proxies/" .. id) end
 
 -- Extensions
 function M:get_extensions() return request(self, "GET", "/api/extensions") end
 function M:delete_extension(id) return request(self, "DELETE", "/api/extensions/" .. id) end
-function M:get_profile_extensions(profile_id) return request(self, "GET", "/api/profiles/" .. profile_id .. "/extensions") end
-function M:set_profile_extensions(profile_id, extension_ids)
-    return request(self, "POST", "/api/profiles/" .. profile_id .. "/extensions", { extensionIds = extension_ids })
-end
 
 return M

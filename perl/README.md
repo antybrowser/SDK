@@ -81,15 +81,6 @@ Antybrowser::SDK->new(api_key => 'key', port => 5173)
 - `port` — API port (default: `5173`)
 - `base_url` — override full base URL
 
-### System
-
-| Method | Description |
-|--------|-------------|
-| `get_status()` | Get system status |
-| `get_settings()` | Get app settings |
-| `get_sync_status()` | Get sync status |
-| `refresh_sync($profile_id?)` | Trigger sync refresh |
-
 ### Profiles
 
 | Method | Description |
@@ -124,7 +115,6 @@ Antybrowser::SDK->new(api_key => 'key', port => 5173)
 |--------|-------------|
 | `get_proxies()` | List proxies |
 | `create_proxy($data)` | Create a proxy |
-| `check_proxy($data)` | Check proxy connectivity |
 | `delete_proxy($id)` | Delete a proxy |
 
 ### Extensions
@@ -133,8 +123,6 @@ Antybrowser::SDK->new(api_key => 'key', port => 5173)
 |--------|-------------|
 | `get_extensions()` | List extensions |
 | `delete_extension($id)` | Delete an extension |
-| `get_profile_extensions($profile_id)` | List profile extensions |
-| `set_profile_extensions($profile_id, $extension_ids)` | Set profile extensions |
 
 ## Examples
 
@@ -148,24 +136,6 @@ my $client = Antybrowser::SDK->new(api_key => 'your_api_key');
 my $profile = $client->create_profile({ name => 'My Profile' });
 my $result = $client->start_profile($profile->{id});
 print "Debug port: $result->{data}{debugPort}\n";
-```
-
-### Bulk proxy check
-
-```perl
-use Antybrowser::SDK;
-
-my $client = Antybrowser::SDK->new(api_key => 'your_api_key');
-
-for my $proxy (@{$client->get_proxies()}) {
-    my $check = $client->check_proxy({
-        host     => $proxy->{host},
-        port     => $proxy->{port},
-        username => $proxy->{username},
-        password => $proxy->{password},
-    });
-    print "$proxy->{name}: $check->{data}{status}\n";
-}
 ```
 
 ### Run an automation

@@ -78,21 +78,13 @@ try {
 
 ## 📚 API Reference
 
-### System
-| Method | Description |
-|--------|-------------|
-| `getStatus()` | Check API connection status |
-| `getSettings()` | Get current application settings |
-| `getSyncStatus()` | Get sync queue status |
-| `refreshSync($profileId?)` | Trigger a sync refresh |
-
 ### Profiles
 | Method | Description |
 |--------|-------------|
-| `getProfiles()` | List all profiles |
+| `getProfiles()` | List all profiles (hidden ones included) |
 | `createProfile($data)` | Create a new profile |
 | `updateProfile($id, $data)` | Update a profile |
-| `deleteProfile($id)` | Delete a profile |
+| `deleteProfile($id)` | Delete a profile (Trash on paid plans) |
 | `startProfile($id)` | Start a profile (returns debug port) |
 | `stopProfile($id)` | Stop a running profile |
 | `duplicateProfile($id, $opts?)` | Duplicate a profile |
@@ -116,8 +108,6 @@ try {
 |--------|-------------|
 | `getProxies()` | List all proxies |
 | `createProxy($data)` | Add a proxy (validates connection) |
-| `checkProxy($data)` | Check a single proxy |
-| `checkProxiesBulk($proxies)` | Check multiple proxies at once |
 | `deleteProxy($id)` | Delete a proxy |
 
 ### Extensions
@@ -125,8 +115,6 @@ try {
 |--------|-------------|
 | `getExtensions()` | List all extensions |
 | `deleteExtension($id)` | Delete an extension |
-| `getProfileExtensions($profileId)` | Get extensions for a profile |
-| `setProfileExtensions($profileId, $ids)` | Set extensions for a profile |
 
 ## 💡 Examples
 
@@ -144,20 +132,6 @@ $profile = $client->createProfile([
 
 $result = $client->startProfile($profile['id']);
 echo "Debug port: {$result['data']['debugPort']}\n";
-```
-
-### Bulk Proxy Check
-
-```php
-$proxies = [
-    ['host' => '1.2.3.4', 'port' => 8080, 'type' => 'socks5'],
-    ['host' => '5.6.7.8', 'port' => 1080, 'type' => 'socks5'],
-];
-
-$results = $client->checkProxiesBulk($proxies);
-foreach ($results as $r) {
-    echo "{$r['host']}:{$r['port']} — " . ($r['alive'] ? 'OK' : 'Failed') . "\n";
-}
 ```
 
 ### Run an Automation

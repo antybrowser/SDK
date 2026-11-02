@@ -74,23 +74,14 @@ client = Antybrowser::Client.new("my_key", base_url: "http://10.0.0.5:5173")
 
 ## API Reference
 
-### System
-
-| Method | Description |
-|--------|-------------|
-| `get_status` | Check API connection status |
-| `get_settings` | Get current settings |
-| `get_sync_status` | Get sync queue status |
-| `refresh_sync(profile_id: nil)` | Trigger a sync refresh |
-
 ### Profiles
 
 | Method | Description |
 |--------|-------------|
-| `get_profiles` | List all profiles |
+| `get_profiles` | List all profiles (hidden ones included) |
 | `create_profile(data)` | Create a new profile |
 | `update_profile(id, data)` | Update a profile |
-| `delete_profile(id)` | Delete a profile |
+| `delete_profile(id)` | Delete a profile (Trash on paid plans) |
 | `start_profile(id)` | Start a profile (returns debug port) |
 | `stop_profile(id)` | Stop a running profile |
 | `duplicate_profile(id, name: nil)` | Duplicate a profile |
@@ -117,8 +108,6 @@ client = Antybrowser::Client.new("my_key", base_url: "http://10.0.0.5:5173")
 |--------|-------------|
 | `get_proxies` | List all proxies |
 | `create_proxy(data)` | Add a proxy (validates connection) |
-| `check_proxy(host:, port:)` | Check a single proxy |
-| `check_proxies_bulk(proxies)` | Check multiple proxies |
 | `delete_proxy(id)` | Delete a proxy |
 
 ### Extensions
@@ -127,8 +116,6 @@ client = Antybrowser::Client.new("my_key", base_url: "http://10.0.0.5:5173")
 |--------|-------------|
 | `get_extensions` | List all extensions |
 | `delete_extension(id)` | Delete an extension |
-| `get_profile_extensions(id)` | Get extensions for a profile |
-| `set_profile_extensions(id, ids)` | Set extensions for a profile |
 
 ## Examples
 
@@ -149,20 +136,6 @@ profile = client.create_profile(
 
 result = client.start_profile(profile.id)
 puts "Debug port: #{result['data']['debugPort']}"
-```
-
-### Bulk proxy check
-
-```ruby
-results = client.check_proxies_bulk([
-  "user:pass:1.2.3.4:8080",
-  { host: "5.6.7.8", port: 3128, type: "socks5" },
-])
-
-results.each_with_index do |r, i|
-  label = r.success ? r.details&.country : r.error_message
-  puts "Proxy #{i + 1}: #{label}"
-end
 ```
 
 ### Run an automation

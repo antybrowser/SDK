@@ -33,42 +33,6 @@ namespace Antybrowser.SDK
             _httpClient.DefaultRequestHeaders.Add("x-api-key", _apiKey);
         }
 
-        #region System
-        /// <summary>
-        /// Checks the status of the Antybrowser Local API.
-        /// </summary>
-        public async Task<ApiResponse> GetStatusAsync()
-        {
-            return await GetAsync<ApiResponse>("/api/status");
-        }
-
-        /// <summary>
-        /// Gets the current synchronization status for all profiles.
-        /// </summary>
-        public async Task<SyncStatus> GetSyncStatusAsync()
-        {
-            return await GetAsync<SyncStatus>("/api/sync/status");
-        }
-
-        /// <summary>
-        /// Triggers a synchronization refresh, optionally for a specific profile.
-        /// </summary>
-        /// <param name="profileId">Optional profile ID to sync.</param>
-        public async Task<ApiResponse> RefreshSyncAsync(string? profileId = null)
-        {
-            var body = profileId != null ? new { profileId } : null;
-            return await PostAsync<ApiResponse>("/api/sync/refresh", body);
-        }
-
-        /// <summary>
-        /// Retrieves the global Antybrowser settings.
-        /// </summary>
-        public async Task<Settings> GetSettingsAsync()
-        {
-            return await GetAsync<Settings>("/api/settings");
-        }
-        #endregion
-
         #region Profiles
         /// <summary>
         /// Lists all available browser profiles.
@@ -209,22 +173,6 @@ namespace Antybrowser.SDK
         }
 
         /// <summary>
-        /// Validates a proxy connection and detects its location and IP.
-        /// </summary>
-        public async Task<ProxyCheckResult> CheckProxyAsync(object proxyData)
-        {
-            return await PostAsync<ProxyCheckResult>("/api/proxies/check", proxyData);
-        }
-
-        /// <summary>
-        /// Performs a bulk validation of multiple proxies.
-        /// </summary>
-        public async Task<ApiResponse<List<ProxyCheckResult>>> CheckProxiesBulkAsync(List<object> proxies)
-        {
-            return await PostAsync<ApiResponse<List<ProxyCheckResult>>>("/api/proxies/check-bulk", new { proxies });
-        }
-
-        /// <summary>
         /// Deletes a proxy configuration.
         /// </summary>
         public async Task DeleteProxyAsync(int id)
@@ -258,26 +206,6 @@ namespace Antybrowser.SDK
                 var content = await response.Content.ReadAsStringAsync();
                 throw new AntybrowserException("Failed to delete extension", response.StatusCode, content);
             }
-        }
-
-        /// <summary>
-        /// Gets extensions assigned to a specific profile.
-        /// </summary>
-        /// <param name="profileId">Target profile ID.</param>
-        /// <param name="details">Whether to include full extension metadata.</param>
-        public async Task<List<Extension>> GetProfileExtensionsAsync(int profileId, bool details = false)
-        {
-            return await GetAsync<List<Extension>>($"/api/profiles/{profileId}/extensions?details={details.ToString().ToLower()}");
-        }
-
-        /// <summary>
-        /// Assigns a set of extensions to a profile.
-        /// </summary>
-        /// <param name="profileId">Target profile ID.</param>
-        /// <param name="extensionIds">List of extension IDs to assign.</param>
-        public async Task<ApiResponse> SetProfileExtensionsAsync(int profileId, List<int> extensionIds)
-        {
-            return await PostAsync<ApiResponse>($"/api/profiles/{profileId}/extensions", new { extensionIds });
         }
         #endregion
 

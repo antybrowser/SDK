@@ -70,14 +70,6 @@ antybrowser.new(api_key, opts)
   - `port` — API port (default: `5173`)
   - `base_url` — override full base URL
 
-### System
-| Method | Description |
-|--------|-------------|
-| `:get_status()` | Check API connection status |
-| `:get_settings()` | Get current application settings |
-| `:get_sync_status()` | Get sync queue status |
-| `:refresh_sync(profile_id?)` | Trigger a sync refresh |
-
 ### Profiles
 | Method | Description |
 |--------|-------------|
@@ -108,7 +100,6 @@ antybrowser.new(api_key, opts)
 |--------|-------------|
 | `:get_proxies()` | List all proxies |
 | `:create_proxy(data)` | Add a proxy (validates connection) |
-| `:check_proxy(data)` | Check proxy connectivity |
 | `:delete_proxy(id)` | Delete a proxy |
 
 ### Extensions
@@ -116,8 +107,6 @@ antybrowser.new(api_key, opts)
 |--------|-------------|
 | `:get_extensions()` | List all extensions |
 | `:delete_extension(id)` | Delete an extension |
-| `:get_profile_extensions(profile_id)` | List profile extensions |
-| `:set_profile_extensions(profile_id, extension_ids)` | Set profile extensions |
 
 ## 💡 Examples
 
@@ -134,21 +123,6 @@ local profile = client:create_profile({
 
 local result = client:start_profile(profile.id)
 print("Debug port: " .. result.data.debugPort)
-```
-
-### Bulk Proxy Check
-
-```lua
-local proxies = {
-    { host = "1.2.3.4", port = 8080, type = "socks5" },
-    { host = "5.6.7.8", port = 1080, type = "socks5" }
-}
-
-local results = client:check_proxies_bulk(proxies)
-for _, r in ipairs(results) do
-    local status = r.alive and "OK" or "Failed"
-    print(r.host .. ":" .. r.port .. " — " .. status)
-end
 ```
 
 ### Run an Automation

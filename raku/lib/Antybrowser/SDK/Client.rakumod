@@ -21,28 +21,6 @@ class AntybrowserClient is export {
         self.bless(api-key => $api-key, base-url => $url, timeout => $timeout, ua => $ua);
     }
 
-    # ─── System ────────────────────────────────────────────────────────────
-
-    method get-status() {
-        my $data = self!get('/api/status');
-        StatusResponse.from-json($data);
-    }
-
-    method get-settings() {
-        my $data = self!get('/api/settings');
-        Settings.from-json($data);
-    }
-
-    method get-sync-status() {
-        my $data = self!get('/api/sync/status');
-        SyncStatus.from-json($data);
-    }
-
-    method refresh-sync(Int :$profile-id) {
-        my %body = $profile-id.defined ?? { profileId => $profile-id } !! {};
-        self!post('/api/sync/refresh', %body);
-    }
-
     # ─── Profiles ──────────────────────────────────────────────────────────
 
     method get-profiles() {
@@ -124,20 +102,6 @@ class AntybrowserClient is export {
         Proxy.from-json($data);
     }
 
-    method check-proxy(Str :$host!, Int :$port!, Str :$username, Str :$password, Str :$type) {
-        my %body = :$host, :$port;
-        %body<username> = $username if $username.defined;
-        %body<password> = $password if $password.defined;
-        %body<type> = $type if $type.defined;
-        my $data = self!post('/api/proxies/check', %body);
-        ProxyCheckResult.from-json($data);
-    }
-
-    method check-proxies-bulk(@proxies) {
-        my $data = self!post('/api/proxies/check-bulk', { proxies => @proxies });
-        ($data<results> // $data).list.map({ ProxyCheckResult.from-json($_) }).list;
-    }
-
     method delete-proxy(Int $id) {
         self!delete("/api/proxies/$id");
     }
@@ -151,15 +115,6 @@ class AntybrowserClient is export {
 
     method delete-extension(Int $id) {
         self!delete("/api/extensions/$id");
-    }
-
-    method get-profile-extensions(Int $profile-id, Bool :$details = False) {
-        my $data = self!get("/api/profiles/$profile-id/extensions?details={$details.lc}");
-        $data.list.map({ Extension.from-json($_) }).list;
-    }
-
-    method set-profile-extensions(Int $profile-id, @extension-ids) {
-        self!post("/api/profiles/$profile-id/extensions", { extensionIds => @extension-ids });
     }
 
     # ─── HTTP Helpers ──────────────────────────────────────────────────────

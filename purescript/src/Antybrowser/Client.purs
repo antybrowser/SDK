@@ -1,10 +1,6 @@
 module Antybrowser.Client
   ( AntybrowserClient(..)
   , mkClient
-  , getStatus
-  , getSettings
-  , getSyncStatus
-  , refreshSync
   , getProfiles
   , createProfile
   , updateProfile
@@ -20,13 +16,9 @@ module Antybrowser.Client
   , deleteGroup
   , getProxies
   , createProxy
-  , checkProxy
-  , checkProxiesBulk
   , deleteProxy
   , getExtensions
   , deleteExtension
-  , getProfileExtensions
-  , setProfileExtensions
   ) where
 
 import Prelude
@@ -42,7 +34,6 @@ import Data.Argonaut.Encode (class EncodeJson, encodeJson)
 import Data.Argonaut.Encode.Combinators ((:=), (~>))
 import Data.Either (Either(..))
 import Data.Maybe (Maybe(..))
-import Data.String (toLower)
 import Effect.Aff (throwException)
 
 import Antybrowser.Error (AntybrowserError(..))
@@ -62,26 +53,6 @@ mkClient apiKey = AntybrowserClient
   , baseUrl: "http://127.0.0.1:5173"
   , timeout: 30000.0
   }
-
--- ─── System ────────────────────────────────────────────────────────────────
-
-getStatus :: AntybrowserClient -> Aff StatusResponse
-getStatus client = do
-  json <- getJson client "/api/status"
-  decodeOrThrow json
-
-getSettings :: AntybrowserClient -> Aff Settings
-getSettings client = do
-  json <- getJson client "/api/settings"
-  decodeOrThrow json
-
-getSyncStatus :: AntybrowserClient -> Aff SyncStatus
-getSyncStatus client = do
-  json <- getJson client "/api/sync/status"
-  decodeOrThrow json
-
-refreshSync :: AntybrowserClient -> Aff Json
-refreshSync client = postJson client "/api/sync/refresh" emptyBody
 
 -- ─── Profiles ──────────────────────────────────────────────────────────────
 
@@ -163,23 +134,6 @@ createProxy client req = do
   json <- postJson client "/api/proxies" (encodeJson req)
   decodeOrThrow json
 
-checkProxy :: AntybrowserClient -> { host :: String, port :: Int, username :: Maybe String, password :: Maybe String, proxyType :: Maybe String } -> Aff ProxyCheckResult
-checkProxy client opts = do
-  let body = "host" := opts.host ~>
-             "port" := opts.port ~>
-             optEnc "username" opts.username ~>
-             optEnc "password" opts.password ~>
-             optEnc "type" opts.proxyType ~>
-             jsonSingletonEmpty
-  json <- postJson client "/api/proxies/check" body
-  decodeOrThrow json
-
-checkProxiesBulk :: AntybrowserClient -> Array Json -> Aff (Array ProxyCheckResult)
-checkProxiesBulk client proxies = do
-  let body = "proxies" := proxies ~> jsonSingletonEmpty
-  json <- postJson client "/api/proxies/check-bulk" body
-  decodeOrThrow json
-
 deleteProxy :: AntybrowserClient -> Int -> Aff Json
 deleteProxy client proxyId =
   deleteJson client ("/api/proxies/" <> show proxyId)
@@ -194,18 +148,6 @@ getExtensions client = do
 deleteExtension :: AntybrowserClient -> Int -> Aff Json
 deleteExtension client extensionId =
   deleteJson client ("/api/extensions/" <> show extensionId)
-
-getProfileExtensions :: AntybrowserClient -> Int -> Boolean -> Aff (Array Extension)
-getProfileExtensions client profileId details = do
-  let path = "/api/profiles/" <> show profileId <> "/extensions?details=" <> toLower (show details)
-  json <- getJson client path
-  decodeOrThrow json
-
-setProfileExtensions :: AntybrowserClient -> Int -> Array Int -> Aff Json
-setProfileExtensions client profileId extensionIds = do
-  let body = "extensionIds" := extensionIds ~> jsonSingletonEmpty
-  json <- postJson client ("/api/profiles/" <> show profileId <> "/extensions") body
-  decodeOrThrow json
 
 -- ─── HTTP Helpers ──────────────────────────────────────────────────────────
 

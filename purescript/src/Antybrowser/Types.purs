@@ -3,16 +3,12 @@ module Antybrowser.Types
   , CreateProfileRequest(..)
   , Proxy(..)
   , CreateProxyRequest(..)
-  , ProxyCheckResult(..)
   , Group(..)
   , CreateGroupRequest(..)
   , Extension(..)
   , Automation(..)
   , RunAutomationRequest(..)
   , RunAutomationResult(..)
-  , Settings(..)
-  , SyncStatus(..)
-  , StatusResponse(..)
   , StartProfileResponse(..)
   , StartProfileData(..)
   , DuplicateProfileRequest(..)
@@ -27,12 +23,6 @@ import Data.Maybe (Maybe(..))
 
 -- ─── System ────────────────────────────────────────────────────────────────
 
-newtype StatusResponse = StatusResponse
-  { success :: Boolean
-  , status :: String
-  , version :: String
-  }
-
 newtype StartProfileResponse = StartProfileResponse
   { success :: Boolean
   , data :: StartProfileData
@@ -42,23 +32,12 @@ newtype StartProfileData = StartProfileData
   { debugPort :: Maybe Int
   }
 
-newtype Settings = Settings
-  { id :: Maybe Int
-  , chromePath :: Maybe String
-  , apiKey :: Maybe String
-  , language :: Maybe String
-  }
-
-newtype SyncStatus = SyncStatus
-  { total :: Int
-  , completed :: Int
-  , isSyncing :: Boolean
-  }
-
 -- ─── Profiles ──────────────────────────────────────────────────────────────
 
 newtype Profile = Profile
   { id :: Int
+  , userId :: Maybe Int
+  , userGuid :: Maybe String
   , name :: String
   , directoryName :: Maybe String
   , groupId :: Maybe Int
@@ -67,20 +46,47 @@ newtype Profile = Profile
   , browserVersion :: Maybe String
   , osFingerprint :: Maybe String
   , screenResolution :: Maybe String
+  , screenMaximizable :: Maybe Boolean
   , language :: Maybe String
   , acceptLanguage :: Maybe String
   , timezone :: Maybe String
   , useFingerprint :: Maybe Boolean
+  -- | Server-owned noise seed. Read-only — never sent on create/update.
   , fingerprintId :: Maybe String
+  , platformVersion :: Maybe String
+  , brandVersion :: Maybe String
+  , engineVersion :: Maybe String
+  , gpuVendor :: Maybe String
+  , gpuModel :: Maybe String
+  , hardwareConcurrency :: Maybe Json
+  , deviceMemory :: Maybe Json
+  , deviceScaleFactor :: Maybe Json
+  , mobileModel :: Maybe String
+  , mobileVersion :: Maybe Json
+  , chPlatform :: Maybe String
+  , chPlatformVersion :: Maybe String
+  , chArch :: Maybe String
+  , chBitness :: Maybe String
+  , chModel :: Maybe String
+  , chMobile :: Maybe Json
+  , disableSpoofing :: Maybe String
+  , locationMode :: Maybe String
+  , locationLatitude :: Maybe String
+  , locationLongitude :: Maybe String
+  , locationAccuracy :: Maybe String
+  , userAgent :: Maybe String
   , restoreSession :: Maybe Boolean
   , lowBandwidth :: Maybe Boolean
   , notes :: Maybe String
   , startUrl :: Maybe String
   , customFlags :: Maybe String
   , status :: Maybe String
+  , statusMachineId :: Maybe String
+  , statusHeartbeatAt :: Maybe String
   , needsSync :: Maybe Boolean
   , lastPid :: Maybe Int
   , debugPort :: Maybe Int
+  , tabsSnapshot :: Maybe String
   , createdAt :: Maybe String
   , updatedAt :: Maybe String
   , lastSyncedAt :: Maybe String
@@ -96,18 +102,42 @@ newtype CreateProfileRequest = CreateProfileRequest
   , groupId :: Maybe Int
   , proxyId :: Maybe Int
   , browserType :: Maybe String
+  , browserVersion :: Maybe String
   , osFingerprint :: Maybe String
   , screenResolution :: Maybe String
+  , screenMaximizable :: Maybe Boolean
   , language :: Maybe String
   , acceptLanguage :: Maybe String
   , timezone :: Maybe String
   , useFingerprint :: Maybe Boolean
-  , fingerprintId :: Maybe String
+  , platformVersion :: Maybe String
+  , brandVersion :: Maybe String
+  , engineVersion :: Maybe String
+  , gpuVendor :: Maybe String
+  , gpuModel :: Maybe String
+  , hardwareConcurrency :: Maybe Json
+  , deviceMemory :: Maybe Json
+  , deviceScaleFactor :: Maybe Json
+  , mobileModel :: Maybe String
+  , mobileVersion :: Maybe Json
+  , chPlatform :: Maybe String
+  , chPlatformVersion :: Maybe String
+  , chArch :: Maybe String
+  , chBitness :: Maybe String
+  , chModel :: Maybe String
+  , chMobile :: Maybe Json
+  , disableSpoofing :: Maybe String
+  , locationMode :: Maybe String
+  , locationLatitude :: Maybe String
+  , locationLongitude :: Maybe String
+  , locationAccuracy :: Maybe String
   , restoreSession :: Maybe Boolean
   , lowBandwidth :: Maybe Boolean
   , notes :: Maybe String
   , startUrl :: Maybe String
   , customFlags :: Maybe String
+  , status :: Maybe String
+  , hidden :: Maybe Boolean
   }
 
 newtype DuplicateProfileRequest = DuplicateProfileRequest
@@ -141,12 +171,6 @@ newtype CreateProxyRequest = CreateProxyRequest
   , proxyType :: String
   , username :: Maybe String
   , password :: Maybe String
-  }
-
-newtype ProxyCheckResult = ProxyCheckResult
-  { success :: Boolean
-  , details :: Maybe Json
-  , errorMessage :: Maybe String
   }
 
 -- ─── Groups ────────────────────────────────────────────────────────────────
@@ -205,14 +229,6 @@ newtype RunAutomationResult = RunAutomationResult
 
 -- ─── DecodeJson instances ─────────────────────────────────────────────────
 
-instance decodeStatusResponse :: DecodeJson StatusResponse where
-  decodeJson json = do
-    obj <- decodeJson json
-    success <- getField obj "success"
-    status <- getField obj "status"
-    version <- getField obj "version"
-    pure $ StatusResponse { success, status, version }
-
 instance decodeStartProfileResponse :: DecodeJson StartProfileResponse where
   decodeJson json = do
     obj <- decodeJson json
@@ -226,27 +242,12 @@ instance decodeStartProfileData :: DecodeJson StartProfileData where
     debugPort <- getFieldOptional obj "debugPort"
     pure $ StartProfileData { debugPort }
 
-instance decodeSettings :: DecodeJson Settings where
-  decodeJson json = do
-    obj <- decodeJson json
-    id' <- getFieldOptional obj "id"
-    chromePath <- getFieldOptional obj "chromePath"
-    apiKey <- getFieldOptional obj "apiKey"
-    language <- getFieldOptional obj "language"
-    pure $ Settings { id: id', chromePath, apiKey, language }
-
-instance decodeSyncStatus :: DecodeJson SyncStatus where
-  decodeJson json = do
-    obj <- decodeJson json
-    total <- getField obj "total"
-    completed <- getField obj "completed"
-    isSyncing <- getField obj "isSyncing"
-    pure $ SyncStatus { total, completed, isSyncing }
-
 instance decodeProfile :: DecodeJson Profile where
   decodeJson json = do
     obj <- decodeJson json
     id' <- getField obj "id"
+    userId <- getFieldOptional obj "userId"
+    userGuid <- getFieldOptional obj "userGuid"
     name <- getField obj "name"
     directoryName <- getFieldOptional obj "directoryName"
     groupId <- getFieldOptional obj "groupId"
@@ -255,20 +256,46 @@ instance decodeProfile :: DecodeJson Profile where
     browserVersion <- getFieldOptional obj "browserVersion"
     osFingerprint <- getFieldOptional obj "osFingerprint"
     screenResolution <- getFieldOptional obj "screenResolution"
+    screenMaximizable <- getFieldOptional obj "screenMaximizable"
     language <- getFieldOptional obj "language"
     acceptLanguage <- getFieldOptional obj "acceptLanguage"
     timezone <- getFieldOptional obj "timezone"
     useFingerprint <- getFieldOptional obj "useFingerprint"
     fingerprintId <- getFieldOptional obj "fingerprintId"
+    platformVersion <- getFieldOptional obj "platformVersion"
+    brandVersion <- getFieldOptional obj "brandVersion"
+    engineVersion <- getFieldOptional obj "engineVersion"
+    gpuVendor <- getFieldOptional obj "gpuVendor"
+    gpuModel <- getFieldOptional obj "gpuModel"
+    hardwareConcurrency <- getFieldOptional obj "hardwareConcurrency"
+    deviceMemory <- getFieldOptional obj "deviceMemory"
+    deviceScaleFactor <- getFieldOptional obj "deviceScaleFactor"
+    mobileModel <- getFieldOptional obj "mobileModel"
+    mobileVersion <- getFieldOptional obj "mobileVersion"
+    chPlatform <- getFieldOptional obj "chPlatform"
+    chPlatformVersion <- getFieldOptional obj "chPlatformVersion"
+    chArch <- getFieldOptional obj "chArch"
+    chBitness <- getFieldOptional obj "chBitness"
+    chModel <- getFieldOptional obj "chModel"
+    chMobile <- getFieldOptional obj "chMobile"
+    disableSpoofing <- getFieldOptional obj "disableSpoofing"
+    locationMode <- getFieldOptional obj "locationMode"
+    locationLatitude <- getFieldOptional obj "locationLatitude"
+    locationLongitude <- getFieldOptional obj "locationLongitude"
+    locationAccuracy <- getFieldOptional obj "locationAccuracy"
+    userAgent <- getFieldOptional obj "userAgent"
     restoreSession <- getFieldOptional obj "restoreSession"
     lowBandwidth <- getFieldOptional obj "lowBandwidth"
     notes <- getFieldOptional obj "notes"
     startUrl <- getFieldOptional obj "startUrl"
     customFlags <- getFieldOptional obj "customFlags"
     status <- getFieldOptional obj "status"
+    statusMachineId <- getFieldOptional obj "statusMachineId"
+    statusHeartbeatAt <- getFieldOptional obj "statusHeartbeatAt"
     needsSync <- getFieldOptional obj "needsSync"
     lastPid <- getFieldOptional obj "lastPid"
     debugPort <- getFieldOptional obj "debugPort"
+    tabsSnapshot <- getFieldOptional obj "tabsSnapshot"
     createdAt <- getFieldOptional obj "createdAt"
     updatedAt <- getFieldOptional obj "updatedAt"
     lastSyncedAt <- getFieldOptional obj "lastSyncedAt"
@@ -277,11 +304,18 @@ instance decodeProfile :: DecodeJson Profile where
     deletedAt <- getFieldOptional obj "deletedAt"
     hidden <- getFieldOptional obj "hidden"
     pure $ Profile
-      { id: id', name, directoryName, groupId, proxyId, browserType, browserVersion
-      , osFingerprint, screenResolution, language, acceptLanguage, timezone
-      , useFingerprint, fingerprintId, restoreSession, lowBandwidth, notes
-      , startUrl, customFlags, status, needsSync, lastPid, debugPort
-      , createdAt, updatedAt, lastSyncedAt, s3Key, trash, deletedAt, hidden
+      { id: id', userId, userGuid, name, directoryName, groupId, proxyId
+      , browserType, browserVersion, osFingerprint, screenResolution
+      , screenMaximizable, language, acceptLanguage, timezone, useFingerprint
+      , fingerprintId, platformVersion, brandVersion, engineVersion, gpuVendor
+      , gpuModel, hardwareConcurrency, deviceMemory, deviceScaleFactor
+      , mobileModel, mobileVersion, chPlatform, chPlatformVersion, chArch
+      , chBitness, chModel, chMobile, disableSpoofing, locationMode
+      , locationLatitude, locationLongitude, locationAccuracy, userAgent
+      , restoreSession, lowBandwidth, notes, startUrl, customFlags, status
+      , statusMachineId, statusHeartbeatAt, needsSync, lastPid, debugPort
+      , tabsSnapshot, createdAt, updatedAt, lastSyncedAt, s3Key, trash
+      , deletedAt, hidden
       }
 
 instance decodeProxy :: DecodeJson Proxy where
@@ -305,14 +339,6 @@ instance decodeProxy :: DecodeJson Proxy where
       { id: id', name, proxyType, host, port: port', username, password
       , status, countryCode, ip, country, timezone, asn, isp
       }
-
-instance decodeProxyCheckResult :: DecodeJson ProxyCheckResult where
-  decodeJson json = do
-    obj <- decodeJson json
-    success <- getField obj "success"
-    details <- getFieldOptional obj "details"
-    errorMessage <- getFieldOptional obj "errorMessage"
-    pure $ ProxyCheckResult { success, details, errorMessage }
 
 instance decodeGroup :: DecodeJson Group where
   decodeJson json = do
@@ -367,18 +393,42 @@ instance encodeCreateProfileRequest :: EncodeJson CreateProfileRequest where
     optEnc "groupId" r.groupId ~>
     optEnc "proxyId" r.proxyId ~>
     optEnc "browserType" r.browserType ~>
+    optEnc "browserVersion" r.browserVersion ~>
     optEnc "osFingerprint" r.osFingerprint ~>
     optEnc "screenResolution" r.screenResolution ~>
+    optEnc "screenMaximizable" r.screenMaximizable ~>
     optEnc "language" r.language ~>
     optEnc "acceptLanguage" r.acceptLanguage ~>
     optEnc "timezone" r.timezone ~>
     optEnc "useFingerprint" r.useFingerprint ~>
-    optEnc "fingerprintId" r.fingerprintId ~>
+    optEnc "platformVersion" r.platformVersion ~>
+    optEnc "brandVersion" r.brandVersion ~>
+    optEnc "engineVersion" r.engineVersion ~>
+    optEnc "gpuVendor" r.gpuVendor ~>
+    optEnc "gpuModel" r.gpuModel ~>
+    optEnc "hardwareConcurrency" r.hardwareConcurrency ~>
+    optEnc "deviceMemory" r.deviceMemory ~>
+    optEnc "deviceScaleFactor" r.deviceScaleFactor ~>
+    optEnc "mobileModel" r.mobileModel ~>
+    optEnc "mobileVersion" r.mobileVersion ~>
+    optEnc "chPlatform" r.chPlatform ~>
+    optEnc "chPlatformVersion" r.chPlatformVersion ~>
+    optEnc "chArch" r.chArch ~>
+    optEnc "chBitness" r.chBitness ~>
+    optEnc "chModel" r.chModel ~>
+    optEnc "chMobile" r.chMobile ~>
+    optEnc "disableSpoofing" r.disableSpoofing ~>
+    optEnc "locationMode" r.locationMode ~>
+    optEnc "locationLatitude" r.locationLatitude ~>
+    optEnc "locationLongitude" r.locationLongitude ~>
+    optEnc "locationAccuracy" r.locationAccuracy ~>
     optEnc "restoreSession" r.restoreSession ~>
     optEnc "lowBandwidth" r.lowBandwidth ~>
     optEnc "notes" r.notes ~>
     optEnc "startUrl" r.startUrl ~>
     optEnc "customFlags" r.customFlags ~>
+    optEnc "status" r.status ~>
+    optEnc "hidden" r.hidden ~>
     jsonSingletonEmpty
 
 instance encodeCreateProxyRequest :: EncodeJson CreateProxyRequest where

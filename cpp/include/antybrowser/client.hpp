@@ -59,26 +59,6 @@ public:
     AntybrowserClient(AntybrowserClient&&) = default;
     AntybrowserClient& operator=(AntybrowserClient&&) = default;
 
-    // ─── System ──────────────────────────────────────────────────────────
-
-    StatusResponse get_status() {
-        return get_impl<StatusResponse>("/api/status");
-    }
-
-    Settings get_settings() {
-        return get_impl<Settings>("/api/settings");
-    }
-
-    SyncStatus get_sync_status() {
-        return get_impl<SyncStatus>("/api/sync/status");
-    }
-
-    json refresh_sync(std::optional<int> profile_id = std::nullopt) {
-        json body = json::object();
-        if (profile_id) body["profileId"] = *profile_id;
-        return post_impl("/api/sync/refresh", body);
-    }
-
     // ─── Profiles ────────────────────────────────────────────────────────
 
     std::vector<Profile> get_profiles() {
@@ -162,22 +142,6 @@ public:
         return post_impl_typed<Proxy>("/api/proxies", json(request));
     }
 
-    ProxyCheckResult check_proxy(const std::string& host, int port,
-                                 const std::optional<std::string>& username = std::nullopt,
-                                 const std::optional<std::string>& password = std::nullopt,
-                                 const std::optional<std::string>& type = std::nullopt) {
-        json body = {{"host", host}, {"port", port}};
-        if (username) body["username"] = *username;
-        if (password) body["password"] = *password;
-        if (type) body["type"] = *type;
-        return post_impl_typed<ProxyCheckResult>("/api/proxies/check", body);
-    }
-
-    std::vector<ProxyCheckResult> check_proxies_bulk(const json& proxies) {
-        json body = {{"proxies", proxies}};
-        return post_impl_typed<std::vector<ProxyCheckResult>>("/api/proxies/check-bulk", body);
-    }
-
     json delete_proxy(int proxy_id) {
         return delete_impl("/api/proxies/" + std::to_string(proxy_id));
     }
@@ -190,17 +154,6 @@ public:
 
     json delete_extension(int extension_id) {
         return delete_impl("/api/extensions/" + std::to_string(extension_id));
-    }
-
-    std::vector<Extension> get_profile_extensions(int profile_id, bool details = false) {
-        std::string path = "/api/profiles/" + std::to_string(profile_id) +
-                           "/extensions?details=" + (details ? "true" : "false");
-        return get_impl<std::vector<Extension>>(path);
-    }
-
-    json set_profile_extensions(int profile_id, const std::vector<int>& extension_ids) {
-        json body = {{"extensionIds", extension_ids}};
-        return post_impl("/api/profiles/" + std::to_string(profile_id) + "/extensions", body);
     }
 
 private:

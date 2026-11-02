@@ -71,15 +71,6 @@ client <- newClientWithOptions "my_api_key"
 
 ## API Reference
 
-### System
-
-| Method | Description |
-|--------|-------------|
-| `getStatus` | Check API connection status |
-| `getSettings` | Get current settings |
-| `getSyncStatus` | Get sync queue status |
-| `refreshSync` | Trigger a sync refresh |
-
 ### Profiles
 
 | Method | Description |
@@ -114,8 +105,6 @@ client <- newClientWithOptions "my_api_key"
 |--------|-------------|
 | `getProxies` | List all proxies |
 | `createProxy` | Add a proxy |
-| `checkProxy` | Check a single proxy |
-| `checkProxiesBulk` | Check multiple proxies |
 | `deleteProxy` | Delete a proxy |
 
 ### Extensions
@@ -124,8 +113,6 @@ client <- newClientWithOptions "my_api_key"
 |--------|-------------|
 | `getExtensions` | List all extensions |
 | `deleteExtension` | Delete an extension |
-| `getProfileExtensions` | Get extensions for a profile |
-| `setProfileExtensions` | Set extensions for a profile |
 
 ## Examples
 
@@ -138,24 +125,47 @@ main :: IO ()
 main = do
   client <- newClient "your_api_key"
   let req = CreateProfileRequest
-        { cprName             = "My Profile"
-        , cprDirectoryName    = Nothing
-        , cprGroupId          = Nothing
-        , cprProxyId          = Nothing
-        , cprBrowserType      = Just "Chrome"
-        , cprBrowserVersion   = Nothing
-        , cprOsFingerprint    = Just "Windows"
-        , cprScreenResolution = Nothing
-        , cprLanguage         = Just "en-US"
-        , cprAcceptLanguage   = Nothing
-        , cprTimezone         = Nothing
-        , cprUseFingerprint   = Just True
-        , cprFingerprintId    = Nothing
-        , cprRestoreSession   = Nothing
-        , cprLowBandwidth     = Nothing
-        , cprNotes            = Nothing
-        , cprStartUrl         = Nothing
-        , cprCustomFlags      = Nothing
+        { cprName                = "My Profile"
+        , cprDirectoryName       = Nothing
+        , cprGroupId             = Nothing
+        , cprProxyId             = Nothing
+        , cprBrowserType         = Just "Chrome"
+        , cprBrowserVersion      = Nothing
+        , cprOsFingerprint       = Just "Windows"
+        , cprScreenResolution    = Just "1920x1080"
+        , cprScreenMaximizable   = Nothing
+        , cprLanguage            = Just "en-US"
+        , cprAcceptLanguage      = Nothing
+        , cprTimezone            = Nothing
+        , cprUseFingerprint      = Just True
+        , cprPlatformVersion     = Nothing
+        , cprBrandVersion        = Nothing
+        , cprEngineVersion       = Nothing
+        , cprGpuVendor           = Just "auto"
+        , cprGpuModel            = Nothing
+        , cprHardwareConcurrency = Nothing
+        , cprDeviceMemory        = Nothing
+        , cprDeviceScaleFactor   = Nothing
+        , cprMobileModel         = Nothing
+        , cprMobileVersion       = Nothing
+        , cprChPlatform          = Nothing
+        , cprChPlatformVersion   = Nothing
+        , cprChArch              = Nothing
+        , cprChBitness           = Nothing
+        , cprChModel             = Nothing
+        , cprChMobile            = Nothing
+        , cprDisableSpoofing     = Nothing
+        , cprLocationMode        = Nothing
+        , cprLocationLatitude    = Nothing
+        , cprLocationLongitude   = Nothing
+        , cprLocationAccuracy    = Nothing
+        , cprRestoreSession      = Nothing
+        , cprLowBandwidth        = Nothing
+        , cprNotes               = Nothing
+        , cprStartUrl            = Nothing
+        , cprCustomFlags         = Nothing
+        , cprStatus              = Nothing
+        , cprHidden              = Nothing
         }
 
   profile <- createProfile client req
@@ -163,26 +173,6 @@ main = do
 
   result <- startProfile client (profileId profile)
   putStrLn $ "Debug port: " ++ show (sprDebugPort result)
-```
-
-### Bulk proxy check
-
-```haskell
-import Antybrowser
-
-main :: IO ()
-main = do
-  client <- newClient "your_api_key"
-  results <- checkProxiesBulk client
-    [ Left "user:pass:1.2.3.4:8080"
-    , Right ("5.6.7.8", 3128, Nothing, Nothing, Just "socks5")
-    ]
-
-  mapM_ (\(i, r) -> putStrLn $ "Proxy " ++ show i ++ ": " ++
-    if pcrSuccess r
-      then maybe "unknown" show (pcrDetails r >>= pcdCountry)
-      else maybe "error" show (pcrErrorMessage r)
-    ) (zip [1 :: Int ..] results)
 ```
 
 ### Run an automation

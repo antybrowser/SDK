@@ -4,11 +4,6 @@ module Antybrowser.Client
   , ClientOptions(..)
   , newClient
   , newClientWithOptions
-    -- * System
-  , getStatus
-  , getSettings
-  , getSyncStatus
-  , refreshSync
     -- * Profiles
   , getProfiles
   , createProfile
@@ -28,23 +23,17 @@ module Antybrowser.Client
     -- * Proxies
   , getProxies
   , createProxy
-  , checkProxy
-  , checkProxiesBulk
   , deleteProxy
     -- * Extensions
   , getExtensions
   , deleteExtension
-  , getProfileExtensions
-  , setProfileExtensions
   ) where
 
 import           Antybrowser.Error    (AntybrowserError (..))
 import           Antybrowser.Types
 
 import           Control.Exception    (throwIO)
-import           Data.Aeson           (FromJSON (..), ToJSON (..), Value (..),
-                                       decode, encode, object, withObject,
-                                       (.=))
+import           Data.Aeson           (FromJSON (..), ToJSON (..), decode, encode)
 import qualified Data.ByteString.Lazy as LBS
 import           Data.Maybe           (fromMaybe)
 import           Data.Text            (Text)
@@ -92,21 +81,6 @@ newClientWithOptions apiKey opts = do
 
 defaultOptions :: ClientOptions
 defaultOptions = ClientOptions Nothing Nothing Nothing
-
--- ─── System ──────────────────────────────────────────────────────────────────
-
-getStatus :: AntybrowserClient -> IO StatusResponse
-getStatus = get "/api/status"
-
-getSettings :: AntybrowserClient -> IO Settings
-getSettings = get "/api/settings"
-
-getSyncStatus :: AntybrowserClient -> IO SyncStatus
-getSyncStatus = get "/api/sync/status"
-
-refreshSync :: AntybrowserClient -> Maybe Int -> IO ApiResponse
-refreshSync client profileId = post client "/api/sync/refresh" $
-  maybe NoContent (\pid -> object ["profileId" .= pid]) profileId
 
 -- ─── Profiles ────────────────────────────────────────────────────────────────
 
@@ -163,65 +137,6 @@ getProxies = get "/api/proxies"
 createProxy :: AntybrowserClient -> CreateProxyRequest -> IO Proxy
 createProxy client req = post client "/api/proxies" req
 
-data CheckProxyRequest = CheckProxyRequest
-  { cprHost     :: Text
-  , cprPort     :: Int
-  , cprUsername :: Maybe Text
-  , cprPassword :: Maybe Text
-  , cprType     :: Maybe Text
-  } deriving (Show, Eq)
-
-instance ToJSON CheckProxyRequest where
-  toJSON r = object
-    [ "host"     .= cprHost r
-    , "port"     .= cprPort r
-    , "username" .= cprUsername r
-    , "password" .= cprPassword r
-    , "type"     .= cprType r
-    ]
-
-checkProxy :: AntybrowserClient
-           -> Text -> Int -> Maybe Text -> Maybe Text -> Maybe Text
-           -> IO ProxyCheckResult
-checkProxy client host port username password typ =
-  post client "/api/proxies/check" $
-    CheckProxyRequest host port username password typ
-
-data BulkCheckProxy
-  = BulkCheckString Text
-  | BulkCheckDetailed CheckProxyRequest
-  deriving (Show, Eq)
-
-data BulkCheckRequest = BulkCheckRequest
-  { bcrProxies :: [BulkCheckProxy]
-  } deriving (Show, Eq)
-
-instance ToJSON BulkCheckProxy where
-  toJSON (BulkCheckString t)        = toJSON t
-  toJSON (BulkCheckDetailed req)    = toJSON req
-
-instance ToJSON BulkCheckRequest where
-  toJSON r = object ["proxies" .= bcrProxies r]
-
-data BulkCheckResponse = BulkCheckResponse
-  { bcSuccess :: Bool
-  , bcResults :: [ProxyCheckResult]
-  } deriving (Show, Eq)
-
-instance FromJSON BulkCheckResponse where
-  parseJSON = withObject "BulkCheckResponse" $ \o ->
-    BulkCheckResponse <$> o .: "success" <*> o .: "results"
-
-checkProxiesBulk :: AntybrowserClient
-                 -> [Either Text (Text, Int, Maybe Text, Maybe Text, Maybe Text)]
-                 -> IO [ProxyCheckResult]
-checkProxiesBulk client proxies = do
-  let asBulkProxy (Left s)           = BulkCheckString s
-      asBulkProxy (Right (h, p, u, pw, t)) = BulkCheckDetailed (CheckProxyRequest h p u pw t)
-      req = BulkCheckRequest (map asBulkProxy proxies)
-  result <- post client "/api/proxies/check-bulk" req
-  return (bcResults result)
-
 deleteProxy :: AntybrowserClient -> Int -> IO ()
 deleteProxy client pid = delete client ("/api/proxies/" <> T.pack (show pid)) >> return ()
 
@@ -232,22 +147,6 @@ getExtensions = get "/api/extensions"
 
 deleteExtension :: AntybrowserClient -> Int -> IO ()
 deleteExtension client eid = delete client ("/api/extensions/" <> T.pack (show eid)) >> return ()
-
-getProfileExtensions :: AntybrowserClient -> Int -> Bool -> IO [Extension]
-getProfileExtensions client pid details =
-  get client ("/api/profiles/" <> T.pack (show pid) <> "/extensions?details=" <> T.pack (show details))
-
-data SetProfileExtensionsRequest = SetProfileExtensionsRequest
-  { sperExtensionIds :: [Int]
-  } deriving (Show, Eq)
-
-instance ToJSON SetProfileExtensionsRequest where
-  toJSON r = object ["extensionIds" .= sperExtensionIds r]
-
-setProfileExtensions :: AntybrowserClient -> Int -> [Int] -> IO ApiResponse
-setProfileExtensions client pid eids =
-  post client ("/api/profiles/" <> T.pack (show pid) <> "/extensions") $
-    SetProfileExtensionsRequest eids
 
 -- ─── HTTP Helpers ────────────────────────────────────────────────────────────
 
@@ -280,7 +179,7 @@ request client method path mBody = do
         , requestHeaders =
             [ ("x-api-key", TE.encodeUtf8 (acApiKey client))
             , (hContentType, "application/json")
-            , (hUser-Agent, "antybrowser-haskell-sdk/1.0.3")
+            , (hUserAgent, "antybrowser-haskell-sdk/1.0.3")
             ]
         , requestBody = maybe NoContent RequestBodyLBS mBody
         , responseTimeout = responseTimeoutMicros (acTimeout client * 1000)

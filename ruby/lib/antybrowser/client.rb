@@ -12,25 +12,6 @@ module Antybrowser
       @timeout = timeout
     end
 
-    # ─── System ──────────────────────────────────────────────────────────
-
-    def get_status
-      get("/api/status")
-    end
-
-    def get_settings
-      get("/api/settings")
-    end
-
-    def get_sync_status
-      SyncStatus.new(get("/api/sync/status"))
-    end
-
-    def refresh_sync(profile_id: nil)
-      body = profile_id ? { "profileId" => profile_id } : {}
-      post("/api/sync/refresh", body)
-    end
-
     # ─── Profiles ────────────────────────────────────────────────────────
 
     def get_profiles
@@ -111,20 +92,6 @@ module Antybrowser
       Proxy.new(post("/api/proxies", data))
     end
 
-    def check_proxy(host:, port:, username: nil, password: nil, type: nil)
-      body = { "host" => host, "port" => port }
-      body["username"] = username if username
-      body["password"] = password if password
-      body["type"] = type if type
-      ProxyCheckResult.new(post("/api/proxies/check", body))
-    end
-
-    def check_proxies_bulk(proxies)
-      result = post("/api/proxies/check-bulk", { "proxies" => proxies })
-      results = result["results"] || result
-      results.map { |r| ProxyCheckResult.new(r) }
-    end
-
     def delete_proxy(id)
       delete("/api/proxies/#{id}")
     end
@@ -137,14 +104,6 @@ module Antybrowser
 
     def delete_extension(id)
       delete("/api/extensions/#{id}")
-    end
-
-    def get_profile_extensions(profile_id, details: false)
-      get("/api/profiles/#{profile_id}/extensions?details=#{details}").map { |d| Extension.new(d) }
-    end
-
-    def set_profile_extensions(profile_id, extension_ids)
-      post("/api/profiles/#{profile_id}/extensions", { "extensionIds" => extension_ids })
     end
 
     private

@@ -39,10 +39,6 @@ open Antybrowser
 let () =
   let client = Client.create ~api_key:"your-api-key" () in
 
-  (* Check API status *)
-  let status = Lwt_main.run (Client.get_status client) in
-  Printf.printf "API status: %s (v%s)\n" status.Antybrowser_types.status status.Antybrowser_types.version;
-
   (* List profiles *)
   let profiles = Lwt_main.run (Client.get_profiles client) in
   List.iter (fun p ->
@@ -55,19 +51,43 @@ let () =
     ; directory_name = None
     ; group_id = None
     ; proxy_id = None
-    ; browser_type = Some "chromium"
+    ; browser_type = Some "Chrome"
+    ; browser_version = None
     ; os_fingerprint = None
     ; screen_resolution = None
+    ; screen_maximizable = None
     ; language = None
     ; accept_language = None
     ; timezone = None
     ; use_fingerprint = None
-    ; fingerprint_id = None
+    ; platform_version = None
+    ; brand_version = None
+    ; engine_version = None
+    ; gpu_vendor = None
+    ; gpu_model = None
+    ; hardware_concurrency = None
+    ; device_memory = None
+    ; device_scale_factor = None
+    ; mobile_model = None
+    ; mobile_version = None
+    ; ch_platform = None
+    ; ch_platform_version = None
+    ; ch_arch = None
+    ; ch_bitness = None
+    ; ch_model = None
+    ; ch_mobile = None
+    ; disable_spoofing = None
+    ; location_mode = None
+    ; location_latitude = None
+    ; location_longitude = None
+    ; location_accuracy = None
     ; restore_session = None
     ; low_bandwidth = None
     ; notes = None
     ; start_url = None
     ; custom_flags = None
+    ; status = None
+    ; hidden = None
     }) in
   Printf.printf "Created profile: %d\n" new_profile.Antybrowser_types.id
 ```
@@ -91,7 +111,7 @@ All client functions raise `Antybrowser_error` on failure:
 
 ```ocaml
 try
-  let status = Lwt_main.run (Client.get_status client) in
+  let profiles = Lwt_main.run (Client.get_profiles client) in
   ...
 with Antybrowser_error (msg, status_code, response_body) ->
   Printf.eprintf "Error %s (HTTP %d)\n" msg (Option.value ~default:0 status_code)

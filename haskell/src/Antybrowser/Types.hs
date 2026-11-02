@@ -7,8 +7,6 @@ module Antybrowser.Types
     -- * Proxy
   , Proxy(..)
   , CreateProxyRequest(..)
-  , ProxyCheckResult(..)
-  , ProxyCheckDetails(..)
     -- * Group
   , Group(..)
   , CreateGroupRequest(..)
@@ -18,10 +16,6 @@ module Antybrowser.Types
   , Automation(..)
   , RunAutomationRequest(..)
   , RunAutomationResult(..)
-    -- * Settings & Status
-  , Settings(..)
-  , SyncStatus(..)
-  , StatusResponse(..)
     -- * Generic
   , ApiResponse(..)
   ) where
@@ -38,41 +32,72 @@ import           Prelude
 -- ─── Profile ─────────────────────────────────────────────────────────────────
 
 data Profile = Profile
-  { profileId                :: Int
-  , profileName              :: Text
-  , profileDirectoryName     :: Maybe Text
-  , profileGroupId           :: Maybe Int
-  , profileProxyId           :: Maybe Int
-  , profileBrowserType       :: Maybe Text
-  , profileBrowserVersion    :: Maybe Text
-  , profileOsFingerprint     :: Maybe Text
-  , profileScreenResolution  :: Maybe Text
-  , profileLanguage          :: Maybe Text
-  , profileAcceptLanguage    :: Maybe Text
-  , profileTimezone          :: Maybe Text
-  , profileUseFingerprint    :: Maybe Bool
-  , profileFingerprintId     :: Maybe Text
-  , profileRestoreSession    :: Maybe Bool
-  , profileLowBandwidth      :: Maybe Bool
-  , profileNotes             :: Maybe Text
-  , profileStartUrl          :: Maybe Text
-  , profileCustomFlags       :: Maybe Text
-  , profileStatus            :: Maybe Text
-  , profileNeedsSync         :: Maybe Bool
-  , profileLastPid           :: Maybe Int
-  , profileDebugPort         :: Maybe Int
-  , profileCreatedAt         :: Maybe Text
-  , profileUpdatedAt         :: Maybe Text
-  , profileLastSyncedAt      :: Maybe Text
-  , profileS3Key             :: Maybe Text
-  , profileTrash             :: Maybe Bool
-  , profileDeletedAt         :: Maybe Text
-  , profileHidden            :: Maybe Bool
+  { profileId                  :: Int
+  , profileUserId              :: Maybe Int
+  , profileUserGuid            :: Maybe Text
+  , profileName                :: Text
+  , profileDirectoryName       :: Maybe Text
+  , profileGroupId             :: Maybe Int
+  , profileProxyId             :: Maybe Int
+  , profileBrowserType         :: Maybe Text
+  , profileBrowserVersion      :: Maybe Text
+  , profileOsFingerprint       :: Maybe Text
+  , profileScreenResolution    :: Maybe Text
+  , profileScreenMaximizable   :: Maybe Bool
+  , profileLanguage            :: Maybe Text
+  , profileAcceptLanguage      :: Maybe Text
+  , profileTimezone            :: Maybe Text
+  , profileUseFingerprint      :: Maybe Bool
+  -- | Server-owned noise seed. Read-only — never sent on create/update.
+  , profileFingerprintId       :: Maybe Text
+  , profilePlatformVersion     :: Maybe Text
+  , profileBrandVersion        :: Maybe Text
+  , profileEngineVersion       :: Maybe Text
+  , profileGpuVendor           :: Maybe Text
+  , profileGpuModel            :: Maybe Text
+  , profileHardwareConcurrency :: Maybe Value
+  , profileDeviceMemory        :: Maybe Value
+  , profileDeviceScaleFactor   :: Maybe Value
+  , profileMobileModel         :: Maybe Text
+  , profileMobileVersion       :: Maybe Value
+  , profileChPlatform          :: Maybe Text
+  , profileChPlatformVersion   :: Maybe Text
+  , profileChArch              :: Maybe Text
+  , profileChBitness           :: Maybe Text
+  , profileChModel             :: Maybe Text
+  , profileChMobile            :: Maybe Value
+  , profileDisableSpoofing     :: Maybe Text
+  , profileLocationMode        :: Maybe Text
+  , profileLocationLatitude    :: Maybe Text
+  , profileLocationLongitude   :: Maybe Text
+  , profileLocationAccuracy    :: Maybe Text
+  , profileUserAgent           :: Maybe Text
+  , profileRestoreSession      :: Maybe Bool
+  , profileLowBandwidth        :: Maybe Bool
+  , profileNotes               :: Maybe Text
+  , profileStartUrl            :: Maybe Text
+  , profileCustomFlags         :: Maybe Text
+  , profileStatus              :: Maybe Text
+  , profileStatusMachineId     :: Maybe Text
+  , profileStatusHeartbeatAt   :: Maybe Text
+  , profileNeedsSync           :: Maybe Bool
+  , profileLastPid             :: Maybe Int
+  , profileDebugPort           :: Maybe Int
+  , profileTabsSnapshot        :: Maybe Text
+  , profileCreatedAt           :: Maybe Text
+  , profileUpdatedAt           :: Maybe Text
+  , profileLastSyncedAt        :: Maybe Text
+  , profileS3Key               :: Maybe Text
+  , profileTrash               :: Maybe Bool
+  , profileDeletedAt           :: Maybe Text
+  , profileHidden              :: Maybe Bool
   } deriving (Show, Eq)
 
 instance FromJSON Profile where
   parseJSON = withObject "Profile" $ \o -> Profile
     <$> o .:  "id"
+    <*> o .:? "userId"
+    <*> o .:? "userGuid"
     <*> o .:  "name"
     <*> o .:? "directoryName"
     <*> o .:? "groupId"
@@ -81,20 +106,46 @@ instance FromJSON Profile where
     <*> o .:? "browserVersion"
     <*> o .:? "osFingerprint"
     <*> o .:? "screenResolution"
+    <*> o .:? "screenMaximizable"
     <*> o .:? "language"
     <*> o .:? "acceptLanguage"
     <*> o .:? "timezone"
     <*> o .:? "useFingerprint"
     <*> o .:? "fingerprintId"
+    <*> o .:? "platformVersion"
+    <*> o .:? "brandVersion"
+    <*> o .:? "engineVersion"
+    <*> o .:? "gpuVendor"
+    <*> o .:? "gpuModel"
+    <*> o .:? "hardwareConcurrency"
+    <*> o .:? "deviceMemory"
+    <*> o .:? "deviceScaleFactor"
+    <*> o .:? "mobileModel"
+    <*> o .:? "mobileVersion"
+    <*> o .:? "chPlatform"
+    <*> o .:? "chPlatformVersion"
+    <*> o .:? "chArch"
+    <*> o .:? "chBitness"
+    <*> o .:? "chModel"
+    <*> o .:? "chMobile"
+    <*> o .:? "disableSpoofing"
+    <*> o .:? "locationMode"
+    <*> o .:? "locationLatitude"
+    <*> o .:? "locationLongitude"
+    <*> o .:? "locationAccuracy"
+    <*> o .:? "userAgent"
     <*> o .:? "restoreSession"
     <*> o .:? "lowBandwidth"
     <*> o .:? "notes"
     <*> o .:? "startUrl"
     <*> o .:? "customFlags"
     <*> o .:? "status"
+    <*> o .:? "statusMachineId"
+    <*> o .:? "statusHeartbeatAt"
     <*> o .:? "needsSync"
     <*> o .:? "lastPid"
     <*> o .:? "debugPort"
+    <*> o .:? "tabsSnapshot"
     <*> o .:? "createdAt"
     <*> o .:? "updatedAt"
     <*> o .:? "lastSyncedAt"
@@ -105,81 +156,155 @@ instance FromJSON Profile where
 
 instance ToJSON Profile where
   toJSON p = object
-    [ "id"                .= profileId p
-    , "name"              .= profileName p
-    , "directoryName"     .= profileDirectoryName p
-    , "groupId"           .= profileGroupId p
-    , "proxyId"           .= profileProxyId p
-    , "browserType"       .= profileBrowserType p
-    , "browserVersion"    .= profileBrowserVersion p
-    , "osFingerprint"     .= profileOsFingerprint p
-    , "screenResolution"  .= profileScreenResolution p
-    , "language"          .= profileLanguage p
-    , "acceptLanguage"    .= profileAcceptLanguage p
-    , "timezone"          .= profileTimezone p
-    , "useFingerprint"    .= profileUseFingerprint p
-    , "fingerprintId"     .= profileFingerprintId p
-    , "restoreSession"    .= profileRestoreSession p
-    , "lowBandwidth"      .= profileLowBandwidth p
-    , "notes"             .= profileNotes p
-    , "startUrl"          .= profileStartUrl p
-    , "customFlags"       .= profileCustomFlags p
-    , "status"            .= profileStatus p
-    , "needsSync"         .= profileNeedsSync p
-    , "lastPid"           .= profileLastPid p
-    , "debugPort"         .= profileDebugPort p
-    , "createdAt"         .= profileCreatedAt p
-    , "updatedAt"         .= profileUpdatedAt p
-    , "lastSyncedAt"      .= profileLastSyncedAt p
-    , "s3Key"             .= profileS3Key p
-    , "trash"             .= profileTrash p
-    , "deletedAt"         .= profileDeletedAt p
-    , "hidden"            .= profileHidden p
+    [ "id"                  .= profileId p
+    , "userId"              .= profileUserId p
+    , "userGuid"            .= profileUserGuid p
+    , "name"                .= profileName p
+    , "directoryName"       .= profileDirectoryName p
+    , "groupId"             .= profileGroupId p
+    , "proxyId"             .= profileProxyId p
+    , "browserType"         .= profileBrowserType p
+    , "browserVersion"      .= profileBrowserVersion p
+    , "osFingerprint"       .= profileOsFingerprint p
+    , "screenResolution"    .= profileScreenResolution p
+    , "screenMaximizable"   .= profileScreenMaximizable p
+    , "language"            .= profileLanguage p
+    , "acceptLanguage"      .= profileAcceptLanguage p
+    , "timezone"            .= profileTimezone p
+    , "useFingerprint"      .= profileUseFingerprint p
+    , "fingerprintId"       .= profileFingerprintId p
+    , "platformVersion"     .= profilePlatformVersion p
+    , "brandVersion"        .= profileBrandVersion p
+    , "engineVersion"       .= profileEngineVersion p
+    , "gpuVendor"           .= profileGpuVendor p
+    , "gpuModel"            .= profileGpuModel p
+    , "hardwareConcurrency" .= profileHardwareConcurrency p
+    , "deviceMemory"        .= profileDeviceMemory p
+    , "deviceScaleFactor"   .= profileDeviceScaleFactor p
+    , "mobileModel"         .= profileMobileModel p
+    , "mobileVersion"       .= profileMobileVersion p
+    , "chPlatform"          .= profileChPlatform p
+    , "chPlatformVersion"   .= profileChPlatformVersion p
+    , "chArch"              .= profileChArch p
+    , "chBitness"           .= profileChBitness p
+    , "chModel"             .= profileChModel p
+    , "chMobile"            .= profileChMobile p
+    , "disableSpoofing"     .= profileDisableSpoofing p
+    , "locationMode"        .= profileLocationMode p
+    , "locationLatitude"    .= profileLocationLatitude p
+    , "locationLongitude"   .= profileLocationLongitude p
+    , "locationAccuracy"    .= profileLocationAccuracy p
+    , "userAgent"           .= profileUserAgent p
+    , "restoreSession"      .= profileRestoreSession p
+    , "lowBandwidth"        .= profileLowBandwidth p
+    , "notes"               .= profileNotes p
+    , "startUrl"            .= profileStartUrl p
+    , "customFlags"         .= profileCustomFlags p
+    , "status"              .= profileStatus p
+    , "statusMachineId"     .= profileStatusMachineId p
+    , "statusHeartbeatAt"   .= profileStatusHeartbeatAt p
+    , "needsSync"           .= profileNeedsSync p
+    , "lastPid"             .= profileLastPid p
+    , "debugPort"           .= profileDebugPort p
+    , "tabsSnapshot"        .= profileTabsSnapshot p
+    , "createdAt"           .= profileCreatedAt p
+    , "updatedAt"           .= profileUpdatedAt p
+    , "lastSyncedAt"        .= profileLastSyncedAt p
+    , "s3Key"               .= profileS3Key p
+    , "trash"               .= profileTrash p
+    , "deletedAt"           .= profileDeletedAt p
+    , "hidden"              .= profileHidden p
     ]
 
 -- ─── CreateProfileRequest ────────────────────────────────────────────────────
 
 data CreateProfileRequest = CreateProfileRequest
-  { cprName              :: Text
-  , cprDirectoryName     :: Maybe Text
-  , cprGroupId           :: Maybe Int
-  , cprProxyId           :: Maybe Int
-  , cprBrowserType       :: Maybe Text
-  , cprBrowserVersion    :: Maybe Text
-  , cprOsFingerprint     :: Maybe Text
-  , cprScreenResolution  :: Maybe Text
-  , cprLanguage          :: Maybe Text
-  , cprAcceptLanguage    :: Maybe Text
-  , cprTimezone          :: Maybe Text
-  , cprUseFingerprint    :: Maybe Bool
-  , cprFingerprintId     :: Maybe Text
-  , cprRestoreSession    :: Maybe Bool
-  , cprLowBandwidth      :: Maybe Bool
-  , cprNotes             :: Maybe Text
-  , cprStartUrl          :: Maybe Text
-  , cprCustomFlags       :: Maybe Text
+  { cprName                  :: Text
+  , cprDirectoryName         :: Maybe Text
+  , cprGroupId               :: Maybe Int
+  , cprProxyId               :: Maybe Int
+  , cprBrowserType           :: Maybe Text
+  , cprBrowserVersion        :: Maybe Text
+  , cprOsFingerprint         :: Maybe Text
+  , cprScreenResolution      :: Maybe Text
+  , cprScreenMaximizable     :: Maybe Bool
+  , cprLanguage              :: Maybe Text
+  , cprAcceptLanguage        :: Maybe Text
+  , cprTimezone              :: Maybe Text
+  , cprUseFingerprint        :: Maybe Bool
+  , cprPlatformVersion       :: Maybe Text
+  , cprBrandVersion          :: Maybe Text
+  , cprEngineVersion         :: Maybe Text
+  , cprGpuVendor             :: Maybe Text
+  , cprGpuModel              :: Maybe Text
+  , cprHardwareConcurrency   :: Maybe Value
+  , cprDeviceMemory          :: Maybe Value
+  , cprDeviceScaleFactor     :: Maybe Value
+  , cprMobileModel           :: Maybe Text
+  , cprMobileVersion         :: Maybe Value
+  , cprChPlatform            :: Maybe Text
+  , cprChPlatformVersion     :: Maybe Text
+  , cprChArch                :: Maybe Text
+  , cprChBitness             :: Maybe Text
+  , cprChModel               :: Maybe Text
+  , cprChMobile              :: Maybe Value
+  , cprDisableSpoofing       :: Maybe Text
+  , cprLocationMode          :: Maybe Text
+  , cprLocationLatitude      :: Maybe Text
+  , cprLocationLongitude     :: Maybe Text
+  , cprLocationAccuracy      :: Maybe Text
+  , cprRestoreSession        :: Maybe Bool
+  , cprLowBandwidth          :: Maybe Bool
+  , cprNotes                 :: Maybe Text
+  , cprStartUrl              :: Maybe Text
+  , cprCustomFlags           :: Maybe Text
+  , cprStatus                :: Maybe Text
+  , cprHidden                :: Maybe Bool
   } deriving (Show, Eq)
 
 instance ToJSON CreateProfileRequest where
   toJSON r = object
-    [ "name"              .= cprName r
-    , "directoryName"     .= cprDirectoryName r
-    , "groupId"           .= cprGroupId r
-    , "proxyId"           .= cprProxyId r
-    , "browserType"       .= cprBrowserType r
-    , "browserVersion"    .= cprBrowserVersion r
-    , "osFingerprint"     .= cprOsFingerprint r
-    , "screenResolution"  .= cprScreenResolution r
-    , "language"          .= cprLanguage r
-    , "acceptLanguage"    .= cprAcceptLanguage r
-    , "timezone"          .= cprTimezone r
-    , "useFingerprint"    .= cprUseFingerprint r
-    , "fingerprintId"     .= cprFingerprintId r
-    , "restoreSession"    .= cprRestoreSession r
-    , "lowBandwidth"      .= cprLowBandwidth r
-    , "notes"             .= cprNotes r
-    , "startUrl"          .= cprStartUrl r
-    , "customFlags"       .= cprCustomFlags r
+    [ "name"                .= cprName r
+    , "directoryName"       .= cprDirectoryName r
+    , "groupId"             .= cprGroupId r
+    , "proxyId"             .= cprProxyId r
+    , "browserType"         .= cprBrowserType r
+    , "browserVersion"      .= cprBrowserVersion r
+    , "osFingerprint"       .= cprOsFingerprint r
+    , "screenResolution"    .= cprScreenResolution r
+    , "screenMaximizable"   .= cprScreenMaximizable r
+    , "language"            .= cprLanguage r
+    , "acceptLanguage"      .= cprAcceptLanguage r
+    , "timezone"            .= cprTimezone r
+    , "useFingerprint"      .= cprUseFingerprint r
+    , "platformVersion"     .= cprPlatformVersion r
+    , "brandVersion"        .= cprBrandVersion r
+    , "engineVersion"       .= cprEngineVersion r
+    , "gpuVendor"           .= cprGpuVendor r
+    , "gpuModel"            .= cprGpuModel r
+    , "hardwareConcurrency" .= cprHardwareConcurrency r
+    , "deviceMemory"        .= cprDeviceMemory r
+    , "deviceScaleFactor"   .= cprDeviceScaleFactor r
+    , "mobileModel"         .= cprMobileModel r
+    , "mobileVersion"       .= cprMobileVersion r
+    , "chPlatform"          .= cprChPlatform r
+    , "chPlatformVersion"   .= cprChPlatformVersion r
+    , "chArch"              .= cprChArch r
+    , "chBitness"           .= cprChBitness r
+    , "chModel"             .= cprChModel r
+    , "chMobile"            .= cprChMobile r
+    , "disableSpoofing"     .= cprDisableSpoofing r
+    , "locationMode"        .= cprLocationMode r
+    , "locationLatitude"    .= cprLocationLatitude r
+    , "locationLongitude"   .= cprLocationLongitude r
+    , "locationAccuracy"    .= cprLocationAccuracy r
+    , "restoreSession"      .= cprRestoreSession r
+    , "lowBandwidth"        .= cprLowBandwidth r
+    , "notes"               .= cprNotes r
+    , "startUrl"            .= cprStartUrl r
+    , "customFlags"         .= cprCustomFlags r
+    , "status"              .= cprStatus r
+    , "hidden"              .= cprHidden r
     ]
 
 instance FromJSON CreateProfileRequest where
@@ -192,16 +317,39 @@ instance FromJSON CreateProfileRequest where
     <*> o .:? "browserVersion"
     <*> o .:? "osFingerprint"
     <*> o .:? "screenResolution"
+    <*> o .:? "screenMaximizable"
     <*> o .:? "language"
     <*> o .:? "acceptLanguage"
     <*> o .:? "timezone"
     <*> o .:? "useFingerprint"
-    <*> o .:? "fingerprintId"
+    <*> o .:? "platformVersion"
+    <*> o .:? "brandVersion"
+    <*> o .:? "engineVersion"
+    <*> o .:? "gpuVendor"
+    <*> o .:? "gpuModel"
+    <*> o .:? "hardwareConcurrency"
+    <*> o .:? "deviceMemory"
+    <*> o .:? "deviceScaleFactor"
+    <*> o .:? "mobileModel"
+    <*> o .:? "mobileVersion"
+    <*> o .:? "chPlatform"
+    <*> o .:? "chPlatformVersion"
+    <*> o .:? "chArch"
+    <*> o .:? "chBitness"
+    <*> o .:? "chModel"
+    <*> o .:? "chMobile"
+    <*> o .:? "disableSpoofing"
+    <*> o .:? "locationMode"
+    <*> o .:? "locationLatitude"
+    <*> o .:? "locationLongitude"
+    <*> o .:? "locationAccuracy"
     <*> o .:? "restoreSession"
     <*> o .:? "lowBandwidth"
     <*> o .:? "notes"
     <*> o .:? "startUrl"
     <*> o .:? "customFlags"
+    <*> o .:? "status"
+    <*> o .:? "hidden"
 
 -- ─── DuplicateProfileRequest ─────────────────────────────────────────────────
 
@@ -375,87 +523,6 @@ instance FromJSON CreateProxyRequest where
     <*> o .:? "password"
     <*> o .:  "type"
 
--- ─── ProxyCheckResult ────────────────────────────────────────────────────────
-
-data ProxyCheckResult = ProxyCheckResult
-  { pcrSuccess      :: Bool
-  , pcrDetails      :: Maybe ProxyCheckDetails
-  , pcrErrorMessage :: Maybe Text
-  } deriving (Show, Eq)
-
-instance FromJSON ProxyCheckResult where
-  parseJSON = withObject "ProxyCheckResult" $ \o -> ProxyCheckResult
-    <$> o .:  "success"
-    <*> o .:? "details"
-    <*> o .:? "errorMessage"
-
-instance ToJSON ProxyCheckResult where
-  toJSON r = object
-    [ "success"      .= pcrSuccess r
-    , "details"      .= pcrDetails r
-    , "errorMessage" .= pcrErrorMessage r
-    ]
-
--- ─── ProxyCheckDetails ───────────────────────────────────────────────────────
-
-data ProxyCheckDetails = ProxyCheckDetails
-  { pcdIp             :: Maybe Text
-  , pcdCountry        :: Maybe Text
-  , pcdCountryCode    :: Maybe Text
-  , pcdCity           :: Maybe Text
-  , pcdRegion         :: Maybe Text
-  , pcdTimezone       :: Maybe Text
-  , pcdIsp            :: Maybe Text
-  , pcdAsn            :: Maybe Text
-  , pcdAsnType        :: Maybe Text
-  , pcdOrg            :: Maybe Text
-  , pcdUsageType      :: Maybe Text
-  , pcdDomain         :: Maybe Text
-  , pcdIsResidential  :: Maybe Bool
-  , pcdPrivacy        :: Maybe Value
-  , pcdHostnames      :: Maybe [Text]
-  , pcdRiskAssessment :: Maybe Value
-  } deriving (Show, Eq)
-
-instance FromJSON ProxyCheckDetails where
-  parseJSON = withObject "ProxyCheckDetails" $ \o -> ProxyCheckDetails
-    <$> o .:? "ip"
-    <*> o .:? "country"
-    <*> o .:? "countryCode"
-    <*> o .:? "city"
-    <*> o .:? "region"
-    <*> o .:? "timezone"
-    <*> o .:? "isp"
-    <*> o .:? "asn"
-    <*> o .:? "asnType"
-    <*> o .:? "org"
-    <*> o .:? "usageType"
-    <*> o .:? "domain"
-    <*> o .:? "isResidential"
-    <*> o .:? "privacy"
-    <*> o .:? "hostnames"
-    <*> o .:? "riskAssessment"
-
-instance ToJSON ProxyCheckDetails where
-  toJSON d = object
-    [ "ip"            .= pcdIp d
-    , "country"       .= pcdCountry d
-    , "countryCode"   .= pcdCountryCode d
-    , "city"          .= pcdCity d
-    , "region"        .= pcdRegion d
-    , "timezone"      .= pcdTimezone d
-    , "isp"           .= pcdIsp d
-    , "asn"           .= pcdAsn d
-    , "asnType"       .= pcdAsnType d
-    , "org"           .= pcdOrg d
-    , "usageType"     .= pcdUsageType d
-    , "domain"        .= pcdDomain d
-    , "isResidential" .= pcdIsResidential d
-    , "privacy"       .= pcdPrivacy d
-    , "hostnames"     .= pcdHostnames d
-    , "riskAssessment" .= pcdRiskAssessment d
-    ]
-
 -- ─── Group ───────────────────────────────────────────────────────────────────
 
 data Group = Group
@@ -622,144 +689,6 @@ instance ToJSON RunAutomationResult where
     [ "success"   .= rarSuccess r
     , "message"   .= rarMessage r
     , "variables" .= rarVariables r
-    ]
-
--- ─── Settings ────────────────────────────────────────────────────────────────
-
-data Settings = Settings
-  { settingsId                        :: Maybe Int
-  , settingsChromePath                :: Maybe Text
-  , settingsLicenseKey                :: Maybe Text
-  , settingsDefaultBrowserType        :: Maybe Text
-  , settingsDefaultOsFingerprint      :: Maybe Text
-  , settingsDefaultScreenResolution   :: Maybe Text
-  , settingsDefaultLanguage           :: Maybe Text
-  , settingsDefaultAcceptLanguage     :: Maybe Text
-  , settingsDefaultTimezone           :: Maybe Text
-  , settingsDefaultLowBandwidth       :: Maybe Bool
-  , settingsApiEnabled                :: Maybe Bool
-  , settingsApiKey                    :: Maybe Text
-  , settingsLanguage                  :: Maybe Text
-  , settingsOnCloseAction             :: Maybe Text
-  , settingsLaunchOnStartup           :: Maybe Bool
-  , settingsLaunchMinimizedOnStartup  :: Maybe Bool
-  , settingsIpQualityScoreApiKey      :: Maybe Text
-  , settingsUseIpQualityScore         :: Maybe Bool
-  , settingsBrowserFlags              :: Maybe Text
-  , settingsFontSizeScale             :: Maybe Text
-  , settingsExtra                     :: Map Text Value
-  } deriving (Show, Eq)
-
-instance FromJSON Settings where
-  parseJSON = withObject "Settings" $ \o -> do
-    i   <- o .:? "id"
-    cp  <- o .:? "chromePath"
-    lk  <- o .:? "licenseKey"
-    db  <- o .:? "defaultBrowserType"
-    df  <- o .:? "defaultOsFingerprint"
-    dr  <- o .:? "defaultScreenResolution"
-    dl  <- o .:? "defaultLanguage"
-    da  <- o .:? "defaultAcceptLanguage"
-    dt  <- o .:? "defaultTimezone"
-    dlw <- o .:? "defaultLowBandwidth"
-    ae  <- o .:? "apiEnabled"
-    ak  <- o .:? "apiKey"
-    la  <- o .:? "language"
-    oa  <- o .:? "onCloseAction"
-    los <- o .:? "launchOnStartup"
-    lms <- o .:? "launchMinimizedOnStartup"
-    iqk <- o .:? "ipQualityScoreApiKey"
-    uiq <- o .:? "useIpQualityScore"
-    bf  <- o .:? "browserFlags"
-    fs  <- o .:? "fontSizeScale"
-    let knownKeys = [ "id" :: Text, "chromePath", "licenseKey"
-                    , "defaultBrowserType", "defaultOsFingerprint"
-                    , "defaultScreenResolution", "defaultLanguage"
-                    , "defaultAcceptLanguage", "defaultTimezone"
-                    , "defaultLowBandwidth", "apiEnabled", "apiKey"
-                    , "language", "onCloseAction", "launchOnStartup"
-                    , "launchMinimizedOnStartup", "ipQualityScoreApiKey"
-                    , "useIpQualityScore", "browserFlags", "fontSizeScale"
-                    ]
-        extra = Map.filterWithKey (\k _ -> k `notElem` knownKeys) (toMapText o)
-    return $ Settings i cp lk db df dr dl da dt dlw ae ak la oa los lms iqk uiq bf fs extra
-
-instance ToJSON Settings where
-  toJSON s = object $
-    [ "id"                       .= settingsId s
-    , "chromePath"               .= settingsChromePath s
-    , "licenseKey"               .= settingsLicenseKey s
-    , "defaultBrowserType"       .= settingsDefaultBrowserType s
-    , "defaultOsFingerprint"     .= settingsDefaultOsFingerprint s
-    , "defaultScreenResolution"  .= settingsDefaultScreenResolution s
-    , "defaultLanguage"          .= settingsDefaultLanguage s
-    , "defaultAcceptLanguage"    .= settingsDefaultAcceptLanguage s
-    , "defaultTimezone"          .= settingsDefaultTimezone s
-    , "defaultLowBandwidth"      .= settingsDefaultLowBandwidth s
-    , "apiEnabled"               .= settingsApiEnabled s
-    , "apiKey"                   .= settingsApiKey s
-    , "language"                 .= settingsLanguage s
-    , "onCloseAction"            .= settingsOnCloseAction s
-    , "launchOnStartup"          .= settingsLaunchOnStartup s
-    , "launchMinimizedOnStartup" .= settingsLaunchMinimizedOnStartup s
-    , "ipQualityScoreApiKey"     .= settingsIpQualityScoreApiKey s
-    , "useIpQualityScore"        .= settingsUseIpQualityScore s
-    , "browserFlags"             .= settingsBrowserFlags s
-    , "fontSizeScale"            .= settingsFontSizeScale s
-    ] ++ map (\(k, v) -> k .= v) (Map.toList (settingsExtra s))
-
--- ─── SyncStatus ──────────────────────────────────────────────────────────────
-
-data SyncStatus = SyncStatus
-  { ssActive           :: [Value]
-  , ssActiveExtensions :: [Value]
-  , ssTotal            :: Int
-  , ssCompleted        :: Int
-  , ssErrors           :: Map Text Value
-  , ssProgress         :: Map Text Value
-  , ssIsSyncing        :: Bool
-  } deriving (Show, Eq)
-
-instance FromJSON SyncStatus where
-  parseJSON = withObject "SyncStatus" $ \o -> SyncStatus
-    <$> o .:? "active"           .!= []
-    <*> o .:? "activeExtensions" .!= []
-    <*> o .:  "total"
-    <*> o .:  "completed"
-    <*> o .:? "errors"           .!= Map.empty
-    <*> o .:? "progress"         .!= Map.empty
-    <*> o .:  "isSyncing"
-
-instance ToJSON SyncStatus where
-  toJSON s = object
-    [ "active"           .= ssActive s
-    , "activeExtensions" .= ssActiveExtensions s
-    , "total"            .= ssTotal s
-    , "completed"        .= ssCompleted s
-    , "errors"           .= ssErrors s
-    , "progress"         .= ssProgress s
-    , "isSyncing"        .= ssIsSyncing s
-    ]
-
--- ─── StatusResponse ──────────────────────────────────────────────────────────
-
-data StatusResponse = StatusResponse
-  { srSuccess :: Bool
-  , srStatus  :: Text
-  , srVersion :: Text
-  } deriving (Show, Eq)
-
-instance FromJSON StatusResponse where
-  parseJSON = withObject "StatusResponse" $ \o -> StatusResponse
-    <$> o .: "success"
-    <*> o .: "status"
-    <*> o .: "version"
-
-instance ToJSON StatusResponse where
-  toJSON r = object
-    [ "success" .= srSuccess r
-    , "status"  .= srStatus r
-    , "version" .= srVersion r
     ]
 
 -- ─── ApiResponse ─────────────────────────────────────────────────────────────

@@ -35,26 +35,6 @@ public class AntybrowserClient {
                 .build();
     }
 
-    // ─── System ──────────────────────────────────────────────────────────
-
-    public Map<String, Object> getStatus() {
-        return get("/api/status", new TypeToken<Map<String, Object>>(){}.getType());
-    }
-
-    public Map<String, Object> getSettings() {
-        return get("/api/settings", new TypeToken<Map<String, Object>>(){}.getType());
-    }
-
-    public Map<String, Object> getSyncStatus() {
-        return get("/api/sync/status", new TypeToken<Map<String, Object>>(){}.getType());
-    }
-
-    public Map<String, Object> refreshSync(Integer profileId) {
-        Map<String, Object> body = new HashMap<>();
-        if (profileId != null) body.put("profileId", profileId);
-        return post("/api/sync/refresh", body, new TypeToken<Map<String, Object>>(){}.getType());
-    }
-
     // ─── Profiles ────────────────────────────────────────────────────────
 
     public List<Profile> getProfiles() {
@@ -65,7 +45,15 @@ public class AntybrowserClient {
         return post("/api/profiles", data, Profile.class);
     }
 
+    public Profile createProfile(CreateProfileRequest data) {
+        return post("/api/profiles", data, Profile.class);
+    }
+
     public Profile updateProfile(int id, Map<String, Object> data) {
+        return put("/api/profiles/" + id, data, Profile.class);
+    }
+
+    public Profile updateProfile(int id, CreateProfileRequest data) {
         return put("/api/profiles/" + id, data, Profile.class);
     }
 
@@ -123,21 +111,6 @@ public class AntybrowserClient {
         return post("/api/proxies", data, Proxy.class);
     }
 
-    public ProxyCheckResult checkProxy(Map<String, Object> data) {
-        return post("/api/proxies/check", data, ProxyCheckResult.class);
-    }
-
-    public List<ProxyCheckResult> checkProxiesBulk(List<Object> proxies) {
-        Map<String, Object> body = new HashMap<>();
-        body.put("proxies", proxies);
-        Map<String, Object> result = post("/api/proxies/check-bulk", body, new TypeToken<Map<String, Object>>(){}.getType());
-        Object results = result.get("results");
-        if (results instanceof List) {
-            return gson.fromJson(gson.toJson(results), new TypeToken<List<ProxyCheckResult>>(){}.getType());
-        }
-        return List.of();
-    }
-
     public void deleteProxy(int id) {
         delete("/api/proxies/" + id, new TypeToken<Map<String, Object>>(){}.getType());
     }
@@ -152,16 +125,6 @@ public class AntybrowserClient {
         delete("/api/extensions/" + id, new TypeToken<Map<String, Object>>(){}.getType());
     }
 
-    public List<Extension> getProfileExtensions(int profileId, boolean details) {
-        return get("/api/profiles/" + profileId + "/extensions?details=" + details, new TypeToken<List<Extension>>(){}.getType());
-    }
-
-    public Map<String, Object> setProfileExtensions(int profileId, List<Integer> extensionIds) {
-        Map<String, Object> body = new HashMap<>();
-        body.put("extensionIds", extensionIds);
-        return post("/api/profiles/" + profileId + "/extensions", body, new TypeToken<Map<String, Object>>(){}.getType());
-    }
-
     // ─── HTTP Helpers ────────────────────────────────────────────────────
 
     private <T> T get(String path, java.lang.reflect.Type type) {
@@ -174,7 +137,7 @@ public class AntybrowserClient {
         return send(request, type);
     }
 
-    private <T> T post(String path, Map<String, Object> body, java.lang.reflect.Type type) {
+    private <T> T post(String path, Object body, java.lang.reflect.Type type) {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(baseUrl + path))
                 .header("x-api-key", apiKey)
@@ -184,7 +147,7 @@ public class AntybrowserClient {
         return send(request, type);
     }
 
-    private <T> T put(String path, Map<String, Object> body, java.lang.reflect.Type type) {
+    private <T> T put(String path, Object body, java.lang.reflect.Type type) {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(baseUrl + path))
                 .header("x-api-key", apiKey)

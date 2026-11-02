@@ -4,12 +4,11 @@ using HTTP
 using JSON3
 
 export AntybrowserClient
-export get_status, get_settings, get_sync_status, refresh_sync
 export get_profiles, create_profile, update_profile, delete_profile, start_profile, stop_profile, duplicate_profile
 export get_automations, run_automation
 export get_groups, create_group, update_group, delete_group
-export get_proxies, create_proxy, check_proxy, delete_proxy
-export get_extensions, delete_extension, get_profile_extensions, set_profile_extensions
+export get_proxies, create_proxy, delete_proxy
+export get_extensions, delete_extension
 
 struct AntybrowserError <: Exception
     message::String
@@ -50,12 +49,6 @@ function _request(c::AntybrowserClient, method::Symbol, path::String, body=nothi
     JSON3.read(String(resp.body))
 end
 
-# System
-get_status(c::AntybrowserClient) = _request(c, :GET, "/api/status")
-get_settings(c::AntybrowserClient) = _request(c, :GET, "/api/settings")
-get_sync_status(c::AntybrowserClient) = _request(c, :GET, "/api/sync/status")
-refresh_sync(c::AntybrowserClient, profile_id=nothing) = _request(c, :POST, "/api/sync/refresh", profile_id !== nothing ? Dict("profileId" => profile_id) : Dict())
-
 # Profiles
 get_profiles(c::AntybrowserClient) = _request(c, :GET, "/api/profiles")
 create_profile(c::AntybrowserClient, data) = _request(c, :POST, "/api/profiles", data)
@@ -78,13 +71,10 @@ delete_group(c::AntybrowserClient, id) = _request(c, :DELETE, "/api/groups/$id")
 # Proxies
 get_proxies(c::AntybrowserClient) = _request(c, :GET, "/api/proxies")
 create_proxy(c::AntybrowserClient, data) = _request(c, :POST, "/api/proxies", data)
-check_proxy(c::AntybrowserClient, data) = _request(c, :POST, "/api/proxies/check", data)
 delete_proxy(c::AntybrowserClient, id) = _request(c, :DELETE, "/api/proxies/$id")
 
 # Extensions
 get_extensions(c::AntybrowserClient) = _request(c, :GET, "/api/extensions")
 delete_extension(c::AntybrowserClient, id) = _request(c, :DELETE, "/api/extensions/$id")
-get_profile_extensions(c::AntybrowserClient, profile_id) = _request(c, :GET, "/api/profiles/$profile_id/extensions")
-set_profile_extensions(c::AntybrowserClient, profile_id, extension_ids) = _request(c, :POST, "/api/profiles/$profile_id/extensions", Dict("extensionIds" => extension_ids))
 
 end

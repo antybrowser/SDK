@@ -66,15 +66,6 @@ let client = (mkClient "your_api_key") { baseUrl = "http://127.0.0.1:8080" }
 
 ## API Methods
 
-### System
-
-| Method | Description |
-|--------|-------------|
-| `getStatus client` | Health check (no auth) |
-| `getSettings client` | Get all settings |
-| `getSyncStatus client` | Sync queue status |
-| `refreshSync client` | Trigger sync |
-
 ### Profiles
 
 | Method | Description |
@@ -109,8 +100,6 @@ let client = (mkClient "your_api_key") { baseUrl = "http://127.0.0.1:8080" }
 |--------|-------------|
 | `getProxies client` | List proxies |
 | `createProxy client req` | Add proxy (validates) |
-| `checkProxy client opts` | Test single proxy |
-| `checkProxiesBulk client proxies` | Test multiple proxies |
 | `deleteProxy client id` | Delete proxy |
 
 ### Extensions
@@ -119,8 +108,6 @@ let client = (mkClient "your_api_key") { baseUrl = "http://127.0.0.1:8080" }
 |--------|-------------|
 | `getExtensions client` | List extensions |
 | `deleteExtension client id` | Delete extension |
-| `getProfileExtensions client id details` | Get profile extensions |
-| `setProfileExtensions client id ids` | Set profile extensions |
 
 ## Error Handling
 

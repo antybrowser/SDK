@@ -15,10 +15,6 @@ use Antybrowser::SDK;
 
 my $client = AntybrowserClient.new(api-key => 'your-api-key');
 
-# Check API status
-my $status = $client.get-status();
-say "Antybrowser {$status.version} is {$status.status}";
-
 # List profiles
 my @profiles = $client.get-profiles();
 say "Found {@profiles.elems} profiles";
@@ -27,7 +23,7 @@ say "Found {@profiles.elems} profiles";
 my $profile = $client.create-profile(
     CreateProfileRequest.new(
         name         => 'My Profile',
-        browser-type => 'chrome',
+        browser-type => 'Chrome',
         language     => 'en-US',
     )
 );
@@ -49,10 +45,6 @@ my $proxy = $client.create-proxy(
     )
 );
 
-# Check a proxy
-my $check = $client.check-proxy(host => '127.0.0.1', port => 8080);
-say "Proxy IP: {$check.details<ip>}";
-
 # Groups
 my $group = $client.create-group(
     CreateGroupRequest.new(name => 'Work', color => '#FF5722')
@@ -60,7 +52,6 @@ my $group = $client.create-group(
 
 # Extensions
 my @exts = $client.get-extensions();
-$client.set-profile-extensions($profile.id, @exts.map(*.id));
 
 # Stop a profile
 $client.stop-profile($profile.id);
@@ -106,14 +97,6 @@ try {
 
 ## API Reference
 
-### System
-| Method | Description |
-|--------|-------------|
-| `get-status()` | Get API status and version |
-| `get-settings()` | Get application settings |
-| `get-sync-status()` | Get cloud sync status |
-| `refresh-sync(:profile-id)` | Trigger sync refresh |
-
 ### Profiles
 | Method | Description |
 |--------|-------------|
@@ -144,8 +127,6 @@ try {
 |--------|-------------|
 | `get-proxies()` | List all proxies |
 | `create-proxy($request)` | Create a proxy |
-| `check-proxy(:host, :port, ...)` | Check a single proxy |
-| `check-proxies-bulk(@proxies)` | Check multiple proxies |
 | `delete-proxy($id)` | Delete a proxy |
 
 ### Extensions
@@ -153,8 +134,6 @@ try {
 |--------|-------------|
 | `get-extensions()` | List all extensions |
 | `delete-extension($id)` | Delete an extension |
-| `get-profile-extensions($id, :details)` | Get profile extensions |
-| `set-profile-extensions($id, @ids)` | Set profile extensions |
 
 ## License
 

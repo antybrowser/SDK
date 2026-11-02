@@ -93,15 +93,6 @@ catch (AntybrowserError e)
 
 ## API Reference
 
-### System
-
-| Method | Description |
-|--------|-------------|
-| `getStatus()` | Check API connection status |
-| `getSettings()` | Get current application settings |
-| `getSyncStatus()` | Get sync queue status |
-| `refreshSync()` | Trigger a sync refresh |
-
 ### Profiles
 
 | Method | Description |
@@ -136,8 +127,6 @@ catch (AntybrowserError e)
 |--------|-------------|
 | `getProxies()` | List all proxies |
 | `createProxy()` | Add a proxy (validates connection) |
-| `checkProxy()` | Check a single proxy |
-| `checkProxiesBulk()` | Check multiple proxies at once |
 | `deleteProxy()` | Delete a proxy |
 
 ### Extensions
@@ -146,8 +135,6 @@ catch (AntybrowserError e)
 |--------|-------------|
 | `getExtensions()` | List all extensions |
 | `deleteExtension()` | Delete an extension |
-| `getProfileExtensions()` | Get extensions for a profile |
-| `setProfileExtensions()` | Set extensions for a profile |
 
 ## Examples
 
@@ -171,22 +158,6 @@ void main()
     auto profile = client.createProfile(req);
     auto result = client.startProfile(profile.id);
     writefln("Chrome launched on debug port: %d", result.data.debugPort);
-}
-```
-
-### Check a proxy
-
-```d
-import antybrowser;
-import std.stdio;
-import std.typecons;
-
-void main()
-{
-    auto client = new AntybrowserClient("your_api_key");
-
-    auto result = client.checkProxy("1.2.3.4", 8080);
-    writefln("Success: %s", result.success);
 }
 ```
 

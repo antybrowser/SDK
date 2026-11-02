@@ -62,36 +62,6 @@ func NewClient(apiKey string, opts ...Option) *AntybrowserClient {
 	return c
 }
 
-// ─── System ──────────────────────────────────────────────────────────────
-
-func (c *AntybrowserClient) GetStatus() (*StatusResponse, error) {
-	var result StatusResponse
-	err := c.get("/api/status", &result)
-	return &result, err
-}
-
-func (c *AntybrowserClient) GetSettings() (*Settings, error) {
-	var result Settings
-	err := c.get("/api/settings", &result)
-	return &result, err
-}
-
-func (c *AntybrowserClient) GetSyncStatus() (*SyncStatus, error) {
-	var result SyncStatus
-	err := c.get("/api/sync/status", &result)
-	return &result, err
-}
-
-func (c *AntybrowserClient) RefreshSync(profileID *int) (map[string]any, error) {
-	body := map[string]any{}
-	if profileID != nil {
-		body["profileId"] = *profileID
-	}
-	var result map[string]any
-	err := c.post("/api/sync/refresh", body, &result)
-	return result, err
-}
-
 // ─── Profiles ────────────────────────────────────────────────────────────
 
 func (c *AntybrowserClient) GetProfiles() ([]Profile, error) {
@@ -106,7 +76,7 @@ func (c *AntybrowserClient) CreateProfile(req CreateProfileRequest) (*Profile, e
 	return &result, err
 }
 
-func (c *AntybrowserClient) UpdateProfile(id int, data map[string]any) (*Profile, error) {
+func (c *AntybrowserClient) UpdateProfile(id int, data UpdateProfileRequest) (*Profile, error) {
 	var result Profile
 	err := c.put(fmt.Sprintf("/api/profiles/%d", id), data, &result)
 	return &result, err
@@ -192,31 +162,6 @@ func (c *AntybrowserClient) CreateProxy(req CreateProxyRequest) (*Proxy, error) 
 	return &result, err
 }
 
-func (c *AntybrowserClient) CheckProxy(host string, port int, username, password, proxyType *string) (*ProxyCheckResult, error) {
-	body := map[string]any{"host": host, "port": port}
-	if username != nil {
-		body["username"] = *username
-	}
-	if password != nil {
-		body["password"] = *password
-	}
-	if proxyType != nil {
-		body["type"] = *proxyType
-	}
-	var result ProxyCheckResult
-	err := c.post("/api/proxies/check", body, &result)
-	return &result, err
-}
-
-func (c *AntybrowserClient) CheckProxiesBulk(proxies []any) ([]ProxyCheckResult, error) {
-	body := map[string]any{"proxies": proxies}
-	var raw struct {
-		Results []ProxyCheckResult `json:"results"`
-	}
-	err := c.post("/api/proxies/check-bulk", body, &raw)
-	return raw.Results, err
-}
-
 func (c *AntybrowserClient) DeleteProxy(id int) error {
 	return c.deleteNoBody(fmt.Sprintf("/api/proxies/%d", id))
 }
@@ -231,19 +176,6 @@ func (c *AntybrowserClient) GetExtensions() ([]Extension, error) {
 
 func (c *AntybrowserClient) DeleteExtension(id int) error {
 	return c.deleteNoBody(fmt.Sprintf("/api/extensions/%d", id))
-}
-
-func (c *AntybrowserClient) GetProfileExtensions(profileID int, details bool) ([]Extension, error) {
-	var result []Extension
-	err := c.get(fmt.Sprintf("/api/profiles/%d/extensions?details=%t", profileID, details), &result)
-	return result, err
-}
-
-func (c *AntybrowserClient) SetProfileExtensions(profileID int, extensionIDs []int) (map[string]any, error) {
-	body := map[string]any{"extensionIds": extensionIDs}
-	var result map[string]any
-	err := c.post(fmt.Sprintf("/api/profiles/%d/extensions", profileID), body, &result)
-	return result, err
 }
 
 // ─── HTTP Helpers ────────────────────────────────────────────────────────

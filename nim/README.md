@@ -31,10 +31,6 @@ proc main() {.async.} =
   # Create client
   let client = newAntybrowserClient("your-api-key", port = 5173)
 
-  # Check status
-  let status = await client.getStatus()
-  echo "Status: ", status.status.get()
-
   # List profiles
   let profiles = await client.listProfiles()
   for p in profiles:
@@ -58,9 +54,6 @@ waitFor main()
 
 ## API Methods
 
-### General
-- `getStatus()` - Get API status
-
 ### Profiles
 - `listProfiles()` - List all profiles
 - `getProfile(profileId)` - Get a profile
@@ -77,7 +70,6 @@ waitFor main()
 - `getProxy(proxyId)` - Get a proxy
 - `createProxy(request)` - Create a proxy
 - `deleteProxy(proxyId)` - Delete a proxy
-- `checkProxy(proxyId)` - Check proxy connection
 
 ### Groups
 - `listGroups()` - List all groups
@@ -94,14 +86,6 @@ waitFor main()
 ### Automations
 - `listAutomations()` - List all automations
 - `runAutomation(request)` - Run an automation
-
-### Settings
-- `getSettings()` - Get settings
-- `updateSettings(settings)` - Update settings
-
-### Sync
-- `getSyncStatus()` - Get sync status
-- `triggerSync()` - Trigger sync
 
 ## License
 

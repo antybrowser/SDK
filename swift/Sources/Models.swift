@@ -17,33 +17,323 @@ public struct StartProfileData: Codable {
 
 public struct Profile: Codable {
     public let id: Int
+    public let userId: Int?
+    public let userGuid: String?
     public let name: String?
-    public let status: String?
-    public let browserType: String?
-    public let osFingerprint: String?
-    public let language: String?
     public let directoryName: String?
+    public let groupId: Int?
+    public let proxyId: Int?
+    public let browserType: String?
+    public let browserVersion: String?
+    public let osFingerprint: String?
+    public let screenResolution: String?
+    public let screenMaximizable: Bool?
+    public let language: String?
+    public let acceptLanguage: String?
+    public let timezone: String?
+    public let useFingerprint: Bool?
+    /// Server-owned noise seed. Read-only — never sent on create/update.
+    public let fingerprintId: String?
+    public let platformVersion: String?
+    public let brandVersion: String?
+    public let engineVersion: String?
+    public let gpuVendor: String?
+    public let gpuModel: String?
+    public let hardwareConcurrency: AnyCodable?
+    public let deviceMemory: AnyCodable?
+    public let deviceScaleFactor: AnyCodable?
+    public let mobileModel: String?
+    public let mobileVersion: AnyCodable?
+    public let chPlatform: String?
+    public let chPlatformVersion: String?
+    public let chArch: String?
+    public let chBitness: String?
+    public let chModel: String?
+    public let chMobile: AnyCodable?
+    public let disableSpoofing: String?
+    public let locationMode: String?
+    public let locationLatitude: String?
+    public let locationLongitude: String?
+    public let locationAccuracy: String?
+    public let userAgent: String?
+    public let restoreSession: Bool?
+    public let lowBandwidth: Bool?
+    public let notes: String?
+    public let startUrl: String?
+    public let customFlags: String?
+    public let status: String?
+    public let statusMachineId: String?
+    public let statusHeartbeatAt: String?
+    public let needsSync: Bool?
+    public let lastPid: Int?
+    public let debugPort: Int?
+    public let tabsSnapshot: String?
+    public let hidden: Bool?
+    public let trash: Bool?
+    public let deletedAt: String?
     public let createdAt: String?
     public let updatedAt: String?
+    public let lastSyncedAt: String?
+    public let s3Key: String?
 }
 
 public struct CreateProfileRequest: Codable {
     public let name: String
-    public let browserType: String?
-    public let osFingerprint: String?
-    public let language: String?
-    public let useFingerprint: Bool?
+    public let directoryName: String?
     public let groupId: Int?
     public let proxyId: Int?
-    
-    public init(name: String, browserType: String? = nil, osFingerprint: String? = nil, language: String? = nil, useFingerprint: Bool? = nil, groupId: Int? = nil, proxyId: Int? = nil) {
+    public let browserType: String?
+    public let browserVersion: String?
+    public let osFingerprint: String?
+    public let screenResolution: String?
+    public let screenMaximizable: Bool?
+    public let language: String?
+    public let acceptLanguage: String?
+    public let timezone: String?
+    public let useFingerprint: Bool?
+    public let platformVersion: String?
+    public let brandVersion: String?
+    public let engineVersion: String?
+    public let gpuVendor: String?
+    public let gpuModel: String?
+    public let hardwareConcurrency: AnyCodable?
+    public let deviceMemory: AnyCodable?
+    public let deviceScaleFactor: AnyCodable?
+    public let mobileModel: String?
+    public let mobileVersion: AnyCodable?
+    public let chPlatform: String?
+    public let chPlatformVersion: String?
+    public let chArch: String?
+    public let chBitness: String?
+    public let chModel: String?
+    public let chMobile: AnyCodable?
+    public let disableSpoofing: String?
+    public let locationMode: String?
+    public let locationLatitude: String?
+    public let locationLongitude: String?
+    public let locationAccuracy: String?
+    public let restoreSession: Bool?
+    public let lowBandwidth: Bool?
+    public let notes: String?
+    public let startUrl: String?
+    public let customFlags: String?
+    public let status: String?
+    public let hidden: Bool?
+
+    public init(
+        name: String,
+        directoryName: String? = nil,
+        groupId: Int? = nil,
+        proxyId: Int? = nil,
+        browserType: String? = nil,
+        browserVersion: String? = nil,
+        osFingerprint: String? = nil,
+        screenResolution: String? = nil,
+        screenMaximizable: Bool? = nil,
+        language: String? = nil,
+        acceptLanguage: String? = nil,
+        timezone: String? = nil,
+        useFingerprint: Bool? = nil,
+        platformVersion: String? = nil,
+        brandVersion: String? = nil,
+        engineVersion: String? = nil,
+        gpuVendor: String? = nil,
+        gpuModel: String? = nil,
+        hardwareConcurrency: AnyCodable? = nil,
+        deviceMemory: AnyCodable? = nil,
+        deviceScaleFactor: AnyCodable? = nil,
+        mobileModel: String? = nil,
+        mobileVersion: AnyCodable? = nil,
+        chPlatform: String? = nil,
+        chPlatformVersion: String? = nil,
+        chArch: String? = nil,
+        chBitness: String? = nil,
+        chModel: String? = nil,
+        chMobile: AnyCodable? = nil,
+        disableSpoofing: String? = nil,
+        locationMode: String? = nil,
+        locationLatitude: String? = nil,
+        locationLongitude: String? = nil,
+        locationAccuracy: String? = nil,
+        restoreSession: Bool? = nil,
+        lowBandwidth: Bool? = nil,
+        notes: String? = nil,
+        startUrl: String? = nil,
+        customFlags: String? = nil,
+        status: String? = nil,
+        hidden: Bool? = nil
+    ) {
         self.name = name
-        self.browserType = browserType
-        self.osFingerprint = osFingerprint
-        self.language = language
-        self.useFingerprint = useFingerprint
+        self.directoryName = directoryName
         self.groupId = groupId
         self.proxyId = proxyId
+        self.browserType = browserType
+        self.browserVersion = browserVersion
+        self.osFingerprint = osFingerprint
+        self.screenResolution = screenResolution
+        self.screenMaximizable = screenMaximizable
+        self.language = language
+        self.acceptLanguage = acceptLanguage
+        self.timezone = timezone
+        self.useFingerprint = useFingerprint
+        self.platformVersion = platformVersion
+        self.brandVersion = brandVersion
+        self.engineVersion = engineVersion
+        self.gpuVendor = gpuVendor
+        self.gpuModel = gpuModel
+        self.hardwareConcurrency = hardwareConcurrency
+        self.deviceMemory = deviceMemory
+        self.deviceScaleFactor = deviceScaleFactor
+        self.mobileModel = mobileModel
+        self.mobileVersion = mobileVersion
+        self.chPlatform = chPlatform
+        self.chPlatformVersion = chPlatformVersion
+        self.chArch = chArch
+        self.chBitness = chBitness
+        self.chModel = chModel
+        self.chMobile = chMobile
+        self.disableSpoofing = disableSpoofing
+        self.locationMode = locationMode
+        self.locationLatitude = locationLatitude
+        self.locationLongitude = locationLongitude
+        self.locationAccuracy = locationAccuracy
+        self.restoreSession = restoreSession
+        self.lowBandwidth = lowBandwidth
+        self.notes = notes
+        self.startUrl = startUrl
+        self.customFlags = customFlags
+        self.status = status
+        self.hidden = hidden
+    }
+}
+
+public struct UpdateProfileRequest: Codable {
+    public let name: String?
+    public let directoryName: String?
+    public let groupId: Int?
+    public let proxyId: Int?
+    public let browserType: String?
+    public let browserVersion: String?
+    public let osFingerprint: String?
+    public let screenResolution: String?
+    public let screenMaximizable: Bool?
+    public let language: String?
+    public let acceptLanguage: String?
+    public let timezone: String?
+    public let useFingerprint: Bool?
+    public let platformVersion: String?
+    public let brandVersion: String?
+    public let engineVersion: String?
+    public let gpuVendor: String?
+    public let gpuModel: String?
+    public let hardwareConcurrency: AnyCodable?
+    public let deviceMemory: AnyCodable?
+    public let deviceScaleFactor: AnyCodable?
+    public let mobileModel: String?
+    public let mobileVersion: AnyCodable?
+    public let chPlatform: String?
+    public let chPlatformVersion: String?
+    public let chArch: String?
+    public let chBitness: String?
+    public let chModel: String?
+    public let chMobile: AnyCodable?
+    public let disableSpoofing: String?
+    public let locationMode: String?
+    public let locationLatitude: String?
+    public let locationLongitude: String?
+    public let locationAccuracy: String?
+    public let restoreSession: Bool?
+    public let lowBandwidth: Bool?
+    public let notes: String?
+    public let startUrl: String?
+    public let customFlags: String?
+    public let status: String?
+    public let hidden: Bool?
+
+    public init(
+        name: String? = nil,
+        directoryName: String? = nil,
+        groupId: Int? = nil,
+        proxyId: Int? = nil,
+        browserType: String? = nil,
+        browserVersion: String? = nil,
+        osFingerprint: String? = nil,
+        screenResolution: String? = nil,
+        screenMaximizable: Bool? = nil,
+        language: String? = nil,
+        acceptLanguage: String? = nil,
+        timezone: String? = nil,
+        useFingerprint: Bool? = nil,
+        platformVersion: String? = nil,
+        brandVersion: String? = nil,
+        engineVersion: String? = nil,
+        gpuVendor: String? = nil,
+        gpuModel: String? = nil,
+        hardwareConcurrency: AnyCodable? = nil,
+        deviceMemory: AnyCodable? = nil,
+        deviceScaleFactor: AnyCodable? = nil,
+        mobileModel: String? = nil,
+        mobileVersion: AnyCodable? = nil,
+        chPlatform: String? = nil,
+        chPlatformVersion: String? = nil,
+        chArch: String? = nil,
+        chBitness: String? = nil,
+        chModel: String? = nil,
+        chMobile: AnyCodable? = nil,
+        disableSpoofing: String? = nil,
+        locationMode: String? = nil,
+        locationLatitude: String? = nil,
+        locationLongitude: String? = nil,
+        locationAccuracy: String? = nil,
+        restoreSession: Bool? = nil,
+        lowBandwidth: Bool? = nil,
+        notes: String? = nil,
+        startUrl: String? = nil,
+        customFlags: String? = nil,
+        status: String? = nil,
+        hidden: Bool? = nil
+    ) {
+        self.name = name
+        self.directoryName = directoryName
+        self.groupId = groupId
+        self.proxyId = proxyId
+        self.browserType = browserType
+        self.browserVersion = browserVersion
+        self.osFingerprint = osFingerprint
+        self.screenResolution = screenResolution
+        self.screenMaximizable = screenMaximizable
+        self.language = language
+        self.acceptLanguage = acceptLanguage
+        self.timezone = timezone
+        self.useFingerprint = useFingerprint
+        self.platformVersion = platformVersion
+        self.brandVersion = brandVersion
+        self.engineVersion = engineVersion
+        self.gpuVendor = gpuVendor
+        self.gpuModel = gpuModel
+        self.hardwareConcurrency = hardwareConcurrency
+        self.deviceMemory = deviceMemory
+        self.deviceScaleFactor = deviceScaleFactor
+        self.mobileModel = mobileModel
+        self.mobileVersion = mobileVersion
+        self.chPlatform = chPlatform
+        self.chPlatformVersion = chPlatformVersion
+        self.chArch = chArch
+        self.chBitness = chBitness
+        self.chModel = chModel
+        self.chMobile = chMobile
+        self.disableSpoofing = disableSpoofing
+        self.locationMode = locationMode
+        self.locationLatitude = locationLatitude
+        self.locationLongitude = locationLongitude
+        self.locationAccuracy = locationAccuracy
+        self.restoreSession = restoreSession
+        self.lowBandwidth = lowBandwidth
+        self.notes = notes
+        self.startUrl = startUrl
+        self.customFlags = customFlags
+        self.status = status
+        self.hidden = hidden
     }
 }
 
@@ -102,29 +392,11 @@ public struct CreateProxyRequest: Codable {
     }
 }
 
-public struct ProxyCheckResult: Codable {
-    public let success: Bool
-    public let ip: String?
-    public let country: String?
-    public let error: String?
-}
-
 public struct Extension: Codable {
     public let id: Int
     public let name: String
     public let description: String?
     public let version: String?
-}
-
-public struct Settings: Codable {
-    public let apiKey: String?
-    public let language: String?
-}
-
-public struct SyncStatus: Codable {
-    public let isSyncing: Bool
-    public let total: Int
-    public let completed: Int
 }
 
 // Helper for AnyCodable

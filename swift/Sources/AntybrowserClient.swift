@@ -13,16 +13,6 @@ public class AntybrowserClient {
         decoder.keyDecodingStrategy = .convertFromSnakeCase
     }
     
-    // System
-    public func getStatus() async throws -> ApiResponse { try await get("/api/status") }
-    public func getSettings() async throws -> Settings { try await get("/api/settings") }
-    public func getSyncStatus() async throws -> SyncStatus { try await get("/api/sync/status") }
-    
-    public func refreshSync(profileId: String? = nil) async throws -> ApiResponse {
-        let body: [String: Any] = profileId != nil ? ["profileId": profileId!] : [:]
-        return try await post("/api/sync/refresh", body: body)
-    }
-    
     // Profiles
     public func getProfiles() async throws -> [Profile] { try await get("/api/profiles") }
     
@@ -30,7 +20,7 @@ public class AntybrowserClient {
         try await post("/api/profiles", body: request)
     }
     
-    public func updateProfile(id: Int, data: [String: Any]) async throws -> Profile {
+    public func updateProfile(id: Int, data: UpdateProfileRequest) async throws -> Profile {
         try await put("/api/profiles/\(id)", body: data)
     }
     
@@ -67,16 +57,11 @@ public class AntybrowserClient {
     // Proxies
     public func getProxies() async throws -> [Proxy] { try await get("/api/proxies") }
     public func createProxy(_ request: CreateProxyRequest) async throws -> Proxy { try await post("/api/proxies", body: request) }
-    public func checkProxy(data: [String: Any]) async throws -> ProxyCheckResult { try await post("/api/proxies/check", body: data) }
     public func deleteProxy(id: Int) async throws -> ApiResponse { try await delete("/api/proxies/\(id)") }
     
     // Extensions
     public func getExtensions() async throws -> [Extension] { try await get("/api/extensions") }
     public func deleteExtension(id: Int) async throws -> ApiResponse { try await delete("/api/extensions/\(id)") }
-    public func getProfileExtensions(profileId: Int) async throws -> [Extension] { try await get("/api/profiles/\(profileId)/extensions") }
-    public func setProfileExtensions(profileId: Int, extensionIds: [Int]) async throws -> ApiResponse {
-        try await post("/api/profiles/\(profileId)/extensions", body: ["extensionIds": extensionIds])
-    }
     
     // HTTP helpers
     private func get<T: Decodable>(_ path: String) async throws -> T {

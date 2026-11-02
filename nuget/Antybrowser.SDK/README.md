@@ -17,9 +17,8 @@
 - **Profile Management**: Programmatically create, configure, start, and stop isolated browser profiles.
 - **Fingerprint Control**: Manage canvas, WebGL, Audio, and other browser fingerprints to prevent detection.
 - **Workflow Automation**: Execute complex browser automation scripts via our internal runner.
-- **Proxy Management**: Seamlessly integrate HTTP, SOCKS4, and SOCKS5 proxies with bulk verification.
+- **Proxy Management**: Seamlessly integrate HTTP, SOCKS4, and SOCKS5 proxies.
 - **Multi-Accounting**: Scale your operations across hundreds of accounts with complete isolation.
-- **Sync & Cloud**: Monitor profile synchronization status and cloud-based settings.
 
 ## 📋 Prerequisites
 
@@ -86,14 +85,6 @@ var runResult = await client.RunAutomationAsync(987, new RunAutomationRequest
 
 The SDK provides comprehensive access to the Antybrowser ecosystem:
 
-### System
-| Method | Description |
-|--------|-------------|
-| `GetStatusAsync()` | Check API connection status |
-| `GetSettingsAsync()` | Get current application settings |
-| `GetSyncStatusAsync()` | Get sync queue status |
-| `RefreshSyncAsync(profileId?)` | Trigger a sync refresh |
-
 ### Profiles
 | Method | Description |
 |--------|-------------|
@@ -124,8 +115,6 @@ The SDK provides comprehensive access to the Antybrowser ecosystem:
 |--------|-------------|
 | `GetProxiesAsync()` | List all proxies |
 | `CreateProxyAsync(data)` | Add a proxy (validates connection) |
-| `CheckProxyAsync(data)` | Check a single proxy |
-| `CheckProxiesBulkAsync(proxies)` | Check multiple proxies at once |
 | `DeleteProxyAsync(id)` | Delete a proxy |
 
 ### Extensions
@@ -133,8 +122,6 @@ The SDK provides comprehensive access to the Antybrowser ecosystem:
 |--------|-------------|
 | `GetExtensionsAsync()` | List all extensions |
 | `DeleteExtensionAsync(id)` | Delete an extension |
-| `GetProfileExtensionsAsync(profileId)` | Get extensions for a profile |
-| `SetProfileExtensionsAsync(profileId, ids)` | Set extensions for a profile |
 
 ## 💡 Examples
 
@@ -149,22 +136,6 @@ var profile = await client.CreateProfileAsync(new CreateProfileRequest
 
 var result = await client.StartProfileAsync(profile.Id);
 Console.WriteLine($"Debug port: {result.Data.DebugPort}");
-```
-
-### Bulk Proxy Check
-
-```csharp
-var proxies = new List<CheckProxyRequest>
-{
-    new() { Host = "1.2.3.4", Port = 8080, Type = "socks5" },
-    new() { Host = "5.6.7.8", Port = 1080, Type = "socks5" }
-};
-
-var results = await client.CheckProxiesBulkAsync(proxies);
-foreach (var r in results)
-{
-    Console.WriteLine($"{r.Host}:{r.Port} — {(r.Alive ? "OK" : "Failed")}");
-}
 ```
 
 ### Run an Automation

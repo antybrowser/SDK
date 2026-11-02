@@ -41,12 +41,6 @@ sub _request {
     return $self->{json}->decode($response->decoded_content);
 }
 
-# System
-sub get_status       { $_[0]->_request('GET', '/api/status') }
-sub get_settings     { $_[0]->_request('GET', '/api/settings') }
-sub get_sync_status  { $_[0]->_request('GET', '/api/sync/status') }
-sub refresh_sync     { my ($self, $pid) = @_; $self->_request('POST', '/api/sync/refresh', $pid ? {profileId => $pid} : {}) }
-
 # Profiles
 sub get_profiles     { $_[0]->_request('GET', '/api/profiles') }
 sub create_profile   { $_[0]->_request('POST', '/api/profiles', $_[1]) }
@@ -69,14 +63,11 @@ sub delete_group     { $_[0]->_request('DELETE', "/api/groups/$_[1]") }
 # Proxies
 sub get_proxies      { $_[0]->_request('GET', '/api/proxies') }
 sub create_proxy     { $_[0]->_request('POST', '/api/proxies', $_[1]) }
-sub check_proxy      { $_[0]->_request('POST', '/api/proxies/check', $_[1]) }
 sub delete_proxy     { $_[0]->_request('DELETE', "/api/proxies/$_[1]") }
 
 # Extensions
 sub get_extensions           { $_[0]->_request('GET', '/api/extensions') }
 sub delete_extension         { $_[0]->_request('DELETE', "/api/extensions/$_[1]") }
-sub get_profile_extensions   { $_[0]->_request('GET', "/api/profiles/$_[1]/extensions") }
-sub set_profile_extensions   { $_[0]->_request('POST', "/api/profiles/$_[1]/extensions", {extensionIds => $_[2]}) }
 
 1;
 __END__
@@ -94,9 +85,6 @@ Version 1.0.2
     use Antybrowser::SDK;
 
     my $client = Antybrowser::SDK->new(api_key => 'your_api_key');
-
-    # System status
-    my $status = $client->get_status();
 
     # List profiles
     my $profiles = $client->get_profiles();
@@ -175,21 +163,6 @@ C<http://127.0.0.1:$port>)
 All methods return a decoded JSON hashref. On HTTP errors the client
 dies with an error message (see L</ERROR HANDLING>).
 
-=head2 System
-
-=over 4
-
-=item * C<get_status()> - get system status (health check, no auth)
-
-=item * C<get_settings()> - get all application settings
-
-=item * C<get_sync_status()> - get sync queue status
-
-=item * C<refresh_sync($profile_id?)> - trigger a sync refresh,
-optionally for a single profile
-
-=back
-
 =head2 Profiles
 
 =over 4
@@ -245,8 +218,6 @@ profile
 
 =item * C<create_proxy($data)> - add a proxy (validated)
 
-=item * C<check_proxy($data)> - test a single proxy
-
 =item * C<delete_proxy($id)> - delete a proxy
 
 =back
@@ -258,12 +229,6 @@ profile
 =item * C<get_extensions()> - list all extensions
 
 =item * C<delete_extension($id)> - delete an extension
-
-=item * C<get_profile_extensions($profile_id)> - list extensions
-installed on a profile
-
-=item * C<set_profile_extensions($profile_id, \@extension_ids)> - set
-the extensions of a profile
 
 =back
 

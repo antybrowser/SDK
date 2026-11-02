@@ -1,12 +1,5 @@
 package antybrowser
 
-// StatusResponse represents the API health check response.
-type StatusResponse struct {
-	Success bool   `json:"success"`
-	Status  string `json:"status"`
-	Version string `json:"version"`
-}
-
 // StartProfileData holds the data returned when starting a profile.
 type StartProfileData struct {
 	DebugPort int            `json:"debugPort"`
@@ -21,57 +14,155 @@ type StartProfileResponse struct {
 
 // Profile represents a browser profile.
 type Profile struct {
-	ID              int     `json:"id"`
-	Name            string  `json:"name"`
-	DirectoryName   *string `json:"directoryName"`
-	GroupID         *int    `json:"groupId"`
-	ProxyID         *int    `json:"proxyId"`
-	BrowserType     *string `json:"browserType"`
-	BrowserVersion  *string `json:"browserVersion"`
-	OSFingerprint   *string `json:"osFingerprint"`
-	ScreenResolution *string `json:"screenResolution"`
-	Language        *string `json:"language"`
-	AcceptLanguage  *string `json:"acceptLanguage"`
-	Timezone        *string `json:"timezone"`
-	UseFingerprint  *bool   `json:"useFingerprint"`
-	FingerprintID   *string `json:"fingerprintId"`
-	RestoreSession  *bool   `json:"restoreSession"`
-	LowBandwidth    *bool   `json:"lowBandwidth"`
-	Notes           *string `json:"notes"`
-	StartURL        *string `json:"startUrl"`
-	CustomFlags     *string `json:"customFlags"`
-	Status          *string `json:"status"`
-	NeedsSync       *bool   `json:"needsSync"`
-	LastPid         *int    `json:"lastPid"`
-	DebugPort       *int    `json:"debugPort"`
-	CreatedAt       *string `json:"createdAt"`
-	UpdatedAt       *string `json:"updatedAt"`
-	LastSyncedAt    *string `json:"lastSyncedAt"`
-	S3Key           *string `json:"s3Key"`
-	Trash           *bool   `json:"trash"`
-	DeletedAt       *string `json:"deletedAt"`
-	Hidden          *bool   `json:"hidden"`
+	ID                  int     `json:"id"`
+	UserID              *int    `json:"userId"`
+	UserGUID            *string `json:"userGuid"`
+	Name                string  `json:"name"`
+	DirectoryName       *string `json:"directoryName"`
+	GroupID             *int    `json:"groupId"`
+	ProxyID             *int    `json:"proxyId"`
+	BrowserType         *string `json:"browserType"`
+	BrowserVersion      *string `json:"browserVersion"`
+	OSFingerprint       *string `json:"osFingerprint"`
+	ScreenResolution    *string `json:"screenResolution"`
+	ScreenMaximizable   *bool   `json:"screenMaximizable"`
+	Language            *string `json:"language"`
+	AcceptLanguage      *string `json:"acceptLanguage"`
+	Timezone            *string `json:"timezone"`
+	UseFingerprint      *bool   `json:"useFingerprint"`
+	// FingerprintID is a server-owned noise seed. Read-only — never sent on create/update.
+	FingerprintID       *string `json:"fingerprintId"`
+	PlatformVersion     *string `json:"platformVersion"`
+	BrandVersion        *string `json:"brandVersion"`
+	EngineVersion       *string `json:"engineVersion"`
+	GPUVendor           *string `json:"gpuVendor"`
+	GPUModel            *string `json:"gpuModel"`
+	HardwareConcurrency any     `json:"hardwareConcurrency"`
+	DeviceMemory        any     `json:"deviceMemory"`
+	DeviceScaleFactor   any     `json:"deviceScaleFactor"`
+	MobileModel         *string `json:"mobileModel"`
+	MobileVersion       any     `json:"mobileVersion"`
+	CHPlatform          *string `json:"chPlatform"`
+	CHPlatformVersion   *string `json:"chPlatformVersion"`
+	CHArch              *string `json:"chArch"`
+	CHBitness           *string `json:"chBitness"`
+	CHModel             *string `json:"chModel"`
+	CHMobile            any     `json:"chMobile"`
+	DisableSpoofing     *string `json:"disableSpoofing"`
+	LocationMode        *string `json:"locationMode"`
+	LocationLatitude    *string `json:"locationLatitude"`
+	LocationLongitude   *string `json:"locationLongitude"`
+	LocationAccuracy    *string `json:"locationAccuracy"`
+	UserAgent           *string `json:"userAgent"`
+	RestoreSession      *bool   `json:"restoreSession"`
+	LowBandwidth        *bool   `json:"lowBandwidth"`
+	Notes               *string `json:"notes"`
+	StartURL            *string `json:"startUrl"`
+	CustomFlags         *string `json:"customFlags"`
+	Status              *string `json:"status"`
+	StatusMachineID     *string `json:"statusMachineId"`
+	StatusHeartbeatAt   *string `json:"statusHeartbeatAt"`
+	NeedsSync           *bool   `json:"needsSync"`
+	LastPid             *int    `json:"lastPid"`
+	DebugPort           *int    `json:"debugPort"`
+	TabsSnapshot        *string `json:"tabsSnapshot"`
+	Hidden              *bool   `json:"hidden"`
+	Trash               *bool   `json:"trash"`
+	DeletedAt           *string `json:"deletedAt"`
+	CreatedAt           *string `json:"createdAt"`
+	UpdatedAt           *string `json:"updatedAt"`
+	LastSyncedAt        *string `json:"lastSyncedAt"`
+	S3Key               *string `json:"s3Key"`
 }
 
 // CreateProfileRequest is the payload for creating a profile.
 type CreateProfileRequest struct {
-	Name             string  `json:"name"`
-	DirectoryName    *string `json:"directoryName,omitempty"`
-	GroupID          *int    `json:"groupId,omitempty"`
-	ProxyID          *int    `json:"proxyId,omitempty"`
-	BrowserType      *string `json:"browserType,omitempty"`
-	OSFingerprint    *string `json:"osFingerprint,omitempty"`
-	ScreenResolution *string `json:"screenResolution,omitempty"`
-	Language         *string `json:"language,omitempty"`
-	AcceptLanguage   *string `json:"acceptLanguage,omitempty"`
-	Timezone         *string `json:"timezone,omitempty"`
-	UseFingerprint   *bool   `json:"useFingerprint,omitempty"`
-	FingerprintID    *string `json:"fingerprintId,omitempty"`
-	RestoreSession   *bool   `json:"restoreSession,omitempty"`
-	LowBandwidth     *bool   `json:"lowBandwidth,omitempty"`
-	Notes            *string `json:"notes,omitempty"`
-	StartURL         *string `json:"startUrl,omitempty"`
-	CustomFlags      *string `json:"customFlags,omitempty"`
+	Name                string  `json:"name"`
+	DirectoryName       *string `json:"directoryName,omitempty"`
+	GroupID             *int    `json:"groupId,omitempty"`
+	ProxyID             *int    `json:"proxyId,omitempty"`
+	BrowserType         *string `json:"browserType,omitempty"`
+	BrowserVersion      *string `json:"browserVersion,omitempty"`
+	OSFingerprint       *string `json:"osFingerprint,omitempty"`
+	ScreenResolution    *string `json:"screenResolution,omitempty"`
+	ScreenMaximizable   *bool   `json:"screenMaximizable,omitempty"`
+	Language            *string `json:"language,omitempty"`
+	AcceptLanguage      *string `json:"acceptLanguage,omitempty"`
+	Timezone            *string `json:"timezone,omitempty"`
+	UseFingerprint      *bool   `json:"useFingerprint,omitempty"`
+	PlatformVersion     *string `json:"platformVersion,omitempty"`
+	BrandVersion        *string `json:"brandVersion,omitempty"`
+	EngineVersion       *string `json:"engineVersion,omitempty"`
+	GPUVendor           *string `json:"gpuVendor,omitempty"`
+	GPUModel            *string `json:"gpuModel,omitempty"`
+	HardwareConcurrency any     `json:"hardwareConcurrency,omitempty"`
+	DeviceMemory        any     `json:"deviceMemory,omitempty"`
+	DeviceScaleFactor   any     `json:"deviceScaleFactor,omitempty"`
+	MobileModel         *string `json:"mobileModel,omitempty"`
+	MobileVersion       any     `json:"mobileVersion,omitempty"`
+	CHPlatform          *string `json:"chPlatform,omitempty"`
+	CHPlatformVersion   *string `json:"chPlatformVersion,omitempty"`
+	CHArch              *string `json:"chArch,omitempty"`
+	CHBitness           *string `json:"chBitness,omitempty"`
+	CHModel             *string `json:"chModel,omitempty"`
+	CHMobile            any     `json:"chMobile,omitempty"`
+	DisableSpoofing     *string `json:"disableSpoofing,omitempty"`
+	LocationMode        *string `json:"locationMode,omitempty"`
+	LocationLatitude    *string `json:"locationLatitude,omitempty"`
+	LocationLongitude   *string `json:"locationLongitude,omitempty"`
+	LocationAccuracy    *string `json:"locationAccuracy,omitempty"`
+	RestoreSession      *bool   `json:"restoreSession,omitempty"`
+	LowBandwidth        *bool   `json:"lowBandwidth,omitempty"`
+	Notes               *string `json:"notes,omitempty"`
+	StartURL            *string `json:"startUrl,omitempty"`
+	CustomFlags         *string `json:"customFlags,omitempty"`
+	Status              *string `json:"status,omitempty"`
+	Hidden              *bool   `json:"hidden,omitempty"`
+}
+
+// UpdateProfileRequest is the payload for updating a profile. Every field is optional.
+type UpdateProfileRequest struct {
+	Name                *string `json:"name,omitempty"`
+	DirectoryName       *string `json:"directoryName,omitempty"`
+	GroupID             *int    `json:"groupId,omitempty"`
+	ProxyID             *int    `json:"proxyId,omitempty"`
+	BrowserType         *string `json:"browserType,omitempty"`
+	BrowserVersion      *string `json:"browserVersion,omitempty"`
+	OSFingerprint       *string `json:"osFingerprint,omitempty"`
+	ScreenResolution    *string `json:"screenResolution,omitempty"`
+	ScreenMaximizable   *bool   `json:"screenMaximizable,omitempty"`
+	Language            *string `json:"language,omitempty"`
+	AcceptLanguage      *string `json:"acceptLanguage,omitempty"`
+	Timezone            *string `json:"timezone,omitempty"`
+	UseFingerprint      *bool   `json:"useFingerprint,omitempty"`
+	PlatformVersion     *string `json:"platformVersion,omitempty"`
+	BrandVersion        *string `json:"brandVersion,omitempty"`
+	EngineVersion       *string `json:"engineVersion,omitempty"`
+	GPUVendor           *string `json:"gpuVendor,omitempty"`
+	GPUModel            *string `json:"gpuModel,omitempty"`
+	HardwareConcurrency any     `json:"hardwareConcurrency,omitempty"`
+	DeviceMemory        any     `json:"deviceMemory,omitempty"`
+	DeviceScaleFactor   any     `json:"deviceScaleFactor,omitempty"`
+	MobileModel         *string `json:"mobileModel,omitempty"`
+	MobileVersion       any     `json:"mobileVersion,omitempty"`
+	CHPlatform          *string `json:"chPlatform,omitempty"`
+	CHPlatformVersion   *string `json:"chPlatformVersion,omitempty"`
+	CHArch              *string `json:"chArch,omitempty"`
+	CHBitness           *string `json:"chBitness,omitempty"`
+	CHModel             *string `json:"chModel,omitempty"`
+	CHMobile            any     `json:"chMobile,omitempty"`
+	DisableSpoofing     *string `json:"disableSpoofing,omitempty"`
+	LocationMode        *string `json:"locationMode,omitempty"`
+	LocationLatitude    *string `json:"locationLatitude,omitempty"`
+	LocationLongitude   *string `json:"locationLongitude,omitempty"`
+	LocationAccuracy    *string `json:"locationAccuracy,omitempty"`
+	RestoreSession      *bool   `json:"restoreSession,omitempty"`
+	LowBandwidth        *bool   `json:"lowBandwidth,omitempty"`
+	Notes               *string `json:"notes,omitempty"`
+	StartURL            *string `json:"startUrl,omitempty"`
+	CustomFlags         *string `json:"customFlags,omitempty"`
+	Status              *string `json:"status,omitempty"`
+	Hidden              *bool   `json:"hidden,omitempty"`
 }
 
 // Proxy represents a proxy configuration.
@@ -100,13 +191,6 @@ type CreateProxyRequest struct {
 	Type     string  `json:"type"`
 	Username *string `json:"username,omitempty"`
 	Password *string `json:"password,omitempty"`
-}
-
-// ProxyCheckResult is returned when checking a proxy.
-type ProxyCheckResult struct {
-	Success      bool              `json:"success"`
-	Details      map[string]any    `json:"details,omitempty"`
-	ErrorMessage *string           `json:"errorMessage,omitempty"`
 }
 
 // Group represents a profile group.
@@ -161,25 +245,6 @@ type RunAutomationResult struct {
 	Success   bool           `json:"success"`
 	Message   string         `json:"message"`
 	Variables map[string]any `json:"variables,omitempty"`
-}
-
-// Settings represents the Antybrowser settings.
-type Settings struct {
-	ID            *int    `json:"id"`
-	ChromePath    *string `json:"chromePath"`
-	APIKey        *string `json:"apiKey"`
-	Language      *string `json:"language"`
-}
-
-// SyncStatus represents the sync queue state.
-type SyncStatus struct {
-	Active           []any          `json:"active"`
-	ActiveExtensions []any          `json:"activeExtensions"`
-	Total            int            `json:"total"`
-	Completed        int            `json:"completed"`
-	Errors           map[string]any `json:"errors"`
-	Progress         map[string]any `json:"progress"`
-	IsSyncing        bool           `json:"isSyncing"`
 }
 
 // DuplicateProfileRequest is the payload for duplicating a profile.

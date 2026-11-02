@@ -49,9 +49,6 @@ library(antybrowser)
 # Create a client
 client <- AntybrowserClient("your-api-key")
 
-# Get application status
-status <- get_status(client)
-
 # List all profiles
 profiles <- get_profiles(client)
 
@@ -75,15 +72,6 @@ delete_profile(client, new_profile$id)
 ```
 
 ## API Reference
-
-### System
-
-| Function | Description |
-|---|---|
-| `get_status(client)` | Get application status |
-| `get_settings(client)` | Get application settings |
-| `get_sync_status(client)` | Get sync status |
-| `refresh_sync(client, profile_id)` | Trigger sync refresh |
 
 ### Profiles
 
@@ -119,7 +107,6 @@ delete_profile(client, new_profile$id)
 |---|---|
 | `get_proxies(client)` | List all proxies |
 | `create_proxy(client, data)` | Create a new proxy |
-| `check_proxy(client, data)` | Check proxy connectivity |
 | `delete_proxy(client, id)` | Delete a proxy |
 
 ### Extensions
@@ -128,8 +115,6 @@ delete_profile(client, new_profile$id)
 |---|---|
 | `get_extensions(client)` | List all extensions |
 | `delete_extension(client, id)` | Delete an extension |
-| `get_profile_extensions(client, profile_id)` | List profile extensions |
-| `set_profile_extensions(client, profile_id, extension_ids)` | Set profile extensions |
 
 ## Examples
 
@@ -143,25 +128,6 @@ client <- AntybrowserClient("your-api-key")
 profile <- create_profile(client, list(name = "My Profile"))
 result <- start_profile(client, profile$id)
 cat("Debug port:", result$data$debugPort, "\n")
-```
-
-### Bulk proxy check
-
-```r
-library(antybrowser)
-
-client <- AntybrowserClient("your-api-key")
-
-proxies <- get_proxies(client)
-for (proxy in proxies) {
-  check <- check_proxy(client, list(
-    host = proxy$host,
-    port = proxy$port,
-    username = proxy$username,
-    password = proxy$password
-  ))
-  cat(proxy$name, ":", check$data$status, "\n")
-}
 ```
 
 ### Run an automation

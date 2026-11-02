@@ -91,14 +91,6 @@ if err != nil {
 
 ## API Reference
 
-### System
-| Method | Description |
-|--------|-------------|
-| `GetStatus()` | Check API connection status |
-| `GetSettings()` | Get current application settings |
-| `GetSyncStatus()` | Get sync queue status |
-| `RefreshSync()` | Trigger a sync refresh |
-
 ### Profiles
 | Method | Description |
 |--------|-------------|
@@ -129,8 +121,6 @@ if err != nil {
 |--------|-------------|
 | `GetProxies()` | List all proxies |
 | `CreateProxy()` | Add a proxy (validates connection) |
-| `CheckProxy()` | Check a single proxy |
-| `CheckProxiesBulk()` | Check multiple proxies at once |
 | `DeleteProxy()` | Delete a proxy |
 
 ### Extensions
@@ -138,8 +128,6 @@ if err != nil {
 |--------|-------------|
 | `GetExtensions()` | List all extensions |
 | `DeleteExtension()` | Delete an extension |
-| `GetProfileExtensions()` | Get extensions for a profile |
-| `SetProfileExtensions()` | Set extensions for a profile |
 
 ## Examples
 
@@ -156,20 +144,6 @@ profile, _ := client.CreateProfile(antybrowser.CreateProfileRequest{
 
 result, _ := client.StartProfile(profile.ID)
 fmt.Printf("Chrome launched on debug port: %d\n", result.Data.DebugPort)
-```
-
-### Bulk proxy check
-
-```go
-proxies := []antybrowser.CreateProxyRequest{
-	{Host: "1.2.3.4", Port: 8080, Type: "http"},
-	{Host: "5.6.7.8", Port: 1080, Type: "socks5"},
-}
-
-for _, proxy := range proxies {
-	result, _ := client.CheckProxy(proxy)
-	fmt.Printf("%s:%d — %s\n", proxy.Host, proxy.Port, result.Data.Status)
-}
 ```
 
 ### Run an automation

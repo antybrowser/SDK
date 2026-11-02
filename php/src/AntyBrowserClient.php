@@ -27,29 +27,6 @@ final class AntybrowserClient
         ]);
     }
 
-    // ─── System ──────────────────────────────────────────────────────────
-
-    public function getStatus(): array
-    {
-        return $this->get('/api/status');
-    }
-
-    public function getSettings(): array
-    {
-        return $this->get('/api/settings');
-    }
-
-    public function getSyncStatus(): SyncStatus
-    {
-        return SyncStatus::fromArray($this->get('/api/sync/status'));
-    }
-
-    public function refreshSync(?int $profileId = null): array
-    {
-        $body = $profileId !== null ? ['profileId' => $profileId] : [];
-        return $this->post('/api/sync/refresh', $body);
-    }
-
     // ─── Profiles ────────────────────────────────────────────────────────
 
     /** @return Profile[] */
@@ -137,31 +114,6 @@ final class AntybrowserClient
         return Proxy::fromArray($this->post('/api/proxies', $data));
     }
 
-    public function checkProxy(array $data): ProxyCheckResult
-    {
-        $result = $this->post('/api/proxies/check', $data);
-        return new ProxyCheckResult(
-            success: $result['success'] ?? false,
-            details: $result['details'] ?? null,
-            errorMessage: $result['errorMessage'] ?? null,
-        );
-    }
-
-    /** @return ProxyCheckResult[] */
-    public function checkProxiesBulk(array $proxies): array
-    {
-        $result = $this->post('/api/proxies/check-bulk', ['proxies' => $proxies]);
-        $results = $result['results'] ?? $result;
-        return array_map(
-            fn(array $r) => new ProxyCheckResult(
-                success: $r['success'] ?? false,
-                details: $r['details'] ?? null,
-                errorMessage: $r['errorMessage'] ?? null,
-            ),
-            $results
-        );
-    }
-
     public function deleteProxy(int $id): void
     {
         $this->delete("/api/proxies/$id");
@@ -178,20 +130,6 @@ final class AntybrowserClient
     public function deleteExtension(int $id): void
     {
         $this->delete("/api/extensions/$id");
-    }
-
-    /** @return Extension[] */
-    public function getProfileExtensions(int $profileId, bool $details = false): array
-    {
-        return array_map(
-            fn(array $d) => Extension::fromArray($d),
-            $this->get("/api/profiles/$profileId/extensions?details=" . ($details ? 'true' : 'false'))
-        );
-    }
-
-    public function setProfileExtensions(int $profileId, array $extensionIds): array
-    {
-        return $this->post("/api/profiles/$profileId/extensions", ['extensionIds' => $extensionIds]);
     }
 
     // ─── HTTP Helpers ────────────────────────────────────────────────────

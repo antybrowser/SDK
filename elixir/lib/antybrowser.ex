@@ -11,16 +11,6 @@ defmodule Antybrowser do
     }
   end
 
-  # System
-  def get_status(client), do: get(client, "/api/status")
-  def get_settings(client), do: get(client, "/api/settings")
-  def get_sync_status(client), do: get(client, "/api/sync/status")
-
-  def refresh_sync(client, profile_id \\ nil) do
-    body = if profile_id, do: %{profileId: profile_id}, else: %{}
-    post(client, "/api/sync/refresh", body)
-  end
-
   # Profiles
   def get_profiles(client), do: get(client, "/api/profiles")
   def create_profile(client, data), do: post(client, "/api/profiles", data)
@@ -47,17 +37,11 @@ defmodule Antybrowser do
   # Proxies
   def get_proxies(client), do: get(client, "/api/proxies")
   def create_proxy(client, data), do: post(client, "/api/proxies", data)
-  def check_proxy(client, data), do: post(client, "/api/proxies/check", data)
   def delete_proxy(client, id), do: delete(client, "/api/proxies/#{id}")
 
   # Extensions
   def get_extensions(client), do: get(client, "/api/extensions")
   def delete_extension(client, id), do: delete(client, "/api/extensions/#{id}")
-  def get_profile_extensions(client, profile_id), do: get(client, "/api/profiles/#{profile_id}/extensions")
-
-  def set_profile_extensions(client, profile_id, extension_ids) do
-    post(client, "/api/profiles/#{profile_id}/extensions", %{extensionIds: extension_ids})
-  end
 
   # HTTP
   defp get(client, path), do: request(client, :get, path, nil)

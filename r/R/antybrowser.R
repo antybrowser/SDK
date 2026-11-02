@@ -41,19 +41,6 @@ AntybrowserClient <- function(api_key, port = 5173) {
 
 #' @rdname AntybrowserClient
 #' @export
-get_status <- function(client) .do_request(client, "GET", "/api/status")
-#' @export
-get_settings <- function(client) .do_request(client, "GET", "/api/settings")
-#' @export
-get_sync_status <- function(client) .do_request(client, "GET", "/api/sync/status")
-#' @export
-refresh_sync <- function(client, profile_id = NULL) {
-  body <- if (!is.null(profile_id)) list(profileId = profile_id) else list()
-  .do_request(client, "POST", "/api/sync/refresh", body)
-}
-
-#' @rdname AntybrowserClient
-#' @export
 get_profiles <- function(client) .do_request(client, "GET", "/api/profiles")
 #' @export
 create_profile <- function(client, data) .do_request(client, "POST", "/api/profiles", data)
@@ -93,8 +80,6 @@ get_proxies <- function(client) .do_request(client, "GET", "/api/proxies")
 #' @export
 create_proxy <- function(client, data) .do_request(client, "POST", "/api/proxies", data)
 #' @export
-check_proxy <- function(client, data) .do_request(client, "POST", "/api/proxies/check", data)
-#' @export
 delete_proxy <- function(client, id) .do_request(client, "DELETE", paste0("/api/proxies/", id))
 
 #' @rdname AntybrowserClient
@@ -102,9 +87,3 @@ delete_proxy <- function(client, id) .do_request(client, "DELETE", paste0("/api/
 get_extensions <- function(client) .do_request(client, "GET", "/api/extensions")
 #' @export
 delete_extension <- function(client, id) .do_request(client, "DELETE", paste0("/api/extensions/", id))
-#' @export
-get_profile_extensions <- function(client, profile_id) .do_request(client, "GET", paste0("/api/profiles/", profile_id, "/extensions"))
-#' @export
-set_profile_extensions <- function(client, profile_id, extension_ids) {
-  .do_request(client, "POST", paste0("/api/profiles/", profile_id, "/extensions"), list(extensionIds = extension_ids))
-}

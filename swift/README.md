@@ -82,14 +82,6 @@ let proxy = try await client.createProxy(
         password: "pass"
     )
 )
-
-// Check proxy
-let check = try await client.checkProxy(data: [
-    "host": "proxy.example.com",
-    "port": 8080,
-    "username": "user",
-    "password": "pass"
-])
 ```
 
 ### Groups
@@ -105,33 +97,9 @@ let group = try await client.createGroup(
 ```swift
 // List extensions
 let extensions = try await client.getExtensions()
-
-// Assign extensions to a profile
-let _ = try await client.setProfileExtensions(
-    profileId: 1,
-    extensionIds: [1, 2, 3]
-)
-```
-
-### Sync
-
-```swift
-let status = try await client.getSyncStatus()
-print("Syncing: \(status.isSyncing), \(status.completed)/\(status.total)")
-
-let _ = try await client.refreshSync()
 ```
 
 ## API Reference
-
-### System
-
-| Method | Description |
-|--------|-------------|
-| `getStatus()` | Get system status |
-| `getSettings()` | Get app settings |
-| `getSyncStatus()` | Get sync status |
-| `refreshSync(profileId:)` | Trigger sync refresh |
 
 ### Profiles
 
@@ -167,7 +135,6 @@ let _ = try await client.refreshSync()
 |--------|-------------|
 | `getProxies()` | List proxies |
 | `createProxy(_:)` | Create a proxy |
-| `checkProxy(data:)` | Check proxy connectivity |
 | `deleteProxy(id:)` | Delete a proxy |
 
 ### Extensions
@@ -176,8 +143,6 @@ let _ = try await client.refreshSync()
 |--------|-------------|
 | `getExtensions()` | List extensions |
 | `deleteExtension(id:)` | Delete an extension |
-| `getProfileExtensions(profileId:)` | Get profile extensions |
-| `setProfileExtensions(profileId:extensionIds:)` | Set profile extensions |
 
 ## Error Handling
 

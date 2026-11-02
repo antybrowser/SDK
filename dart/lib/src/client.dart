@@ -18,24 +18,6 @@ class AntybrowserClient {
         'Content-Type': 'application/json',
       };
 
-  // System
-
-  Future<Map<String, dynamic>> getStatus() async {
-    return _get('/api/status');
-  }
-
-  Future<Map<String, dynamic>> getSettings() async {
-    return _get('/api/settings');
-  }
-
-  Future<Map<String, dynamic>> getSyncStatus() async {
-    return _get('/api/sync/status');
-  }
-
-  Future<Map<String, dynamic>> refreshSync({String? profileId}) async {
-    return _post('/api/sync/refresh', profileId != null ? {'profileId': profileId} : null);
-  }
-
   // Profiles
 
   Future<List<Profile>> getProfiles() async {
@@ -114,10 +96,6 @@ class AntybrowserClient {
     return Proxy.fromJson(data['data']);
   }
 
-  Future<Map<String, dynamic>> checkProxy(Map<String, dynamic> proxyData) async {
-    return _post('/api/proxies/check', proxyData);
-  }
-
   Future<void> deleteProxy(int id) async {
     await _delete('/api/proxies/$id');
   }
@@ -131,15 +109,6 @@ class AntybrowserClient {
 
   Future<void> deleteExtension(int id) async {
     await _delete('/api/extensions/$id');
-  }
-
-  Future<List<Extension>> getProfileExtensions(int profileId) async {
-    final data = await _get('/api/profiles/$profileId/extensions');
-    return (data['data'] as List).map((e) => Extension.fromJson(e)).toList();
-  }
-
-  Future<void> setProfileExtensions(int profileId, List<int> extensionIds) async {
-    await _post('/api/profiles/$profileId/extensions', {'extensionIds': extensionIds});
   }
 
   // HTTP helpers

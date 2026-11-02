@@ -13,19 +13,11 @@ class AntybrowserClient(
     private val client = HttpClients.createDefault()
     private val gson = Gson()
 
-    // System
-    fun getStatus(): ApiResponse = get("/api/status")
-    fun getSettings(): Settings = get("/api/settings")
-    fun getSyncStatus(): SyncStatus = get("/api/sync/status")
-    fun refreshSync(profileId: String? = null): ApiResponse {
-        val body = if (profileId != null) mapOf("profileId" to profileId) else emptyMap<String, Any>()
-        return post("/api/sync/refresh", body)
-    }
-
     // Profiles
     fun getProfiles(): List<Profile> = get("/api/profiles")
     fun createProfile(request: CreateProfileRequest): Profile = post("/api/profiles", request)
     fun updateProfile(id: Int, data: Map<String, Any>): Profile = put("/api/profiles/$id", data)
+    fun updateProfile(id: Int, request: CreateProfileRequest): Profile = put("/api/profiles/$id", request)
     fun deleteProfile(id: Int): ApiResponse = delete("/api/profiles/$id")
     fun startProfile(id: Int): StartProfileResponse = post("/api/profiles/$id/start", emptyMap<String, Any>())
     fun stopProfile(id: Int): ApiResponse = post("/api/profiles/$id/stop", emptyMap<String, Any>())
@@ -47,14 +39,11 @@ class AntybrowserClient(
     // Proxies
     fun getProxies(): List<Proxy> = get("/api/proxies")
     fun createProxy(request: CreateProxyRequest): Proxy = post("/api/proxies", request)
-    fun checkProxy(data: Map<String, Any>): ProxyCheckResult = post("/api/proxies/check", data)
     fun deleteProxy(id: Int): ApiResponse = delete("/api/proxies/$id")
 
     // Extensions
     fun getExtensions(): List<Extension> = get("/api/extensions")
     fun deleteExtension(id: Int): ApiResponse = delete("/api/extensions/$id")
-    fun getProfileExtensions(profileId: Int): List<Extension> = get("/api/profiles/$profileId/extensions")
-    fun setProfileExtensions(profileId: Int, extensionIds: List<Int>): ApiResponse = post("/api/profiles/$profileId/extensions", mapOf("extensionIds" to extensionIds))
 
     // HTTP helpers
     private inline fun <reified T> get(path: String): T = executeRequest(HttpGet("$baseUrl$path")) { gson.fromJson(it, T::class.java) }

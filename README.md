@@ -196,23 +196,15 @@ Every SDK supports the same options:
 
 ## API Methods
 
-All 23 SDKs implement the same 26 endpoints:
-
-### System
-| Method | Description |
-|--------|-------------|
-| `getStatus()` | Health check (no auth) |
-| `getSettings()` | Get all settings |
-| `getSyncStatus()` | Sync queue status |
-| `refreshSync(profileId?)` | Trigger sync |
+All 23 SDKs implement the same 18 endpoints:
 
 ### Profiles
 | Method | Description |
 |--------|-------------|
-| `getProfiles()` | List all profiles |
+| `getProfiles()` | List all profiles (hidden ones included) |
 | `createProfile(data)` | Create a profile |
 | `updateProfile(id, data)` | Update a profile |
-| `deleteProfile(id)` | Delete a profile |
+| `deleteProfile(id)` | Delete a profile (Trash on paid plans) |
 | `startProfile(id)` | Start → returns debug port |
 | `stopProfile(id)` | Stop running profile |
 | `duplicateProfile(id)` | Clone a profile |
@@ -236,8 +228,6 @@ All 23 SDKs implement the same 26 endpoints:
 |--------|-------------|
 | `getProxies()` | List proxies |
 | `createProxy(data)` | Add proxy (validates) |
-| `checkProxy(data)` | Test single proxy |
-| `checkProxiesBulk(proxies)` | Test multiple proxies |
 | `deleteProxy(id)` | Delete proxy |
 
 ### Extensions
@@ -245,8 +235,6 @@ All 23 SDKs implement the same 26 endpoints:
 |--------|-------------|
 | `getExtensions()` | List extensions |
 | `deleteExtension(id)` | Delete extension |
-| `getProfileExtensions(id)` | Get profile extensions |
-| `setProfileExtensions(id, ids)` | Set profile extensions |
 
 ---
 

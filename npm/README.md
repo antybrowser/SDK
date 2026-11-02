@@ -72,23 +72,14 @@ const client = new AntybrowserClient({
 
 ## API Reference
 
-### System
-
-| Method | Description |
-|--------|-------------|
-| `getStatus()` | Check API connection status |
-| `getSettings()` | Get current settings |
-| `getSyncStatus()` | Get sync queue status |
-| `refreshSync(profileId?)` | Trigger a sync refresh |
-
 ### Profiles
 
 | Method | Description |
 |--------|-------------|
-| `getProfiles()` | List all profiles |
+| `getProfiles()` | List all profiles (hidden ones included) |
 | `createProfile(data)` | Create a new profile |
 | `updateProfile(id, data)` | Update a profile |
-| `deleteProfile(id)` | Delete a profile |
+| `deleteProfile(id)` | Delete a profile (Trash on paid plans) |
 | `startProfile(id)` | Start a profile (returns debug port) |
 | `stopProfile(id)` | Stop a running profile |
 | `duplicateProfile(id, opts?)` | Duplicate a profile |
@@ -115,8 +106,6 @@ const client = new AntybrowserClient({
 |--------|-------------|
 | `getProxies()` | List all proxies |
 | `createProxy(data)` | Add a proxy (validates connection) |
-| `checkProxy(data)` | Check a single proxy |
-| `checkProxiesBulk(proxies)` | Check multiple proxies |
 | `deleteProxy(id)` | Delete a proxy |
 
 ### Extensions
@@ -125,8 +114,6 @@ const client = new AntybrowserClient({
 |--------|-------------|
 | `getExtensions()` | List all extensions |
 | `deleteExtension(id)` | Delete an extension |
-| `getProfileExtensions(profileId)` | Get extensions for a profile |
-| `setProfileExtensions(profileId, ids)` | Set extensions for a profile |
 
 ## Examples
 
@@ -149,19 +136,6 @@ const profile = await client.createProfile({
 // Start it
 const result = await client.startProfile(profile.id);
 console.log(`Connect via CDP at 127.0.0.1:${result.data.debugPort}`);
-```
-
-### Bulk proxy check
-
-```typescript
-const results = await client.checkProxiesBulk([
-  "user:pass:1.2.3.4:8080",
-  { host: "5.6.7.8", port: 3128, type: "socks5" },
-]);
-
-results.forEach((r, i) => {
-  console.log(`Proxy ${i + 1}: ${r.success ? r.details?.country : r.errorMessage}`);
-});
 ```
 
 ### Run an automation

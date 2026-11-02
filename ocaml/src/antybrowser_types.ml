@@ -1,9 +1,3 @@
-type status_response = {
-  success : bool;
-  status : string;
-  version : string;
-}
-
 type start_profile_data = {
   debug_port : int;
 }
@@ -15,6 +9,8 @@ type start_profile_response = {
 
 type profile = {
   id : int;
+  user_id : int option;
+  user_guid : string option;
   name : string;
   directory_name : string option;
   group_id : int option;
@@ -23,20 +19,47 @@ type profile = {
   browser_version : string option;
   os_fingerprint : string option;
   screen_resolution : string option;
+  screen_maximizable : bool option;
   language : string option;
   accept_language : string option;
   timezone : string option;
   use_fingerprint : bool option;
+  (* Server-owned noise seed. Read-only — never sent on create/update. *)
   fingerprint_id : string option;
+  platform_version : string option;
+  brand_version : string option;
+  engine_version : string option;
+  gpu_vendor : string option;
+  gpu_model : string option;
+  hardware_concurrency : Yojson.Safe.t option;
+  device_memory : Yojson.Safe.t option;
+  device_scale_factor : Yojson.Safe.t option;
+  mobile_model : string option;
+  mobile_version : Yojson.Safe.t option;
+  ch_platform : string option;
+  ch_platform_version : string option;
+  ch_arch : string option;
+  ch_bitness : string option;
+  ch_model : string option;
+  ch_mobile : Yojson.Safe.t option;
+  disable_spoofing : string option;
+  location_mode : string option;
+  location_latitude : string option;
+  location_longitude : string option;
+  location_accuracy : string option;
+  user_agent : string option;
   restore_session : bool option;
   low_bandwidth : bool option;
   notes : string option;
   start_url : string option;
   custom_flags : string option;
   status : string option;
+  status_machine_id : string option;
+  status_heartbeat_at : string option;
   needs_sync : bool option;
   last_pid : int option;
   debug_port : int option;
+  tabs_snapshot : string option;
   created_at : string option;
   updated_at : string option;
   last_synced_at : string option;
@@ -52,18 +75,42 @@ type create_profile_request = {
   group_id : int option;
   proxy_id : int option;
   browser_type : string option;
+  browser_version : string option;
   os_fingerprint : string option;
   screen_resolution : string option;
+  screen_maximizable : bool option;
   language : string option;
   accept_language : string option;
   timezone : string option;
   use_fingerprint : bool option;
-  fingerprint_id : string option;
+  platform_version : string option;
+  brand_version : string option;
+  engine_version : string option;
+  gpu_vendor : string option;
+  gpu_model : string option;
+  hardware_concurrency : Yojson.Safe.t option;
+  device_memory : Yojson.Safe.t option;
+  device_scale_factor : Yojson.Safe.t option;
+  mobile_model : string option;
+  mobile_version : Yojson.Safe.t option;
+  ch_platform : string option;
+  ch_platform_version : string option;
+  ch_arch : string option;
+  ch_bitness : string option;
+  ch_model : string option;
+  ch_mobile : Yojson.Safe.t option;
+  disable_spoofing : string option;
+  location_mode : string option;
+  location_latitude : string option;
+  location_longitude : string option;
+  location_accuracy : string option;
   restore_session : bool option;
   low_bandwidth : bool option;
   notes : string option;
   start_url : string option;
   custom_flags : string option;
+  status : string option;
+  hidden : bool option;
 }
 
 type proxy = {
@@ -90,12 +137,6 @@ type create_proxy_request = {
   type_ : string;
   username : string option;
   password : string option;
-}
-
-type proxy_check_result = {
-  success : bool;
-  details : Yojson.Safe.t;
-  error_message : string option;
 }
 
 type group = {
@@ -146,23 +187,6 @@ type run_automation_result = {
   variables : (string * Yojson.Safe.t) list;
 }
 
-type settings = {
-  id : int option;
-  chrome_path : string option;
-  api_key : string option;
-  language : string option;
-}
-
-type sync_status = {
-  active : Yojson.Safe.t list;
-  active_extensions : Yojson.Safe.t list;
-  total : int;
-  completed : int;
-  errors : Yojson.Safe.t;
-  progress : Yojson.Safe.t;
-  is_syncing : bool;
-}
-
 type duplicate_profile_request = {
   name : string option;
   directory_name : string option;
@@ -191,6 +215,11 @@ let opt_bool json key =
   | Some (`Bool b) -> Some b
   | Some _ -> None
 
+let opt_json json key =
+  match opt_field json key with
+  | None | Some `Null -> None
+  | Some j -> Some j
+
 let json_string json key = opt_string json key |> Option.value ~default:""
 
 let json_int json key = opt_int json key |> Option.value ~default:0
@@ -203,20 +232,9 @@ let opt_to_json_int = function None -> `Null | Some i -> `Int i
 
 let opt_to_json_bool = function None -> `Null | Some b -> `Bool b
 
+let opt_to_json_json = function None -> `Null | Some j -> j
+
 (* ── Serialization ──────────────────────────────────────────────────────── *)
-
-let status_response_to_json r =
-  `Assoc
-    [ ("success", `Bool r.success)
-    ; ("status", `String r.status)
-    ; ("version", `String r.version)
-    ]
-
-let status_response_of_json json =
-  { success = json_bool json "success"
-  ; status = json_string json "status"
-  ; version = json_string json "version"
-  }
 
 let start_profile_data_to_json d =
   `Assoc [ ("debugPort", `Int d.debug_port) ]
@@ -238,6 +256,8 @@ let start_profile_response_of_json json =
 let profile_to_json p =
   `Assoc
     [ ("id", `Int p.id)
+    ; ("userId", opt_to_json_int p.user_id)
+    ; ("userGuid", opt_to_json_string p.user_guid)
     ; ("name", `String p.name)
     ; ("directoryName", opt_to_json_string p.directory_name)
     ; ("groupId", opt_to_json_int p.group_id)
@@ -246,20 +266,46 @@ let profile_to_json p =
     ; ("browserVersion", opt_to_json_string p.browser_version)
     ; ("osFingerprint", opt_to_json_string p.os_fingerprint)
     ; ("screenResolution", opt_to_json_string p.screen_resolution)
+    ; ("screenMaximizable", opt_to_json_bool p.screen_maximizable)
     ; ("language", opt_to_json_string p.language)
     ; ("acceptLanguage", opt_to_json_string p.accept_language)
     ; ("timezone", opt_to_json_string p.timezone)
     ; ("useFingerprint", opt_to_json_bool p.use_fingerprint)
     ; ("fingerprintId", opt_to_json_string p.fingerprint_id)
+    ; ("platformVersion", opt_to_json_string p.platform_version)
+    ; ("brandVersion", opt_to_json_string p.brand_version)
+    ; ("engineVersion", opt_to_json_string p.engine_version)
+    ; ("gpuVendor", opt_to_json_string p.gpu_vendor)
+    ; ("gpuModel", opt_to_json_string p.gpu_model)
+    ; ("hardwareConcurrency", opt_to_json_json p.hardware_concurrency)
+    ; ("deviceMemory", opt_to_json_json p.device_memory)
+    ; ("deviceScaleFactor", opt_to_json_json p.device_scale_factor)
+    ; ("mobileModel", opt_to_json_string p.mobile_model)
+    ; ("mobileVersion", opt_to_json_json p.mobile_version)
+    ; ("chPlatform", opt_to_json_string p.ch_platform)
+    ; ("chPlatformVersion", opt_to_json_string p.ch_platform_version)
+    ; ("chArch", opt_to_json_string p.ch_arch)
+    ; ("chBitness", opt_to_json_string p.ch_bitness)
+    ; ("chModel", opt_to_json_string p.ch_model)
+    ; ("chMobile", opt_to_json_json p.ch_mobile)
+    ; ("disableSpoofing", opt_to_json_string p.disable_spoofing)
+    ; ("locationMode", opt_to_json_string p.location_mode)
+    ; ("locationLatitude", opt_to_json_string p.location_latitude)
+    ; ("locationLongitude", opt_to_json_string p.location_longitude)
+    ; ("locationAccuracy", opt_to_json_string p.location_accuracy)
+    ; ("userAgent", opt_to_json_string p.user_agent)
     ; ("restoreSession", opt_to_json_bool p.restore_session)
     ; ("lowBandwidth", opt_to_json_bool p.low_bandwidth)
     ; ("notes", opt_to_json_string p.notes)
     ; ("startUrl", opt_to_json_string p.start_url)
     ; ("customFlags", opt_to_json_string p.custom_flags)
     ; ("status", opt_to_json_string p.status)
+    ; ("statusMachineId", opt_to_json_string p.status_machine_id)
+    ; ("statusHeartbeatAt", opt_to_json_string p.status_heartbeat_at)
     ; ("needsSync", opt_to_json_bool p.needs_sync)
     ; ("lastPid", opt_to_json_int p.last_pid)
     ; ("debugPort", opt_to_json_int p.debug_port)
+    ; ("tabsSnapshot", opt_to_json_string p.tabs_snapshot)
     ; ("createdAt", opt_to_json_string p.created_at)
     ; ("updatedAt", opt_to_json_string p.updated_at)
     ; ("lastSyncedAt", opt_to_json_string p.last_synced_at)
@@ -271,6 +317,8 @@ let profile_to_json p =
 
 let profile_of_json json =
   { id = json_int json "id"
+  ; user_id = opt_int json "userId"
+  ; user_guid = opt_string json "userGuid"
   ; name = json_string json "name"
   ; directory_name = opt_string json "directoryName"
   ; group_id = opt_int json "groupId"
@@ -279,20 +327,46 @@ let profile_of_json json =
   ; browser_version = opt_string json "browserVersion"
   ; os_fingerprint = opt_string json "osFingerprint"
   ; screen_resolution = opt_string json "screenResolution"
+  ; screen_maximizable = opt_bool json "screenMaximizable"
   ; language = opt_string json "language"
   ; accept_language = opt_string json "acceptLanguage"
   ; timezone = opt_string json "timezone"
   ; use_fingerprint = opt_bool json "useFingerprint"
   ; fingerprint_id = opt_string json "fingerprintId"
+  ; platform_version = opt_string json "platformVersion"
+  ; brand_version = opt_string json "brandVersion"
+  ; engine_version = opt_string json "engineVersion"
+  ; gpu_vendor = opt_string json "gpuVendor"
+  ; gpu_model = opt_string json "gpuModel"
+  ; hardware_concurrency = opt_json json "hardwareConcurrency"
+  ; device_memory = opt_json json "deviceMemory"
+  ; device_scale_factor = opt_json json "deviceScaleFactor"
+  ; mobile_model = opt_string json "mobileModel"
+  ; mobile_version = opt_json json "mobileVersion"
+  ; ch_platform = opt_string json "chPlatform"
+  ; ch_platform_version = opt_string json "chPlatformVersion"
+  ; ch_arch = opt_string json "chArch"
+  ; ch_bitness = opt_string json "chBitness"
+  ; ch_model = opt_string json "chModel"
+  ; ch_mobile = opt_json json "chMobile"
+  ; disable_spoofing = opt_string json "disableSpoofing"
+  ; location_mode = opt_string json "locationMode"
+  ; location_latitude = opt_string json "locationLatitude"
+  ; location_longitude = opt_string json "locationLongitude"
+  ; location_accuracy = opt_string json "locationAccuracy"
+  ; user_agent = opt_string json "userAgent"
   ; restore_session = opt_bool json "restoreSession"
   ; low_bandwidth = opt_bool json "lowBandwidth"
   ; notes = opt_string json "notes"
   ; start_url = opt_string json "startUrl"
   ; custom_flags = opt_string json "customFlags"
   ; status = opt_string json "status"
+  ; status_machine_id = opt_string json "statusMachineId"
+  ; status_heartbeat_at = opt_string json "statusHeartbeatAt"
   ; needs_sync = opt_bool json "needsSync"
   ; last_pid = opt_int json "lastPid"
   ; debug_port = opt_int json "debugPort"
+  ; tabs_snapshot = opt_string json "tabsSnapshot"
   ; created_at = opt_string json "createdAt"
   ; updated_at = opt_string json "updatedAt"
   ; last_synced_at = opt_string json "lastSyncedAt"
@@ -309,18 +383,42 @@ let create_profile_request_to_json r =
     ; ("groupId", opt_to_json_int r.group_id)
     ; ("proxyId", opt_to_json_int r.proxy_id)
     ; ("browserType", opt_to_json_string r.browser_type)
+    ; ("browserVersion", opt_to_json_string r.browser_version)
     ; ("osFingerprint", opt_to_json_string r.os_fingerprint)
     ; ("screenResolution", opt_to_json_string r.screen_resolution)
+    ; ("screenMaximizable", opt_to_json_bool r.screen_maximizable)
     ; ("language", opt_to_json_string r.language)
     ; ("acceptLanguage", opt_to_json_string r.accept_language)
     ; ("timezone", opt_to_json_string r.timezone)
     ; ("useFingerprint", opt_to_json_bool r.use_fingerprint)
-    ; ("fingerprintId", opt_to_json_string r.fingerprint_id)
+    ; ("platformVersion", opt_to_json_string r.platform_version)
+    ; ("brandVersion", opt_to_json_string r.brand_version)
+    ; ("engineVersion", opt_to_json_string r.engine_version)
+    ; ("gpuVendor", opt_to_json_string r.gpu_vendor)
+    ; ("gpuModel", opt_to_json_string r.gpu_model)
+    ; ("hardwareConcurrency", opt_to_json_json r.hardware_concurrency)
+    ; ("deviceMemory", opt_to_json_json r.device_memory)
+    ; ("deviceScaleFactor", opt_to_json_json r.device_scale_factor)
+    ; ("mobileModel", opt_to_json_string r.mobile_model)
+    ; ("mobileVersion", opt_to_json_json r.mobile_version)
+    ; ("chPlatform", opt_to_json_string r.ch_platform)
+    ; ("chPlatformVersion", opt_to_json_string r.ch_platform_version)
+    ; ("chArch", opt_to_json_string r.ch_arch)
+    ; ("chBitness", opt_to_json_string r.ch_bitness)
+    ; ("chModel", opt_to_json_string r.ch_model)
+    ; ("chMobile", opt_to_json_json r.ch_mobile)
+    ; ("disableSpoofing", opt_to_json_string r.disable_spoofing)
+    ; ("locationMode", opt_to_json_string r.location_mode)
+    ; ("locationLatitude", opt_to_json_string r.location_latitude)
+    ; ("locationLongitude", opt_to_json_string r.location_longitude)
+    ; ("locationAccuracy", opt_to_json_string r.location_accuracy)
     ; ("restoreSession", opt_to_json_bool r.restore_session)
     ; ("lowBandwidth", opt_to_json_bool r.low_bandwidth)
     ; ("notes", opt_to_json_string r.notes)
     ; ("startUrl", opt_to_json_string r.start_url)
     ; ("customFlags", opt_to_json_string r.custom_flags)
+    ; ("status", opt_to_json_string r.status)
+    ; ("hidden", opt_to_json_bool r.hidden)
     ]
 
 let proxy_to_json p =
@@ -367,23 +465,6 @@ let create_proxy_request_to_json r =
     ; ("username", opt_to_json_string r.username)
     ; ("password", opt_to_json_string r.password)
     ]
-
-let proxy_check_result_to_json r =
-  `Assoc
-    [ ("success", `Bool r.success)
-    ; ("details", r.details)
-    ; ("errorMessage", opt_to_json_string r.error_message)
-    ]
-
-let proxy_check_result_of_json json =
-  { success = json_bool json "success"
-  ; details =
-      ( match opt_field json "details" with
-      | Some j -> j
-      | None -> `Assoc []
-      )
-  ; error_message = opt_string json "errorMessage"
-  }
 
 let group_to_json g =
   `Assoc
@@ -477,58 +558,6 @@ let run_automation_result_of_json json =
       | Some (`Assoc kvs) -> List.map (fun (k, v) -> (k, v)) kvs
       | _ -> []
       )
-  }
-
-let settings_to_json s =
-  `Assoc
-    [ ("id", opt_to_json_int s.id)
-    ; ("chromePath", opt_to_json_string s.chrome_path)
-    ; ("apiKey", opt_to_json_string s.api_key)
-    ; ("language", opt_to_json_string s.language)
-    ]
-
-let settings_of_json json =
-  { id = opt_int json "id"
-  ; chrome_path = opt_string json "chromePath"
-  ; api_key = opt_string json "apiKey"
-  ; language = opt_string json "language"
-  }
-
-let sync_status_to_json s =
-  `Assoc
-    [ ("active", s.active)
-    ; ("activeExtensions", s.active_extensions)
-    ; ("total", `Int s.total)
-    ; ("completed", `Int s.completed)
-    ; ("errors", s.errors)
-    ; ("progress", s.progress)
-    ; ("isSyncing", `Bool s.is_syncing)
-    ]
-
-let sync_status_of_json json =
-  { active =
-      ( match opt_field json "active" with
-      | Some (`List l) -> l
-      | _ -> []
-      )
-  ; active_extensions =
-      ( match opt_field json "activeExtensions" with
-      | Some (`List l) -> l
-      | _ -> []
-      )
-  ; total = json_int json "total"
-  ; completed = json_int json "completed"
-  ; errors =
-      ( match opt_field json "errors" with
-      | Some j -> j
-      | None -> `Assoc []
-      )
-  ; progress =
-      ( match opt_field json "progress" with
-      | Some j -> j
-      | None -> `Assoc []
-      )
-  ; is_syncing = json_bool json "isSyncing"
   }
 
 let duplicate_profile_request_to_json r =

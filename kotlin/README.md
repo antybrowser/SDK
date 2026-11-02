@@ -27,9 +27,8 @@
 - **Profile Management**: Programmatically create, configure, start, and stop isolated browser profiles.
 - **Fingerprint Control**: Manage canvas, WebGL, Audio, and other browser fingerprints to prevent detection.
 - **Workflow Automation**: Execute complex browser automation scripts via our internal runner.
-- **Proxy Management**: Seamlessly integrate HTTP, SOCKS4, and SOCKS5 proxies with bulk verification.
+- **Proxy Management**: Seamlessly integrate HTTP, SOCKS4, and SOCKS5 proxies.
 - **Multi-Accounting**: Scale your operations across hundreds of accounts with complete isolation.
-- **Sync & Cloud**: Monitor profile synchronization status and cloud-based settings.
 
 ## Installation
 
@@ -99,14 +98,6 @@ try {
 
 ## API Reference
 
-### System
-| Method | Description |
-|--------|-------------|
-| `getStatus()` | Check API connection status |
-| `getSettings()` | Get current application settings |
-| `getSyncStatus()` | Get sync queue status |
-| `refreshSync()` | Trigger a sync refresh |
-
 ### Profiles
 | Method | Description |
 |--------|-------------|
@@ -137,7 +128,6 @@ try {
 |--------|-------------|
 | `getProxies()` | List all proxies |
 | `createProxy()` | Add a proxy (validates connection) |
-| `checkProxy()` | Check a single proxy |
 | `deleteProxy()` | Delete a proxy |
 
 ### Extensions
@@ -145,8 +135,6 @@ try {
 |--------|-------------|
 | `getExtensions()` | List all extensions |
 | `deleteExtension()` | Delete an extension |
-| `getProfileExtensions()` | Get extensions for a profile |
-| `setProfileExtensions()` | Set extensions for a profile |
 
 ## Examples
 
@@ -163,20 +151,6 @@ val profile = client.createProfile(
 
 val result = client.startProfile(profile.id)
 println("Chrome launched on debug port: ${result.debugPort}")
-```
-
-### Bulk proxy check
-
-```kotlin
-val proxies = listOf(
-    CreateProxyRequest(host = "1.2.3.4", port = 8080, type = "http"),
-    CreateProxyRequest(host = "5.6.7.8", port = 1080, type = "socks5"),
-)
-
-for (proxy in proxies) {
-    val result = client.checkProxy(proxy)
-    println("${proxy.host}:${proxy.port} — ${result.status}")
-}
 ```
 
 ### Run an automation

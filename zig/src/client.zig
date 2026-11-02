@@ -125,19 +125,6 @@ pub const AntybrowserClient = struct {
         return try std.mem.dupe(self.allocator, u8, std.json.stringifyAlloc(self.allocator, parsed.value, .{}) catch return error.JsonError);
     }
 
-    // ── Status ──────────────────────────────────────────────────────────
-
-    pub fn getStatus(self: *AntybrowserClient) errors.AntybrowserError!types.StatusResponse {
-        const body = try self.doGet("/api/status");
-        defer self.allocator.free(body);
-        const parsed = try std.json.parseFromSlice(types.StatusResponse, self.allocator, body, .{
-            .allocate = .alloc_always,
-            .ignore_unknown_fields = true,
-        });
-        defer parsed.deinit();
-        return parsed.value;
-    }
-
     // ── Profiles ────────────────────────────────────────────────────────
 
     pub fn listProfiles(self: *AntybrowserClient) errors.AntybrowserError!types.ProfileListResponse {
@@ -298,19 +285,6 @@ pub const AntybrowserClient = struct {
         return parsed.value;
     }
 
-    pub fn checkProxy(self: *AntybrowserClient, proxy_id: []const u8) errors.AntybrowserError!types.ProxyCheckResult {
-        const json = try std.json.stringifyAlloc(self.allocator, .{ .proxy_id = proxy_id }, .{});
-        defer self.allocator.free(json);
-        const body = try self.doPost("/api/proxies/check", json);
-        defer self.allocator.free(body);
-        const parsed = try std.json.parseFromSlice(types.ProxyCheckResult, self.allocator, body, .{
-            .allocate = .alloc_always,
-            .ignore_unknown_fields = true,
-        });
-        defer parsed.deinit();
-        return parsed.value;
-    }
-
     // ── Groups ──────────────────────────────────────────────────────────
 
     pub fn listGroups(self: *AntybrowserClient) errors.AntybrowserError!types.GroupListResponse {
@@ -451,32 +425,6 @@ pub const AntybrowserClient = struct {
         const body = try self.doGet(path);
         defer self.allocator.free(body);
         const parsed = try std.json.parseFromSlice(types.Automation, self.allocator, body, .{
-            .allocate = .alloc_always,
-            .ignore_unknown_fields = true,
-        });
-        defer parsed.deinit();
-        return parsed.value;
-    }
-
-    // ── Settings ────────────────────────────────────────────────────────
-
-    pub fn getSettings(self: *AntybrowserClient) errors.AntybrowserError!types.Settings {
-        const body = try self.doGet("/api/settings");
-        defer self.allocator.free(body);
-        const parsed = try std.json.parseFromSlice(types.Settings, self.allocator, body, .{
-            .allocate = .alloc_always,
-            .ignore_unknown_fields = true,
-        });
-        defer parsed.deinit();
-        return parsed.value;
-    }
-
-    pub fn updateSettings(self: *AntybrowserClient, request: types.Settings) errors.AntybrowserError!types.Settings {
-        const json = try self.toJson(request);
-        defer self.allocator.free(json);
-        const body = try self.doPut("/api/settings", json);
-        defer self.allocator.free(body);
-        const parsed = try std.json.parseFromSlice(types.Settings, self.allocator, body, .{
             .allocate = .alloc_always,
             .ignore_unknown_fields = true,
         });

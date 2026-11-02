@@ -13,38 +13,291 @@ pub struct ApiResponse {
 pub struct Profile {
     pub id: i64,
     #[serde(skip_serializing_if = "Option::is_none")]
+    pub user_id: Option<i64>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub user_guid: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub name: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub status: Option<String>,
+    pub directory_name: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub group_id: Option<i64>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub proxy_id: Option<i64>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub browser_type: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
+    pub browser_version: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub os_fingerprint: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub screen_resolution: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub screen_maximizable: Option<bool>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub language: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub directory_name: Option<String>,
+    pub accept_language: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub timezone: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub use_fingerprint: Option<bool>,
+    /// Server-owned noise seed. Read-only — never sent on create/update.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub fingerprint_id: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub platform_version: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub brand_version: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub engine_version: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub gpu_vendor: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub gpu_model: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub hardware_concurrency: Option<serde_json::Value>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub device_memory: Option<serde_json::Value>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub device_scale_factor: Option<serde_json::Value>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub mobile_model: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub mobile_version: Option<serde_json::Value>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub ch_platform: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub ch_platform_version: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub ch_arch: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub ch_bitness: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub ch_model: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub ch_mobile: Option<serde_json::Value>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub disable_spoofing: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub location_mode: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub location_latitude: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub location_longitude: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub location_accuracy: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub user_agent: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub restore_session: Option<bool>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub low_bandwidth: Option<bool>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub notes: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub start_url: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub custom_flags: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub status: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub status_machine_id: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub status_heartbeat_at: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub needs_sync: Option<bool>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub last_pid: Option<i64>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub debug_port: Option<i64>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub tabs_snapshot: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub hidden: Option<bool>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub trash: Option<bool>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub deleted_at: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub created_at: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub updated_at: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub last_synced_at: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub s3_key: Option<String>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CreateProfileRequest {
     pub name: String,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub browser_type: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub os_fingerprint: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub language: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub use_fingerprint: Option<bool>,
+    pub directory_name: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub group_id: Option<i64>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub proxy_id: Option<i64>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub browser_type: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub browser_version: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub os_fingerprint: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub screen_resolution: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub screen_maximizable: Option<bool>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub language: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub accept_language: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub timezone: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub use_fingerprint: Option<bool>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub platform_version: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub brand_version: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub engine_version: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub gpu_vendor: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub gpu_model: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub hardware_concurrency: Option<serde_json::Value>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub device_memory: Option<serde_json::Value>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub device_scale_factor: Option<serde_json::Value>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub mobile_model: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub mobile_version: Option<serde_json::Value>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub ch_platform: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub ch_platform_version: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub ch_arch: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub ch_bitness: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub ch_model: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub ch_mobile: Option<serde_json::Value>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub disable_spoofing: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub location_mode: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub location_latitude: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub location_longitude: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub location_accuracy: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub restore_session: Option<bool>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub low_bandwidth: Option<bool>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub notes: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub start_url: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub custom_flags: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub status: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub hidden: Option<bool>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct UpdateProfileRequest {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub name: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub directory_name: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub group_id: Option<i64>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub proxy_id: Option<i64>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub browser_type: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub browser_version: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub os_fingerprint: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub screen_resolution: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub screen_maximizable: Option<bool>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub language: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub accept_language: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub timezone: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub use_fingerprint: Option<bool>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub platform_version: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub brand_version: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub engine_version: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub gpu_vendor: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub gpu_model: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub hardware_concurrency: Option<serde_json::Value>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub device_memory: Option<serde_json::Value>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub device_scale_factor: Option<serde_json::Value>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub mobile_model: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub mobile_version: Option<serde_json::Value>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub ch_platform: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub ch_platform_version: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub ch_arch: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub ch_bitness: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub ch_model: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub ch_mobile: Option<serde_json::Value>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub disable_spoofing: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub location_mode: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub location_latitude: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub location_longitude: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub location_accuracy: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub restore_session: Option<bool>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub low_bandwidth: Option<bool>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub notes: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub start_url: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub custom_flags: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub status: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub hidden: Option<bool>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -121,17 +374,6 @@ pub struct CreateProxyRequest {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct ProxyCheckResult {
-    pub success: bool,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub ip: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub country: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub error: Option<String>,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Extension {
     pub id: i64,
     pub name: String,
@@ -139,19 +381,4 @@ pub struct Extension {
     pub description: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub version: Option<String>,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct Settings {
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub api_key: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub language: Option<String>,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct SyncStatus {
-    pub is_syncing: bool,
-    pub total: i64,
-    pub completed: i64,
 }

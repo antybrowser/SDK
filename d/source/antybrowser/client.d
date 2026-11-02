@@ -4,7 +4,6 @@ import std.net.curl : Curl, CurlOption, HTTP, HTTPCode, CurlHandle;
 import std.json;
 import std.conv : to;
 import std.format : format;
-import std.typecons : Nullable;
 import core.time : dur;
 
 import antybrowser.types;
@@ -21,38 +20,6 @@ class AntybrowserClient
         this.apiKey = apiKey;
         this.baseURL = baseUrl.length > 0 ? baseUrl : format("http://127.0.0.1:%d", port);
         this.timeout = timeout;
-    }
-
-    // ─── System ──────────────────────────────────────────────────────────
-
-    StatusResponse getStatus()
-    {
-        return doGet!StatusResponse("/api/status");
-    }
-
-    Settings getSettings()
-    {
-        return doGet!Settings("/api/settings");
-    }
-
-    SyncStatus getSyncStatus()
-    {
-        return doGet!SyncStatus("/api/sync/status");
-    }
-
-    JSONValue refreshSync(Nullable!int profileID = Nullable!int.init)
-    {
-        JSONValue body_;
-        if (!profileID.isNull)
-        {
-            body_ = JSONValue(string[string].init);
-            body_["profileId"] = profileID.get;
-        }
-        else
-        {
-            body_ = JSONValue(string[string].init);
-        }
-        return doPost("/api/sync/refresh", body_);
     }
 
     // ─── Profiles ────────────────────────────────────────────────────────
@@ -139,37 +106,6 @@ class AntybrowserClient
         return doPostAndDeserialize!Proxy("/api/proxies", req.toJSON);
     }
 
-    ProxyCheckResult checkProxy(string host, int port,
-                                Nullable!string username = Nullable!string.init,
-                                Nullable!string password = Nullable!string.init,
-                                Nullable!string proxyType = Nullable!string.init)
-    {
-        JSONValue body_ = JSONValue(string[string].init);
-        body_["host"] = host;
-        body_["port"] = port;
-        if (!username.isNull) body_["username"] = username.get;
-        if (!password.isNull) body_["password"] = password.get;
-        if (!proxyType.isNull) body_["type"] = proxyType.get;
-        return doPostAndDeserialize!ProxyCheckResult("/api/proxies/check", body_);
-    }
-
-    ProxyCheckResult[] checkProxiesBulk(JSONValue[] proxies)
-    {
-        JSONValue body_ = JSONValue(string[string].init);
-        JSONValue arr = JSONValue[].init;
-        foreach (p; proxies)
-            arr.arrayOf ~= p;
-        body_["proxies"] = arr;
-        JSONValue result = doPost("/api/proxies/check-bulk", body_);
-        ProxyCheckResult[] results;
-        if ("results" in result && result["results"].type == JSONType.array)
-        {
-            foreach (v; result["results"].arrayOf)
-                results ~= ProxyCheckResult.fromJSON(v);
-        }
-        return results;
-    }
-
     void deleteProxy(int id)
     {
         doDeleteNoContent(format("/api/proxies/%d", id));
@@ -187,42 +123,7 @@ class AntybrowserClient
         doDeleteNoContent(format("/api/extensions/%d", id));
     }
 
-    Extension[] getProfileExtensions(int profileID, bool details = false)
-    {
-        return doGetArray!Extension(
-            format("/api/profiles/%d/extensions?details=%s", profileID, details ? "true" : "false"));
-    }
-
-    JSONValue setProfileExtensions(int profileID, int[] extensionIDs)
-    {
-        JSONValue body_ = JSONValue(string[string].init);
-        JSONValue arr = JSONValue[].init;
-        foreach (id; extensionIDs)
-            arr.arrayOf ~= JSONValue(id);
-        body_["extensionIds"] = arr;
-        return doPost(format("/api/profiles/%d/extensions", profileID), body_);
-    }
-
     // ─── Private HTTP Helpers ────────────────────────────────────────────
-
-    private T doGet(T)(string path)
-    {
-        string responseBody;
-        HTTPCode statusCode = doRequest("GET", path, null, responseBody);
-        if (statusCode < 200 || statusCode >= 300)
-            throw new AntybrowserError(statusCode.to!int, responseBody);
-        if (responseBody.length == 0)
-            return T.init;
-        JSONValue j = parseJSON(responseBody);
-        static if (is(T == StatusResponse))
-            return StatusResponse.fromJSON(j);
-        else static if (is(T == Settings))
-            return Settings.fromJSON(j);
-        else static if (is(T == SyncStatus))
-            return SyncStatus.fromJSON(j);
-        else
-            static assert(false, "Unsupported type for GET: " ~ T.stringof);
-    }
 
     private T[] doGetArray(T)(string path)
     {
@@ -262,8 +163,6 @@ class AntybrowserClient
             return Proxy.fromJSON(j);
         else static if (is(T == Group))
             return Group.fromJSON(j);
-        else static if (is(T == ProxyCheckResult))
-            return ProxyCheckResult.fromJSON(j);
         else static if (is(T == RunAutomationResult))
             return RunAutomationResult.fromJSON(j);
         else static if (is(T == StartProfileResponse))

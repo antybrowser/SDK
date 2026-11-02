@@ -4,11 +4,6 @@ module Antybrowser
   , ClientOptions(..)
   , newClient
   , newClientWithOptions
-    -- * System
-  , getStatus
-  , getSettings
-  , getSyncStatus
-  , refreshSync
     -- * Profiles
   , getProfiles
   , createProfile
@@ -28,30 +23,21 @@ module Antybrowser
     -- * Proxies
   , getProxies
   , createProxy
-  , checkProxy
-  , checkProxiesBulk
   , deleteProxy
     -- * Extensions
   , getExtensions
   , deleteExtension
-  , getProfileExtensions
-  , setProfileExtensions
     -- * Types
   , Profile(..)
   , CreateProfileRequest(..)
   , Proxy(..)
   , CreateProxyRequest(..)
-  , ProxyCheckResult(..)
-  , ProxyCheckDetails(..)
   , Group(..)
   , CreateGroupRequest(..)
   , Extension(..)
   , Automation(..)
   , RunAutomationRequest(..)
   , RunAutomationResult(..)
-  , Settings(..)
-  , SyncStatus(..)
-  , StatusResponse(..)
   , StartProfileResponse(..)
   , ApiResponse(..)
   , DuplicateProfileRequest(..)
