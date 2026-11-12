@@ -10,6 +10,7 @@ module Antybrowser
   , updateProfile
   , deleteProfile
   , startProfile
+  , startProfileHeadless
   , stopProfile
   , duplicateProfile
     -- * Automations

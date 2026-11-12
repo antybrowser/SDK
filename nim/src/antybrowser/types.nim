@@ -193,12 +193,12 @@ type
     status*: Option[string]
     started_at*: Option[string]
 
+  StartProfileData* = object
+    debugPort*: int
+
   StartProfileResponse* = object
-    profile_id*: Option[string]
-    status*: Option[string]
-    ws_endpoint*: Option[string]
-    http_endpoint*: Option[string]
-    port*: Option[int]
+    success*: bool
+    data*: StartProfileData
 
   ApiResponse* = object
     success*: bool
@@ -476,11 +476,13 @@ proc parseAutomation*(json: JsonNode): Automation =
 
 proc parseStartProfileResponse*(json: JsonNode): StartProfileResponse =
   result = StartProfileResponse(
-    profile_id: if json.hasKey("profile_id"): some(json["profile_id"].getStr()) else: none(string),
-    status: if json.hasKey("status"): some(json["status"].getStr()) else: none(string),
-    ws_endpoint: if json.hasKey("ws_endpoint"): some(json["ws_endpoint"].getStr()) else: none(string),
-    http_endpoint: if json.hasKey("http_endpoint"): some(json["http_endpoint"].getStr()) else: none(string),
-    port: if json.hasKey("port"): some(json["port"].getInt().int) else: none(int)
+    success: json.hasKey("success") and json["success"].getBool(),
+    data: StartProfileData(
+      debugPort: if json.hasKey("data") and json["data"].hasKey("debugPort"):
+        json["data"]["debugPort"].getInt()
+      else:
+        0
+    )
   )
 
 proc parseApiResponse*(json: JsonNode): ApiResponse =
