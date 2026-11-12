@@ -107,19 +107,25 @@ asyncio.run(main())
 ## Python — Selenium
 
 ```python
+import asyncio
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from antybrowser import AntybrowserClient
 
-with AntybrowserClient(api_key="your_key") as client:
-    result = client.start_profile(123, headless=True)  # sync client in antybrowser.sync
-    options = Options()
-    options.debugger_address = f"127.0.0.1:{result.data.debug_port}"
-    driver = webdriver.Chrome(options=options)
-    driver.get("https://example.com")
-    print(driver.title)
-    driver.quit()
-    client.stop_profile(123)
+async def main():
+    async with AntybrowserClient(api_key="your_key") as client:
+        result = await client.start_profile(123, headless=True)
+
+        options = Options()
+        options.debugger_address = f"127.0.0.1:{result.data.debug_port}"
+        driver = webdriver.Chrome(options=options)
+        driver.get("https://example.com")
+        print(driver.title)
+        driver.quit()
+
+        await client.stop_profile(123)
+
+asyncio.run(main())
 ```
 
 ## C# / .NET

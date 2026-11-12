@@ -46,9 +46,9 @@ namespace Antybrowser.SDK
         /// Launches a specific browser profile.
         /// </summary>
         /// <param name="id">The unique profile ID.</param>
-        public async Task<ApiResponse<object>> StartProfileAsync(int id, bool headless = false)
+        public async Task<StartProfileResponse> StartProfileAsync(int id, bool headless = false)
         {
-            return await PostAsync<ApiResponse<object>>(
+            return await PostAsync<StartProfileResponse>(
                 $"/api/profiles/{id}/start",
                 headless ? new { headless = true } : null);
         }
