@@ -73,8 +73,11 @@ class AntybrowserClient:
     async def delete_profile(self, profile_id: int) -> Dict[str, Any]:
         return await self._delete(f"/api/profiles/{profile_id}")
 
-    async def start_profile(self, profile_id: int) -> StartProfileResponse:
-        data = await self._post(f"/api/profiles/{profile_id}/start")
+    async def start_profile(self, profile_id: int, headless: bool = False) -> StartProfileResponse:
+        data = await self._post(
+            f"/api/profiles/{profile_id}/start",
+            {"headless": True} if headless else None,
+        )
         return StartProfileResponse(
             success=data.get("success", False),
             data=StartProfileData(

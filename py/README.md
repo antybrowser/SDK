@@ -66,6 +66,17 @@ async def main():
 asyncio.run(main())
 ```
 
+## Headless
+
+Start a profile without a visible window; the returned `debugPort` is the CDP endpoint:
+
+```python
+result = await client.start_profile(123, headless=True)
+print(result.data.debug_port)  # attach Playwright/Selenium over CDP
+```
+
+See [HEADLESS.md](../HEADLESS.md) for Puppeteer/Playwright/Selenium connection snippets and the measured headed-vs-headless fingerprint parity.
+
 ## Configuration
 
 ```python

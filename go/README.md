@@ -61,6 +61,17 @@ func main() {
 }
 ```
 
+## Headless
+
+Start a profile without a visible window; the returned `debugPort` is the CDP endpoint:
+
+```go
+result, _ := client.StartProfile(123, true)
+fmt.Println(result.Data.DebugPort) // attach chromedp/Playwright over CDP
+```
+
+See [HEADLESS.md](../HEADLESS.md) for Puppeteer/Playwright/Selenium connection snippets and the measured headed-vs-headless fingerprint parity.
+
 ## Configuration
 
 ```go

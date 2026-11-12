@@ -54,7 +54,8 @@ get_profiles(c::AntybrowserClient) = _request(c, :GET, "/api/profiles")
 create_profile(c::AntybrowserClient, data) = _request(c, :POST, "/api/profiles", data)
 update_profile(c::AntybrowserClient, id, data) = _request(c, :PUT, "/api/profiles/$id", data)
 delete_profile(c::AntybrowserClient, id) = _request(c, :DELETE, "/api/profiles/$id")
-start_profile(c::AntybrowserClient, id) = _request(c, :POST, "/api/profiles/$id/start")
+start_profile(c::AntybrowserClient, id; headless::Bool=false) =
+    _request(c, :POST, "/api/profiles/$id/start", headless ? Dict("headless" => true) : nothing)
 stop_profile(c::AntybrowserClient, id) = _request(c, :POST, "/api/profiles/$id/stop")
 duplicate_profile(c::AntybrowserClient, id, name=nothing) = _request(c, :POST, "/api/profiles/$id/duplicate", name !== nothing ? Dict("name" => name) : Dict())
 

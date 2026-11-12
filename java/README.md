@@ -66,6 +66,17 @@ StartProfileResponse result = client.startProfile(123);
 System.out.println("Debug port: " + result.getDebugPort());
 ```
 
+## Headless
+
+Start a profile without a visible window; the returned `debugPort` is the CDP endpoint:
+
+```java
+var result = client.startProfile(123, true);
+System.out.println(result.getData().getDebugPort()); // Selenium debuggerAddress
+```
+
+See [HEADLESS.md](../HEADLESS.md) for Puppeteer/Playwright/Selenium connection snippets and the measured headed-vs-headless fingerprint parity.
+
 ## Configuration
 
 ```java

@@ -77,8 +77,9 @@ public:
         return delete_impl("/api/profiles/" + std::to_string(profile_id));
     }
 
-    StartProfileResponse start_profile(int profile_id) {
-        json data = post_impl("/api/profiles/" + std::to_string(profile_id) + "/start");
+    StartProfileResponse start_profile(int profile_id, bool headless = false) {
+        json body = headless ? json{{"headless", true}} : json();
+        json data = post_impl("/api/profiles/" + std::to_string(profile_id) + "/start", body);
         StartProfileResponse resp;
         resp.success = data.value("success", false);
         if (data.contains("data")) {

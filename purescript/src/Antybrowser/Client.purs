@@ -6,6 +6,7 @@ module Antybrowser.Client
   , updateProfile
   , deleteProfile
   , startProfile
+  , startProfileHeadless
   , stopProfile
   , duplicateProfile
   , getAutomations
@@ -78,6 +79,11 @@ deleteProfile client profileId =
 startProfile :: AntybrowserClient -> Int -> Aff StartProfileResponse
 startProfile client profileId = do
   json <- postJson client ("/api/profiles/" <> show profileId <> "/start") emptyBody
+  decodeOrThrow json
+
+startProfileHeadless :: AntybrowserClient -> Int -> Aff StartProfileResponse
+startProfileHeadless client profileId = do
+  json <- postJson client ("/api/profiles/" <> show profileId <> "/start") (encodeJson { headless: true })
   decodeOrThrow json
 
 stopProfile :: AntybrowserClient -> Int -> Aff Json

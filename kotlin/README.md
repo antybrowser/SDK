@@ -75,6 +75,17 @@ AntybrowserClient("your_api_key").use { client ->
 }
 ```
 
+## Headless
+
+Start a profile without a visible window; the returned `debugPort` is the CDP endpoint:
+
+```kotlin
+val result = client.startProfile(123, headless = true)
+println(result.data["debugPort"]) // Selenium/Playwright over CDP
+```
+
+See [HEADLESS.md](../HEADLESS.md) for Puppeteer/Playwright/Selenium connection snippets and the measured headed-vs-headless fingerprint parity.
+
 ## Configuration
 
 ```kotlin

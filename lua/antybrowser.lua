@@ -41,7 +41,9 @@ function M:get_profiles() return request(self, "GET", "/api/profiles") end
 function M:create_profile(data) return request(self, "POST", "/api/profiles", data) end
 function M:update_profile(id, data) return request(self, "PUT", "/api/profiles/" .. id, data) end
 function M:delete_profile(id) return request(self, "DELETE", "/api/profiles/" .. id) end
-function M:start_profile(id) return request(self, "POST", "/api/profiles/" .. id .. "/start") end
+function M:start_profile(id, headless)
+    return request(self, "POST", "/api/profiles/" .. id .. "/start", headless and { headless = true } or nil)
+end
 function M:stop_profile(id) return request(self, "POST", "/api/profiles/" .. id .. "/stop") end
 function M:duplicate_profile(id, name)
     return request(self, "POST", "/api/profiles/" .. id .. "/duplicate", name and { name = name } or nil)

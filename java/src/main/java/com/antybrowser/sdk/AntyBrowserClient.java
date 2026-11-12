@@ -62,7 +62,20 @@ public class AntybrowserClient {
     }
 
     public StartProfileResponse startProfile(int id) {
-        return post("/api/profiles/" + id + "/start", new HashMap<>(), StartProfileResponse.class);
+        return startProfile(id, false);
+    }
+
+    /**
+     * Starts a profile. Pass {@code headless = true} to run it without a
+     * visible window (stealth headless tier; same fingerprint as a headed
+     * launch, no automation-only switches).
+     */
+    public StartProfileResponse startProfile(int id, boolean headless) {
+        Map<String, Object> body = new HashMap<>();
+        if (headless) {
+            body.put("headless", true);
+        }
+        return post("/api/profiles/" + id + "/start", body, StartProfileResponse.class);
     }
 
     public Map<String, Object> stopProfile(int id) {

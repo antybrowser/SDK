@@ -56,6 +56,17 @@ const result = await client.startProfile(123);
 console.log(`Debug port: ${result.data.debugPort}`);
 ```
 
+## Headless
+
+Start a profile without a visible window; the returned `debugPort` is the CDP endpoint:
+
+```ts
+const result = await client.startProfile(123, true);
+console.log(result.data.debugPort); // attach Puppeteer/Playwright over CDP
+```
+
+See [HEADLESS.md](../HEADLESS.md) for Puppeteer/Playwright/Selenium connection snippets and the measured headed-vs-headless fingerprint parity.
+
 ## Configuration
 
 ```typescript

@@ -106,8 +106,9 @@ proc duplicateProfile*(client: AntybrowserClient, profileId: string, request: Du
     return parseProfile(resp["data"])
   return parseProfile(resp)
 
-proc startProfile*(client: AntybrowserClient, profileId: string): Future[StartProfileResponse] {.async.} =
-  let resp = await client.post("/api/profiles/" & profileId & "/start")
+proc startProfile*(client: AntybrowserClient, profileId: string, headless: bool = false): Future[StartProfileResponse] {.async.} =
+  let body = if headless: %*{"headless": true} else: nil
+  let resp = await client.post("/api/profiles/" & profileId & "/start", body)
   if resp.hasKey("data"):
     return parseStartProfileResponse(resp["data"])
   return parseStartProfileResponse(resp)

@@ -50,9 +50,9 @@ final class AntybrowserClient
         return $this->delete("/api/profiles/$id");
     }
 
-    public function startProfile(int $id): array
+    public function startProfile(int $id, bool $headless = false): array
     {
-        return $this->post("/api/profiles/$id/start", []);
+        return $this->post("/api/profiles/$id/start", $headless ? ['headless' => true] : []);
     }
 
     public function stopProfile(int $id): array

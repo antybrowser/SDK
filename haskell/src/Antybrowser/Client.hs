@@ -10,6 +10,7 @@ module Antybrowser.Client
   , updateProfile
   , deleteProfile
   , startProfile
+  , startProfileHeadless
   , stopProfile
   , duplicateProfile
     -- * Automations
@@ -33,7 +34,8 @@ import           Antybrowser.Error    (AntybrowserError (..))
 import           Antybrowser.Types
 
 import           Control.Exception    (throwIO)
-import           Data.Aeson           (FromJSON (..), ToJSON (..), decode, encode)
+import           Data.Aeson           (FromJSON (..), ToJSON (..), decode, encode,
+                                       object, (.=))
 import qualified Data.ByteString.Lazy as LBS
 import           Data.Maybe           (fromMaybe)
 import           Data.Text            (Text)
@@ -98,6 +100,11 @@ deleteProfile client pid = delete client ("/api/profiles/" <> T.pack (show pid))
 
 startProfile :: AntybrowserClient -> Int -> IO StartProfileResponse
 startProfile client pid = post client ("/api/profiles/" <> T.pack (show pid) <> "/start") NoContent
+
+-- | Starts a profile without a visible window (stealth headless tier).
+startProfileHeadless :: AntybrowserClient -> Int -> IO StartProfileResponse
+startProfileHeadless client pid =
+  post client ("/api/profiles/" <> T.pack (show pid) <> "/start") (object ["headless" .= True])
 
 stopProfile :: AntybrowserClient -> Int -> IO ApiResponse
 stopProfile client pid = post client ("/api/profiles/" <> T.pack (show pid) <> "/stop") NoContent

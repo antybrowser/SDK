@@ -81,6 +81,17 @@ var runResult = await client.RunAutomationAsync(987, new RunAutomationRequest
 });
 ```
 
+## Headless
+
+Start a profile without a visible window; the returned `debugPort` is the CDP endpoint:
+
+```csharp
+var result = await client.StartProfileAsync(123, headless: true);
+Console.WriteLine(result.Data.DebugPort); // attach Puppeteer/Playwright over CDP
+```
+
+See [HEADLESS.md](../../HEADLESS.md) for Puppeteer/Playwright/Selenium connection snippets and the measured headed-vs-headless fingerprint parity.
+
 ## 📚 API Reference
 
 The SDK provides comprehensive access to the Antybrowser ecosystem:

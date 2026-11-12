@@ -44,9 +44,10 @@ class AntybrowserClient
         return doDelete(format("/api/profiles/%d", id));
     }
 
-    StartProfileResponse startProfile(int id)
+    StartProfileResponse startProfile(int id, bool headless = false)
     {
-        return doPostAndDeserialize!StartProfileResponse(format("/api/profiles/%d/start", id), JSONValue());
+        JSONValue body = headless ? parseJSON(`{"headless":true}`) : JSONValue();
+        return doPostAndDeserialize!StartProfileResponse(format("/api/profiles/%d/start", id), body);
     }
 
     JSONValue stopProfile(int id)

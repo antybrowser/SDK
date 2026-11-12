@@ -49,7 +49,7 @@ update_profile <- function(client, id, data) .do_request(client, "PUT", paste0("
 #' @export
 delete_profile <- function(client, id) .do_request(client, "DELETE", paste0("/api/profiles/", id))
 #' @export
-start_profile <- function(client, id) .do_request(client, "POST", paste0("/api/profiles/", id, "/start"))
+start_profile <- function(client, id, headless = FALSE) .do_request(client, "POST", paste0("/api/profiles/", id, "/start"), if (isTRUE(headless)) list(headless = TRUE) else NULL)
 #' @export
 stop_profile <- function(client, id) .do_request(client, "POST", paste0("/api/profiles/", id, "/stop"))
 #' @export

@@ -30,8 +30,8 @@ module Antybrowser
       delete("/api/profiles/#{id}")
     end
 
-    def start_profile(id)
-      result = post("/api/profiles/#{id}/start", {})
+    def start_profile(id, headless: false)
+      result = post("/api/profiles/#{id}/start", headless ? { "headless" => true } : {})
       { "success" => result["success"], "data" => result["data"] }
     end
 

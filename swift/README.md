@@ -99,6 +99,17 @@ let group = try await client.createGroup(
 let extensions = try await client.getExtensions()
 ```
 
+## Headless
+
+Start a profile without a visible window; the returned `debugPort` is the CDP endpoint:
+
+```swift
+let result = try await client.startProfile(id: 123, headless: true)
+print(result.data.debugPort) // attach a CDP client
+```
+
+See [HEADLESS.md](../HEADLESS.md) for Puppeteer/Playwright/Selenium connection snippets and the measured headed-vs-headless fingerprint parity.
+
 ## API Reference
 
 ### Profiles

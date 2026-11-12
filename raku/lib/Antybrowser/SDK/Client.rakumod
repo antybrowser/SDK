@@ -47,6 +47,11 @@ class AntybrowserClient is export {
         StartProfileResponse.from-json($data);
     }
 
+    method start-profile-headless(Int $id) {
+        my $data = self!post("/api/profiles/$id/start", { headless => True });
+        StartProfileResponse.from-json($data);
+    }
+
     method stop-profile(Int $id) {
         self!post("/api/profiles/$id/stop");
     }

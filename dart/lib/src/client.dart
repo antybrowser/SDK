@@ -39,8 +39,10 @@ class AntybrowserClient {
     await _delete('/api/profiles/$id');
   }
 
-  Future<Map<String, dynamic>> startProfile(int id) async {
-    return _post('/api/profiles/$id/start', null);
+  /// Starts a profile. Pass [headless] to run it without a visible window
+  /// (stealth headless tier; the returned debugPort is the CDP endpoint).
+  Future<Map<String, dynamic>> startProfile(int id, {bool headless = false}) async {
+    return _post('/api/profiles/$id/start', headless ? {'headless': true} : null);
   }
 
   Future<Map<String, dynamic>> stopProfile(int id) async {

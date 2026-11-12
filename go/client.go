@@ -88,9 +88,13 @@ func (c *AntybrowserClient) DeleteProfile(id int) (map[string]any, error) {
 	return result, err
 }
 
-func (c *AntybrowserClient) StartProfile(id int) (*StartProfileResponse, error) {
+func (c *AntybrowserClient) StartProfile(id int, headless ...bool) (*StartProfileResponse, error) {
 	var result StartProfileResponse
-	err := c.post(fmt.Sprintf("/api/profiles/%d/start", id), nil, &result)
+	var body any
+	if len(headless) > 0 && headless[0] {
+		body = map[string]any{"headless": true}
+	}
+	err := c.post(fmt.Sprintf("/api/profiles/%d/start", id), body, &result)
 	return &result, err
 }
 

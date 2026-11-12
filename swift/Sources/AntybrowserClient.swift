@@ -28,8 +28,10 @@ public class AntybrowserClient {
         try await delete("/api/profiles/\(id)")
     }
     
-    public func startProfile(id: Int) async throws -> StartProfileResponse {
-        try await post("/api/profiles/\(id)/start", body: [:])
+    /// Starts a profile. Pass `headless: true` to run it without a visible
+    /// window (stealth headless tier; `debugPort` is the CDP endpoint).
+    public func startProfile(id: Int, headless: Bool = false) async throws -> StartProfileResponse {
+        try await post("/api/profiles/\(id)/start", body: headless ? ["headless": true] : [:])
     }
     
     public func stopProfile(id: Int) async throws -> ApiResponse {

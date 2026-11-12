@@ -59,6 +59,17 @@ result = client.start_profile(123)
 puts "Debug port: #{result['data']['debugPort']}"
 ```
 
+## Headless
+
+Start a profile without a visible window; the returned `debugPort` is the CDP endpoint:
+
+```ruby
+result = client.start_profile(123, headless: true)
+puts result['data']['debugPort'] # attach Ferrum/Playwright over CDP
+```
+
+See [HEADLESS.md](../HEADLESS.md) for Puppeteer/Playwright/Selenium connection snippets and the measured headed-vs-headless fingerprint parity.
+
 ## Configuration
 
 ```ruby

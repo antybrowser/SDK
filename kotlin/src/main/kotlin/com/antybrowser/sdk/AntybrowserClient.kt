@@ -19,7 +19,8 @@ class AntybrowserClient(
     fun updateProfile(id: Int, data: Map<String, Any>): Profile = put("/api/profiles/$id", data)
     fun updateProfile(id: Int, request: CreateProfileRequest): Profile = put("/api/profiles/$id", request)
     fun deleteProfile(id: Int): ApiResponse = delete("/api/profiles/$id")
-    fun startProfile(id: Int): StartProfileResponse = post("/api/profiles/$id/start", emptyMap<String, Any>())
+    fun startProfile(id: Int, headless: Boolean = false): StartProfileResponse =
+        post("/api/profiles/$id/start", if (headless) mapOf("headless" to true) else emptyMap<String, Any>())
     fun stopProfile(id: Int): ApiResponse = post("/api/profiles/$id/stop", emptyMap<String, Any>())
     fun duplicateProfile(id: Int, name: String? = null): Profile {
         val body = if (name != null) mapOf("name" to name) else emptyMap<String, Any>()

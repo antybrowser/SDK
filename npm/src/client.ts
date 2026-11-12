@@ -59,8 +59,11 @@ export class AntybrowserClient {
     return this.delete<ApiResponse>(`/api/profiles/${id}`);
   }
 
-  async startProfile(id: number): Promise<StartProfileResponse> {
-    return this.post<StartProfileResponse>(`/api/profiles/${id}/start`);
+  async startProfile(id: number, headless = false): Promise<StartProfileResponse> {
+    return this.post<StartProfileResponse>(
+      `/api/profiles/${id}/start`,
+      headless ? { headless: true } : undefined,
+    );
   }
 
   async stopProfile(id: number): Promise<ApiResponse> {

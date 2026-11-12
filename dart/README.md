@@ -79,6 +79,17 @@ void main() async {
 }
 ```
 
+## Headless
+
+Start a profile without a visible window; the returned `debugPort` is the CDP endpoint:
+
+```dart
+final result = await client.startProfile(123, headless: true);
+print(result['data']['debugPort']); // attach a CDP client
+```
+
+See [HEADLESS.md](../HEADLESS.md) for Puppeteer/Playwright/Selenium connection snippets and the measured headed-vs-headless fingerprint parity.
+
 ## Configuration
 
 ```dart

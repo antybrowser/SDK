@@ -75,6 +75,17 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 }
 ```
 
+## Headless
+
+Start a profile without a visible window; the returned `debugPort` is the CDP endpoint:
+
+```rust
+let result = client.start_profile_headless(123).await?;
+println!("{}", result.data.debug_port); // chromiumoxide/Playwright over CDP
+```
+
+See [HEADLESS.md](../HEADLESS.md) for Puppeteer/Playwright/Selenium connection snippets and the measured headed-vs-headless fingerprint parity.
+
 ## Configuration
 
 ```rust

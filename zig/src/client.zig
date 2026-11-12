@@ -208,9 +208,18 @@ pub const AntybrowserClient = struct {
     }
 
     pub fn startProfile(self: *AntybrowserClient, profile_id: []const u8) errors.AntybrowserError!types.StartProfileResponse {
+        return self.startProfileWithOptions(profile_id, false);
+    }
+
+    /// Starts a profile without a visible window (stealth headless tier).
+    pub fn startProfileHeadless(self: *AntybrowserClient, profile_id: []const u8) errors.AntybrowserError!types.StartProfileResponse {
+        return self.startProfileWithOptions(profile_id, true);
+    }
+
+    fn startProfileWithOptions(self: *AntybrowserClient, profile_id: []const u8, headless: bool) errors.AntybrowserError!types.StartProfileResponse {
         const path = try self.buildUrlFmt("/api/profiles/{s}/start", .{profile_id});
         defer self.allocator.free(path);
-        const body = try self.doPost(path, "{}");
+        const body = try self.doPost(path, if (headless) "{\"headless\":true}" else "{}");
         defer self.allocator.free(body);
         const parsed = try std.json.parseFromSlice(types.StartProfileResponse, self.allocator, body, .{
             .allocate = .alloc_always,

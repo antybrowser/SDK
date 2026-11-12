@@ -83,8 +83,9 @@ let update_profile client id data =
 let delete_profile client id =
   delete client (Printf.sprintf "/api/profiles/%d" id)
 
-let start_profile client id =
-  post client (Printf.sprintf "/api/profiles/%d/start" id)
+let start_profile ?(headless = false) client id =
+  let body = if headless then Some (`Assoc [ ("headless", `Bool true) ]) else None in
+  post ?body client (Printf.sprintf "/api/profiles/%d/start" id)
   >|= Antybrowser_types.start_profile_response_of_json
 
 let stop_profile client id =

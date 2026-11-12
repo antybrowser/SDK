@@ -194,6 +194,23 @@ Every SDK supports the same options:
 
 ---
 
+## Headless
+
+Every profile can run without a visible window:
+
+```http
+POST /api/profiles/123/start
+content-type: application/json
+
+{ "headless": true }
+```
+
+The response is the same `debugPort`; attach Puppeteer, Playwright or Selenium
+to it. Read [HEADLESS.md](HEADLESS.md) for the full guide, per-language
+snippets and the measured headed-vs-headless fingerprint results.
+
+---
+
 ## API Methods
 
 All 23 SDKs implement the same 18 endpoints:
@@ -206,6 +223,7 @@ All 23 SDKs implement the same 18 endpoints:
 | `updateProfile(id, data)` | Update a profile |
 | `deleteProfile(id)` | Delete a profile (Trash on paid plans) |
 | `startProfile(id)` | Start → returns debug port |
+| `startProfile(id, true)` / `startProfileHeadless(id)` | Start headless → returns debug port |
 | `stopProfile(id)` | Stop running profile |
 | `duplicateProfile(id)` | Clone a profile |
 

@@ -16,7 +16,10 @@ defmodule Antybrowser do
   def create_profile(client, data), do: post(client, "/api/profiles", data)
   def update_profile(client, id, data), do: put(client, "/api/profiles/#{id}", data)
   def delete_profile(client, id), do: delete(client, "/api/profiles/#{id}")
-  def start_profile(client, id), do: post(client, "/api/profiles/#{id}/start", %{})
+  def start_profile(client, id, opts \\ []) do
+    body = if Keyword.get(opts, :headless, false), do: %{headless: true}, else: %{}
+    post(client, "/api/profiles/#{id}/start", body)
+  end
   def stop_profile(client, id), do: post(client, "/api/profiles/#{id}/stop", %{})
 
   def duplicate_profile(client, id, name \\ nil) do

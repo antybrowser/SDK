@@ -49,6 +49,19 @@ impl AntybrowserClient {
         self.post(&format!("/api/profiles/{}/start", id), None).await
     }
 
+    /// Starts a profile without a visible window (stealth headless tier).
+    /// The returned `debug_port` is the CDP endpoint for Puppeteer/Playwright.
+    pub async fn start_profile_headless(
+        &self,
+        id: i64,
+    ) -> Result<StartProfileResponse, AntybrowserError> {
+        self.post(
+            &format!("/api/profiles/{}/start", id),
+            Some(serde_json::json!({ "headless": true })),
+        )
+        .await
+    }
+
     pub async fn stop_profile(&self, id: i64) -> Result<ApiResponse, AntybrowserError> {
         self.post(&format!("/api/profiles/{}/stop", id), None).await
     }
