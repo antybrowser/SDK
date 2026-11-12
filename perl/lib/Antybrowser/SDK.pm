@@ -46,7 +46,10 @@ sub get_profiles     { $_[0]->_request('GET', '/api/profiles') }
 sub create_profile   { $_[0]->_request('POST', '/api/profiles', $_[1]) }
 sub update_profile   { $_[0]->_request('PUT', "/api/profiles/$_[1]", $_[2]) }
 sub delete_profile   { $_[0]->_request('DELETE', "/api/profiles/$_[1]") }
-sub start_profile    { $_[0]->_request('POST', "/api/profiles/$_[1]/start") }
+sub start_profile    {
+    my ($self, $id, $headless) = @_;
+    $self->_request('POST', "/api/profiles/$id/start", $headless ? { headless => JSON::true } : undef);
+}
 sub stop_profile     { $_[0]->_request('POST', "/api/profiles/$_[1]/stop") }
 sub duplicate_profile { my ($self, $id, $name) = @_; $self->_request('POST', "/api/profiles/$id/duplicate", $name ? {name => $name} : {}) }
 
