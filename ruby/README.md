@@ -68,7 +68,7 @@ result = client.start_profile(123, headless: true)
 puts result['data']['debugPort'] # attach Ferrum/Playwright over CDP
 ```
 
-See [HEADLESS.md](../HEADLESS.md) for Puppeteer/Playwright/Selenium connection snippets and the measured headed-vs-headless fingerprint parity.
+See [HEADLESS.md](https://github.com/antybrowser/SDK/blob/main/HEADLESS.md) for Puppeteer/Playwright/Selenium connection snippets and the measured headed-vs-headless fingerprint parity.
 
 ## Configuration
 

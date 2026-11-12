@@ -75,7 +75,7 @@ var result = client.startProfile(123, true);
 System.out.println(result.getData().getDebugPort()); // Selenium debuggerAddress
 ```
 
-See [HEADLESS.md](../HEADLESS.md) for Puppeteer/Playwright/Selenium connection snippets and the measured headed-vs-headless fingerprint parity.
+See [HEADLESS.md](https://github.com/antybrowser/SDK/blob/main/HEADLESS.md) for Puppeteer/Playwright/Selenium connection snippets and the measured headed-vs-headless fingerprint parity.
 
 ## Configuration
 

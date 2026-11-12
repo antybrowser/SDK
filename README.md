@@ -206,7 +206,7 @@ content-type: application/json
 ```
 
 The response is the same `debugPort`; attach Puppeteer, Playwright or Selenium
-to it. Read [HEADLESS.md](HEADLESS.md) for the full guide, per-language
+to it. Read [HEADLESS.md](https://github.com/antybrowser/SDK/blob/main/HEADLESS.md) for the full guide, per-language
 snippets and the measured headed-vs-headless fingerprint results.
 
 ---

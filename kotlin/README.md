@@ -84,7 +84,7 @@ val result = client.startProfile(123, headless = true)
 println(result.data["debugPort"]) // Selenium/Playwright over CDP
 ```
 
-See [HEADLESS.md](../HEADLESS.md) for Puppeteer/Playwright/Selenium connection snippets and the measured headed-vs-headless fingerprint parity.
+See [HEADLESS.md](https://github.com/antybrowser/SDK/blob/main/HEADLESS.md) for Puppeteer/Playwright/Selenium connection snippets and the measured headed-vs-headless fingerprint parity.
 
 ## Configuration
 

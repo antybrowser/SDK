@@ -88,7 +88,7 @@ final result = await client.startProfile(123, headless: true);
 print(result['data']['debugPort']); // attach a CDP client
 ```
 
-See [HEADLESS.md](../HEADLESS.md) for Puppeteer/Playwright/Selenium connection snippets and the measured headed-vs-headless fingerprint parity.
+See [HEADLESS.md](https://github.com/antybrowser/SDK/blob/main/HEADLESS.md) for Puppeteer/Playwright/Selenium connection snippets and the measured headed-vs-headless fingerprint parity.
 
 ## Configuration
 
